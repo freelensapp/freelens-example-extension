@@ -5,7 +5,10 @@
   "project": ["*.{js,mjs,ts}", "out/**/*.js!", "src/**/*.{ts,tsx}"],
 
   "ignoreBinaries": ["build:.*"],
-  "ignoreDependencies": [],
+  "ignoreDependencies": [
+    // provided by the application
+    "@freelensapp/extensions"
+  ],
 
   "typescript": {
     "config": ["tsconfig.json"]

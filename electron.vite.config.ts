@@ -26,12 +26,7 @@ export default defineConfig({
     plugins: [
       externalizeDepsPlugin({
         // do not bundle modules provided by the host app
-        include: ["@freelensapp/extensions"],
-      }),
-      pluginExternal({
-        externals: {
-          "@freelensapp/extensions": "global.LensExtensions",
-        },
+        include: ["@freelensapp/extensions", "mobx"],
       }),
     ],
   },

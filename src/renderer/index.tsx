@@ -3,32 +3,37 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-import { Renderer } from "@freelensapp/extensions";
-
-import { ExamplesPage } from "./pages";
-
-// must be `?raw` as we need SVG element
-import svgIcon from "./icons/example.svg?raw";
-
 // transpiled .tsx code must have `React` symbol in the scope
 // @ts-ignore
 import React from "react";
+
+import { Renderer } from "@freelensapp/extensions";
+import { Example } from "../common/k8s/example/example";
+import { ExamplePreferencesStore } from "../common/store";
 import { ExampleDetails } from "./details/example-details";
-import { Example, exampleObject } from "./k8s/example/example";
+import { ExampleIcon } from "./icons";
+import { ExamplesPage } from "./pages";
+import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences";
 
-const {
-  Component: { Icon },
-} = Renderer;
+export default class ExampleRenderer extends Renderer.LensExtension {
+  async onActivate() {
+    await ExamplePreferencesStore.createInstance().loadExtension(this);
+  }
 
-export function ExampleIcon(props: Renderer.Component.IconProps) {
-  return <Icon {...props} svg={svgIcon} />;
-}
+  appPreferences = [
+    {
+      title: "Example Preferences",
+      components: {
+        Input: () => <ExamplePreferenceInput />,
+        Hint: () => <ExamplePreferenceHint />,
+      },
+    },
+  ];
 
-export default class LensExtensionExampleRenderer extends Renderer.LensExtension {
   kubeObjectDetailItems = [
     {
-      kind: exampleObject.kind,
-      apiVersions: exampleObject.apiVersions,
+      kind: "Example",
+      apiVersions: ["example.freelens.app/v1alpha1"],
       priority: 10,
       components: {
         Details: (props: Renderer.Component.KubeObjectDetailsProps<Example>) => <ExampleDetails {...props} />,
