@@ -19,18 +19,6 @@ export class ExamplePreferencesStore extends Common.Store.ExtensionStore<Example
     makeObservable(this);
   }
 
-  static getInstanceOrCreate() {
-    try {
-      return this.getInstance();
-    } catch (e) {
-      if (e instanceof TypeError) {
-        return this.createInstance();
-      } else {
-        throw e;
-      }
-    }
-  }
-
   fromStore({ enabled }: ExamplePreferencesModel): void {
     console.log(`[EXAMPLE-PREFERENCES-STORE] set ${enabled}`);
 

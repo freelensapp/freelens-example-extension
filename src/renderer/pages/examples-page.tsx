@@ -2,12 +2,11 @@ import { Common, Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Example, ExampleStore } from "../k8s/example";
-
+import { Example, type ExampleStore } from "../k8s/example";
 import styleInline from "./examples-page.scss?inline";
 
 const {
-  Component: { KubeObjectAge, KubeObjectListLayout, Tooltip },
+  Component: { KubeObjectAge, KubeObjectListLayout, WithTooltip },
   K8sApi: { namespacesApi },
   Navigation: { getDetailsUrl },
 } = Renderer;
@@ -50,33 +49,18 @@ export class ExamplesPage extends React.Component<{ extension: Renderer.LensExte
               { title: "Title", className: "title", sortBy: sortBy.title },
               { title: "Age", className: "age", sortBy: sortBy.age },
             ]}
-            renderTableContents={(example: Example) => {
-              const tooltipId = `example-${example.getId()}`;
-
-              return [
-                <>
-                  <span id={`${tooltipId}-name`}>{example.getName()}</span>
-                  <Tooltip targetId={`${tooltipId}-name`}>{example.getName()}</Tooltip>
-                </>,
-                <>
-                  <span id={`${tooltipId}-namespace`}>
-                    <Link
-                      key="link"
-                      to={getDetailsUrl(namespacesApi.formatUrlForNotListing({ name: example.getNs() }))}
-                      onClick={stopPropagation}
-                    >
-                      {example.getNs()}
-                    </Link>
-                  </span>
-                  <Tooltip targetId={`${tooltipId}-namespace`}>{example.getNs()}</Tooltip>
-                </>,
-                <>
-                  <span id={`${tooltipId}-title`}>{example.spec.title}</span>
-                  <Tooltip targetId={`${tooltipId}-title`}>{example.spec.title}</Tooltip>
-                </>,
-                <KubeObjectAge object={example} key="age" />,
-              ];
-            }}
+            renderTableContents={(example: Example) => [
+              <WithTooltip>{example.getName()}</WithTooltip>,
+              <Link
+                key="link"
+                to={getDetailsUrl(namespacesApi.formatUrlForNotListing({ name: example.getNs() }))}
+                onClick={stopPropagation}
+              >
+                <WithTooltip>{example.getNs()}</WithTooltip>
+              </Link>,
+              <WithTooltip>{example.spec.title}</WithTooltip>,
+              <KubeObjectAge object={example} key="age" />,
+            ]}
           />
         </>
       )
