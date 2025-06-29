@@ -34,7 +34,7 @@
     "prettier:check": "pnpm prettier --check .",
     "prettier:fix": "pnpm prettier --write .",
     "prebuild": "corepack pnpm typecheck",
-    "knip": "corepack pnpm dlx knip@5.61.0 --dependencies",
+    "knip": "corepack pnpm dlx knip@5.61.3 --dependencies",
     "knip:development": "corepack pnpm knip",
     "knip:production": "corepack pnpm knip --production --strict",
     "build": "electron-vite build",
