@@ -7,9 +7,10 @@ import { Renderer } from "@freelensapp/extensions";
 import { ExamplePreferencesStore } from "../common/store";
 import { ExampleDetails } from "./details/example-details";
 import { ExampleIcon } from "./icons";
-import type { Example } from "./k8s/example";
 import { ExamplesPage } from "./pages";
 import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences";
+
+import type { Example } from "./k8s/example";
 
 export default class ExampleRenderer extends Renderer.LensExtension {
   async onActivate() {

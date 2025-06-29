@@ -1,4 +1,5 @@
 import { Renderer } from "@freelensapp/extensions";
+
 import type { NamespacedObjectReference } from "./types";
 
 export interface ExampleSpec {

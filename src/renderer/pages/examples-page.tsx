@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Example, type ExampleStore } from "../k8s/example";
-
 import styleInline from "./examples-page.scss?inline";
 
 const {

@@ -1,7 +1,6 @@
 import { Renderer } from "@freelensapp/extensions";
 import React from "react";
 import { Example } from "../k8s/example";
-
 import styleInline from "./example-details.scss?inline";
 
 const {
