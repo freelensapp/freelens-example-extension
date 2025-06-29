@@ -42,7 +42,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
     {
       id: "examples-page",
       components: {
-        Page: () => <ExamplesPage extension={this} />,
+        Page: () => <ExamplesPage />,
       },
     },
   ];
