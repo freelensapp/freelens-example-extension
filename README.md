@@ -16,7 +16,7 @@ Freelens application.
 ## Requirements
 
 - Kubernetes >= 1.24
-- Freelens >= 1.3.2
+- Freelens >= 1.4.0
 
 ## API supported
 
