@@ -61,8 +61,8 @@ lint:
     - git-diff-check
     - markdownlint@0.45.0
     - prettier@3.6.2! # datasource=npm depName=prettier
-    - svgo@3.3.2
-    - yamlfmt@0.17.0
+    - svgo@4.0.0
+    - yamlfmt@0.17.2
     - yamllint@1.37.1
   disabled:
     - checkov
