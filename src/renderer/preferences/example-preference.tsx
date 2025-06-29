@@ -6,7 +6,7 @@ const {
   Component: { Checkbox },
 } = Renderer;
 
-const preferences = ExamplePreferencesStore.getInstanceOrCreate();
+const preferences = ExamplePreferencesStore.getInstanceOrCreate<ExamplePreferencesStore>();
 
 export const ExamplePreferenceInput = observer(() => {
   return (

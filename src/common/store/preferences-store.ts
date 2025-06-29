@@ -1,7 +1,9 @@
 import { Common } from "@freelensapp/extensions";
 import { makeObservable, observable } from "mobx";
 
-export interface ExamplePreferencesModel {
+type I = {};
+
+export interface ExamplePreferencesModel extends I {
   enabled: boolean;
 }
 
@@ -17,18 +19,6 @@ export class ExamplePreferencesStore extends Common.Store.ExtensionStore<Example
     });
     console.log("[EXAMPLE-PREFERENCES-STORE] constructor");
     makeObservable(this);
-  }
-
-  static getInstanceOrCreate() {
-    try {
-      return this.getInstance();
-    } catch (e) {
-      if (e instanceof TypeError) {
-        return this.createInstance();
-      } else {
-        throw e;
-      }
-    }
   }
 
   fromStore({ enabled }: ExamplePreferencesModel): void {

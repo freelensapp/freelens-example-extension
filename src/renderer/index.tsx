@@ -3,15 +3,11 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-// transpiled .tsx code must have `React` symbol in the scope
-// @ts-ignore
-import React from "react";
-
 import { Renderer } from "@freelensapp/extensions";
 import { ExamplePreferencesStore } from "../common/store";
 import { ExampleDetails } from "./details/example-details";
 import { ExampleIcon } from "./icons";
-import { Example } from "./k8s/example";
+import type { Example } from "./k8s/example";
 import { ExamplesPage } from "./pages";
 import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences";
 

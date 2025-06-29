@@ -87,8 +87,6 @@ export default defineConfig({
             ],
           ],
         },
-        // do not use `react/jsx-runtime` module in transpiled code
-        jsxRuntime: "classic",
       }),
       externalizeDepsPlugin({
         // do not bundle modules provided by the host app
@@ -113,6 +111,7 @@ export default defineConfig({
           react: "global.React",
           "react-dom": "global.ReactDom",
           "react-router-dom": "global.ReactRouterDom",
+          "react/jsx-runtime": "global.ReactJsxRuntime",
         },
       }),
     ],
