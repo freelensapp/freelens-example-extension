@@ -1,7 +1,5 @@
 import { Renderer } from "@freelensapp/extensions";
-import { NamespacedObjectReference } from "./types";
-
-type KubeObjectMetadata = Renderer.K8sApi.KubeObjectMetadata;
+import type { NamespacedObjectReference } from "./types";
 
 export interface ExampleSpec {
   title?: string;
@@ -9,9 +7,13 @@ export interface ExampleSpec {
   examples?: NamespacedObjectReference[];
 }
 
-export interface ExampleStatus {}
+export type ExampleStatus = {};
 
-export class Example extends Renderer.K8sApi.KubeObject<KubeObjectMetadata, ExampleStatus, ExampleSpec> {
+export class Example extends Renderer.K8sApi.KubeObject<
+  Renderer.K8sApi.KubeObjectMetadata,
+  ExampleStatus,
+  ExampleSpec
+> {
   static readonly kind = "Example";
   static readonly namespaced = true;
   static readonly apiBase = "/apis/example.freelens.app/v1alpha1/examples";

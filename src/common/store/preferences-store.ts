@@ -1,9 +1,7 @@
 import { Common } from "@freelensapp/extensions";
 import { makeObservable, observable } from "mobx";
 
-type I = {};
-
-export interface ExamplePreferencesModel extends I {
+export interface ExamplePreferencesModel {
   enabled: boolean;
 }
 
