@@ -13,13 +13,13 @@ importers:
         version: 7.27.1(@babel/core@7.27.4)
       '@electron-toolkit/tsconfig':
         specifier: ^1.0.1
-        version: 1.0.1(@types/node@22.15.31)
+        version: 1.0.1(@types/node@22.15.34)
       '@freelensapp/extensions':
         specifier: ^1.4.0
         version: 1.4.0(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)
       '@types/node':
-        specifier: ^22.15.31
-        version: 22.15.31
+        specifier: ^22.15.34
+        version: 22.15.34
       '@types/react':
         specifier: ^17.0.87
         version: 17.0.87
@@ -27,19 +27,19 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       '@vitejs/plugin-react':
-        specifier: ^4.5.2
-        version: 4.5.2(vite@6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0))
+        specifier: ^4.6.0
+        version: 4.6.0(vite@6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0))
       electron-vite:
         specifier: ^3.1.0
-        version: 3.1.0(vite@6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0))
+        version: 3.1.0(vite@6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0))
       mobx:
-        specifier: ^6.13.7
+        specifier: 6.13.7
         version: 6.13.7
       mobx-react:
-        specifier: ^9.2.0
-        version: 9.2.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        specifier: 7.6.0
+        version: 7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react:
-        specifier: ^17.0.2
+        specifier: 17.0.2
         version: 17.0.2
       sass:
         specifier: ^1.89.2
@@ -49,7 +49,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^6.3.5
-        version: 6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)
+        version: 6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)
       vite-plugin-external:
         specifier: ^6.2.2
         version: 6.2.2
@@ -855,8 +855,8 @@ packages:
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
-  '@rolldown/pluginutils@1.0.0-beta.11':
-    resolution: {integrity: sha512-L/gAA/hyCSuzTF1ftlzUSI/IKr2POHsv1Dd78GfqkR83KMNuswWD61JxGV2L7nRwBBBSDr6R1gCkdTmoN7W4ag==}
+  '@rolldown/pluginutils@1.0.0-beta.19':
+    resolution: {integrity: sha512-3FL3mnMbPu0muGOCaKAhhFEYmqv9eTfPSJRJmANrCwtgK8VuxpsZDGK+m0LYAGoyO8+0j5uRe4PeyPDK1yA/hA==}
 
   '@rollup/rollup-android-arm-eabi@4.44.1':
     resolution: {integrity: sha512-JAcBr1+fgqx20m7Fwe1DxPUl/hPkee6jA6Pl7n1v2EFiktAHenTaXl5aIFjUIEsfn9w3HE4gK1lEgNGMzBDs1w==}
@@ -1020,8 +1020,8 @@ packages:
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
-  '@types/node@22.15.31':
-    resolution: {integrity: sha512-jnVe5ULKl6tijxUhvQeNbQG/84fHfg+yMak02cT8QVhBx/F05rAVxCGBYYTh2EKz22D6JF5ktXuNwdx7b9iEGw==}
+  '@types/node@22.15.34':
+    resolution: {integrity: sha512-8Y6E5WUupYy1Dd0II32BsWAx5MWdcnRd8L84Oys3veg1YrYtNtzgO4CFhiBg6MDSjk7Ay36HYOnU7/tuOzIzcw==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -1067,8 +1067,8 @@ packages:
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
-  '@vitejs/plugin-react@4.5.2':
-    resolution: {integrity: sha512-QNVT3/Lxx99nMQWJWF7K4N6apUEuT0KlZA3mx/mVaoGj3smm/8rc8ezz15J1pcbcjDK0V15rpHetVfya08r76Q==}
+  '@vitejs/plugin-react@4.6.0':
+    resolution: {integrity: sha512-5Kgff+m8e2PB+9j51eGHEpn5kUzRKH2Ry0qGoe8ItJg7pqnkPrYPkDQZGgGmTa0EGarHrkjLvOdU3b1fzI8otQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0
@@ -1728,8 +1728,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
-    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and
-      tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2027,21 +2026,8 @@ packages:
       react-native:
         optional: true
 
-  mobx-react@9.2.0:
-    resolution: {integrity: sha512-dkGWCx+S0/1mfiuFfHRH8D9cplmwhxOV5CkXMp38u6rQGG2Pv3FWYztS0M7ncR6TyPRQKaTG/pnitInoYE9Vrw==}
-    peerDependencies:
-      mobx: ^6.9.0
-      react: ^16.8.0 || ^17 || ^18 || ^19
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-
-  mobx-utils@6.1.0:
-    resolution: {integrity: sha512-P3qUVDFp3Kv5HXD7EIGJn3zlgJJnN+/ZpFHWQ+u6YNN1xDxY53iMvsQ9fM8kauTVdDmt7ulDgDQtDrOxb1NS9Q==}
+  mobx-utils@6.1.1:
+    resolution: {integrity: sha512-ZR4tOKucWAHOdMjqElRl2BEvrzK7duuDdKmsbEbt2kzgVpuLuoYLiDCjc3QwWQl8CmOlxPgaZQpZ7emwNqPkIg==}
     peerDependencies:
       mobx: ^6.0.0
 
@@ -2897,7 +2883,7 @@ snapshots:
 
   '@babel/helper-annotate-as-pure@7.27.3':
     dependencies:
-      '@babel/types': 7.27.7
+      '@babel/types': 7.27.6
 
   '@babel/helper-compilation-targets@7.27.2':
     dependencies:
@@ -3024,7 +3010,7 @@ snapshots:
       '@babel/parser': 7.27.5
       '@babel/template': 7.27.2
       '@babel/types': 7.27.6
-      debug: 4.4.0
+      debug: 4.4.1
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -3042,9 +3028,9 @@ snapshots:
       enabled: 2.0.0
       kuler: 2.0.0
 
-  '@electron-toolkit/tsconfig@1.0.1(@types/node@22.15.31)':
+  '@electron-toolkit/tsconfig@1.0.1(@types/node@22.15.34)':
     dependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
 
   '@electron/get@2.0.3':
     dependencies:
@@ -3220,8 +3206,8 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  ? '@freelensapp/animate@1.4.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))'
-  : dependencies:
+  '@freelensapp/animate@1.4.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))':
+    dependencies:
       '@freelensapp/feature-core': 1.4.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
       '@freelensapp/utilities': 1.4.0
       '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
@@ -3813,8 +3799,8 @@ snapshots:
 
   '@mui/core-downloads-tracker@5.17.1': {}
 
-  ? '@mui/lab@5.0.0-alpha.142(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@mui/material@5.17.1(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)'
-  : dependencies:
+  '@mui/lab@5.0.0-alpha.142(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@mui/material@5.17.1(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+    dependencies:
       '@babel/runtime': 7.27.6
       '@mui/base': 5.0.0-beta.13(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       '@mui/material': 5.17.1(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -3830,8 +3816,8 @@ snapshots:
       '@emotion/react': 11.14.0(@types/react@17.0.87)(react@17.0.2)
       '@types/react': 17.0.87
 
-  ? '@mui/material@5.17.1(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)'
-  : dependencies:
+  '@mui/material@5.17.1(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+    dependencies:
       '@babel/runtime': 7.27.6
       '@mui/core-downloads-tracker': 5.17.1
       '@mui/system': 5.17.1(@emotion/react@11.14.0(@types/react@17.0.87)(react@17.0.2))(@types/react@17.0.87)(react@17.0.2)
@@ -3922,21 +3908,21 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  ? '@ogre-tools/injectable-extension-for-auto-registration@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)'
-  : dependencies:
+  '@ogre-tools/injectable-extension-for-auto-registration@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)':
+    dependencies:
       '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
       '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
       lodash: 4.17.21
 
-  ? '@ogre-tools/injectable-extension-for-mobx@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.13.7)'
-  : dependencies:
+  '@ogre-tools/injectable-extension-for-mobx@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.13.7)':
+    dependencies:
       '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
       '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
       lodash: 4.17.21
       mobx: 6.13.7
 
-  ? '@ogre-tools/injectable-react@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)'
-  : dependencies:
+  '@ogre-tools/injectable-react@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+    dependencies:
       '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
       '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
       lodash: 4.17.21
@@ -4013,7 +3999,7 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@rolldown/pluginutils@1.0.0-beta.11': {}
+  '@rolldown/pluginutils@1.0.0-beta.19': {}
 
   '@rollup/rollup-android-arm-eabi@4.44.1':
     optional: true
@@ -4114,7 +4100,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
       '@types/responselike': 1.0.3
 
   '@types/debug@4.1.12':
@@ -4126,7 +4112,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
 
   '@types/history@4.7.11': {}
 
@@ -4139,19 +4125,19 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
 
   '@types/ms@2.1.0': {}
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
 
-  '@types/node@22.15.31':
+  '@types/node@22.15.34':
     dependencies:
       undici-types: 6.21.0
 
@@ -4197,7 +4183,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
 
   '@types/scheduler@0.16.8': {}
 
@@ -4208,18 +4194,18 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
     optional: true
 
-  '@vitejs/plugin-react@4.5.2(vite@6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0))':
+  '@vitejs/plugin-react@4.6.0(vite@6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0))':
     dependencies:
       '@babel/core': 7.27.4
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.27.4)
       '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.27.4)
-      '@rolldown/pluginutils': 1.0.0-beta.11
+      '@rolldown/pluginutils': 1.0.0-beta.19
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)
+      vite: 6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -4586,7 +4572,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron-vite@3.1.0(vite@6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)):
+  electron-vite@3.1.0(vite@6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)):
     dependencies:
       '@babel/core': 7.27.4
       '@babel/plugin-transform-arrow-functions': 7.27.1(@babel/core@7.27.4)
@@ -4594,7 +4580,7 @@ snapshots:
       esbuild: 0.25.5
       magic-string: 0.30.17
       picocolors: 1.1.1
-      vite: 6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)
+      vite: 6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -4606,7 +4592,7 @@ snapshots:
   electron@35.6.0:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -5174,15 +5160,7 @@ snapshots:
     optionalDependencies:
       react-dom: 17.0.2(react@17.0.2)
 
-  mobx-react@9.2.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
-    dependencies:
-      mobx: 6.13.7
-      mobx-react-lite: 4.1.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      react: 17.0.2
-    optionalDependencies:
-      react-dom: 17.0.2(react@17.0.2)
-
-  mobx-utils@6.1.0(mobx@6.13.7):
+  mobx-utils@6.1.1(mobx@6.13.7):
     dependencies:
       mobx: 6.13.7
 
@@ -5921,7 +5899,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite@6.3.5(@types/node@22.15.31)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0):
+  vite@6.3.5(@types/node@22.15.34)(less@4.3.0)(sass@1.89.2)(stylus@0.62.0)(terser@5.39.0):
     dependencies:
       esbuild: 0.25.5
       fdir: 6.4.6(picomatch@4.0.2)
@@ -5930,7 +5908,7 @@ snapshots:
       rollup: 4.44.1
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 22.15.31
+      '@types/node': 22.15.34
       fsevents: 2.3.3
       less: 4.3.0
       sass: 1.89.2
