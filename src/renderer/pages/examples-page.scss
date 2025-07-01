@@ -4,6 +4,10 @@
       flex-grow: 1.5;
     }
 
+    &.active {
+      flex-grow: 0.4;
+    }
+
     &.age {
       flex-grow: 0.3;
     }
