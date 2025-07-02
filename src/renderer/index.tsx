@@ -7,10 +7,10 @@ import { Renderer } from "@freelensapp/extensions";
 import { ExamplePreferencesStore } from "../common/store";
 import { ExampleDetails } from "./details/example-details";
 import { ExampleIcon } from "./icons";
+import { Example } from "./k8s/example";
+import { ExampleActiveToggleMenuItem, type ExampleActiveToggleMenuItemProps } from "./menus";
 import { ExamplesPage } from "./pages";
 import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences";
-
-import type { Example } from "./k8s/example";
 
 export default class ExampleRenderer extends Renderer.LensExtension {
   async onActivate() {
@@ -29,8 +29,8 @@ export default class ExampleRenderer extends Renderer.LensExtension {
 
   kubeObjectDetailItems = [
     {
-      kind: "Example",
-      apiVersions: ["example.freelens.app/v1alpha1"],
+      kind: Example.kind,
+      apiVersions: Example.crd.apiVersions,
       priority: 10,
       components: {
         Details: (props: Renderer.Component.KubeObjectDetailsProps<Example>) => <ExampleDetails {...props} />,
@@ -50,10 +50,20 @@ export default class ExampleRenderer extends Renderer.LensExtension {
   clusterPageMenus = [
     {
       id: "example",
-      title: "Example",
+      title: Example.crd.title,
       target: { pageId: "examples-page" },
       components: {
         Icon: ExampleIcon,
+      },
+    },
+  ];
+
+  kubeObjectMenuItems = [
+    {
+      kind: Example.kind,
+      apiVersions: Example.crd.apiVersions,
+      components: {
+        MenuItem: (props: ExampleActiveToggleMenuItemProps) => <ExampleActiveToggleMenuItem {...props} />,
       },
     },
   ];

@@ -4,6 +4,7 @@ metadata:
   name: test
 spec:
   title: Test
+  active: true
   description: |-
     Test of CRD provided for example extension for
     [Freelens](https://freelens.app).

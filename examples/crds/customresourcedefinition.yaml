@@ -26,6 +26,8 @@ spec:
                   type: string
                 description:
                   type: string
+                active:
+                  type: boolean
                 otherExamples:
                   type: array
                   items:
@@ -42,3 +44,7 @@ spec:
           type: string
           jsonPath: .spec.title
           description: A title of the resource
+        - name: Active
+          type: boolean
+          jsonPath: .spec.active
+          description: A flag if resource is active
