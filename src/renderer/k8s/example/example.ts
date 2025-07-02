@@ -29,15 +29,17 @@ export class Example extends Renderer.K8sApi.KubeObject<
   };
 
   static getApi() {
-    const api = Renderer.K8sApi.apiManager.getApi(Example.apiBase) as ExampleApi | undefined;
-    if (!api) throw new Error("API for ${this.kind} is not registered. Extension won't work correctly");
-    return api;
+    for (let apiVersion of Example.crd.apiVersions) {
+      const api = Renderer.K8sApi.apiManager.getApiByKind(Example.kind, apiVersion);
+      if (api) return api as ExampleApi;
+    }
+    throw new Error(`API for ${this.kind} is not registered. Extension won't work correctly`);
   }
   static getStore() {
     const api = Example.getApi();
-    const store = Renderer.K8sApi.apiManager.getStore(api) as ExampleStore | undefined;
-    if (!store) throw new Error("Store for ${this.kind} is not registered. Extension won't work correctly");
-    return store;
+    const store = Renderer.K8sApi.apiManager.getStore(api);
+    if (store) return store as ExampleStore;
+    throw new Error(`Store for ${this.kind} is not registered. Extension won't work correctly`);
   }
 }
 
