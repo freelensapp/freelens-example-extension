@@ -20,6 +20,7 @@ type KubeObject = Example;
 
 export const ExamplesPage = observer(() => {
   const store = KubeObject.getStore();
+  if (!store) return <></>;
   return (
     <>
       <style>{styleInline}</style>

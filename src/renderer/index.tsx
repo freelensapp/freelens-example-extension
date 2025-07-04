@@ -40,7 +40,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
 
   clusterPages = [
     {
-      id: "examples-page",
+      id: Example.crd.plural,
       components: {
         Page: () => <ExamplesPage />,
       },
@@ -49,9 +49,9 @@ export default class ExampleRenderer extends Renderer.LensExtension {
 
   clusterPageMenus = [
     {
-      id: "example",
+      id: Example.crd.plural,
       title: Example.crd.title,
-      target: { pageId: "examples-page" },
+      target: { pageId: Example.crd.plural },
       components: {
         Icon: ExampleIcon,
       },

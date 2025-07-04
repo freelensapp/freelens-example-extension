@@ -9,10 +9,10 @@ export interface ExampleActiveToggleMenuItemProps extends Renderer.Component.Kub
 
 export function ExampleActiveToggleMenuItem(props: ExampleActiveToggleMenuItemProps) {
   const { object, toolbar } = props;
-
   if (!object) return <></>;
 
   const store = Example.getStore();
+  if (!store) return <></>;
 
   const disable = async () => {
     await store.patch(object, [
