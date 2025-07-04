@@ -1,7 +1,7 @@
 import { Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
-import { ErrorPage } from "../components/error-page";
+import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import { getBooleanClass, getBooleanText } from "../utils";
 import styleInline from "./example-details.scss?inline";
@@ -14,9 +14,9 @@ export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetail
   extension: Renderer.LensExtension;
 }
 
-export const ExampleDetails = observer((props: ExampleDetailsProps) => {
-  const { object, extension } = props;
-  try {
+export const ExampleDetails = observer((props: ExampleDetailsProps) =>
+  withErrorPage(props, () => {
+    const { object } = props;
     const preferences = ExamplePreferencesStore.getInstance<ExamplePreferencesStore>();
 
     return (
@@ -32,7 +32,5 @@ export const ExampleDetails = observer((props: ExampleDetailsProps) => {
         </div>
       </>
     );
-  } catch (error) {
-    return <ErrorPage error={error} extension={extension} />;
-  }
-});
+  }),
+);

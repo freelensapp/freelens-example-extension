@@ -18,3 +18,23 @@ export const ErrorPage = ({ error, extension, children }: ErrorPageProps) => {
     </div>
   );
 };
+
+/**
+ * Wraps component in try/catch block and prints ErrorPage on error.
+ *
+ * ```ts
+ * export const Component = (props: ComponentProps) => withErrorPage(props, () => {
+ *   throw new Error("something died");
+ * })
+ * ```
+ */
+export function withErrorPage<P extends { extension: Renderer.LensExtension }>(
+  props,
+  wrapped: (props: P) => JSX.Element,
+) {
+  try {
+    return wrapped(props);
+  } catch (error) {
+    return <ErrorPage error={error} extension={props.extension} />;
+  }
+}

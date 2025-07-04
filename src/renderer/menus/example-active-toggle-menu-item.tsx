@@ -1,4 +1,5 @@
-import { Common, Renderer } from "@freelensapp/extensions";
+import { Renderer } from "@freelensapp/extensions";
+import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 
 const {
@@ -9,9 +10,10 @@ export interface ExampleActiveToggleMenuItemProps extends Renderer.Component.Kub
   extension: Renderer.LensExtension;
 }
 
-export function ExampleActiveToggleMenuItem(props: ExampleActiveToggleMenuItemProps) {
-  const { object, toolbar, extension } = props;
-  try {
+export const ExampleActiveToggleMenuItem = (props: ExampleActiveToggleMenuItemProps) =>
+  withErrorPage(props, () => {
+    const { object, toolbar } = props;
+
     if (!object) return <></>;
 
     const store = Example.getStore();
@@ -51,8 +53,4 @@ export function ExampleActiveToggleMenuItem(props: ExampleActiveToggleMenuItemPr
         </MenuItem>
       );
     }
-  } catch (error) {
-    Common.logger.error(`[${extension.name}]: ${error}`);
-    return <></>;
-  }
-}
+  });

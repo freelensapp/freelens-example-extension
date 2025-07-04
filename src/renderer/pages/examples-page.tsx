@@ -1,7 +1,7 @@
 import { Common, Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { ErrorPage } from "../components/error-page";
+import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import { getBooleanClass, getBooleanText } from "../utils";
 import styleInline from "./examples-page.scss?inline";
@@ -23,9 +23,8 @@ export interface ExamplesPageProps {
   extension: Renderer.LensExtension;
 }
 
-export const ExamplesPage = observer((props: ExamplesPageProps) => {
-  const { extension } = props;
-  try {
+export const ExamplesPage = observer((props: ExamplesPageProps) =>
+  withErrorPage(props, () => {
     const store = KubeObject.getStore();
     return (
       <>
@@ -66,7 +65,5 @@ export const ExamplesPage = observer((props: ExamplesPageProps) => {
         />
       </>
     );
-  } catch (error) {
-    return <ErrorPage error={error} extension={extension} />;
-  }
-});
+  }),
+);
