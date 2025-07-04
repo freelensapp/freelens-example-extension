@@ -33,7 +33,9 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       apiVersions: Example.crd.apiVersions,
       priority: 10,
       components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<Example>) => <ExampleDetails {...props} />,
+        Details: (props: Renderer.Component.KubeObjectDetailsProps<Example>) => (
+          <ExampleDetails {...props} extension={this} />
+        ),
       },
     },
   ];
@@ -42,7 +44,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
     {
       id: Example.crd.plural,
       components: {
-        Page: () => <ExamplesPage />,
+        Page: () => <ExamplesPage extension={this} />,
       },
     },
   ];
@@ -63,7 +65,9 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       kind: Example.kind,
       apiVersions: Example.crd.apiVersions,
       components: {
-        MenuItem: (props: ExampleActiveToggleMenuItemProps) => <ExampleActiveToggleMenuItem {...props} />,
+        MenuItem: (props: ExampleActiveToggleMenuItemProps) => (
+          <ExampleActiveToggleMenuItem {...props} extension={this} />
+        ),
       },
     },
   ];
