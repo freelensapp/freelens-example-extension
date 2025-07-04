@@ -13,7 +13,7 @@ export const ErrorPage = ({ error, extension, children }: ErrorPageProps) => {
   }
   return (
     <div className="flex justify-center w-full h-full">
-      {error && <p className="flex align-center error">{error ? String(error) : children}</p>}
+      {error ? <p className="flex align-center error">{String(error)}</p> : <></>}
       {children}
     </div>
   );

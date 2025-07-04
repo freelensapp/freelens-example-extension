@@ -1,8 +1,8 @@
 import { Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
+import { ErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
-import { ErrorPage } from "../pages/error-page";
 import { getBooleanClass, getBooleanText } from "../utils";
 import styleInline from "./example-details.scss?inline";
 

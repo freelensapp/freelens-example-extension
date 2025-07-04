@@ -1,9 +1,9 @@
 import { Common, Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
+import { ErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import { getBooleanClass, getBooleanText } from "../utils";
-import { ErrorPage } from "./error-page";
 import styleInline from "./examples-page.scss?inline";
 
 const {
