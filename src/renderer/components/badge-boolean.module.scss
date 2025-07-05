@@ -1,7 +1,11 @@
-.error {
+.false {
   color: var(--colorError);
 }
 
-.success {
+.true {
+  color: var(--colorSuccess);
+}
+
+.undefined {
   color: var(--colorSuccess);
 }

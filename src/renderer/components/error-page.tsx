@@ -9,7 +9,7 @@ export interface ErrorPageProps {
   children?: React.ReactNode;
 }
 
-export const ErrorPage = ({ error, extension, children }: ErrorPageProps) => {
+export function ErrorPage({ error, extension, children }: ErrorPageProps) {
   if (error) {
     Common.logger.error(`[${extension.name}]: ${error}`);
   }
@@ -22,7 +22,7 @@ export const ErrorPage = ({ error, extension, children }: ErrorPageProps) => {
       </div>
     </>
   );
-};
+}
 
 /**
  * Wraps component in try/catch block and prints ErrorPage on error.

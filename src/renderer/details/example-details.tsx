@@ -1,14 +1,14 @@
 import { Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
+import { BadgeBoolean } from "../components/badge-boolean";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
-import { getBooleanClass, getBooleanText } from "../utils";
 import style from "./example-details.module.scss";
 import styleInline from "./example-details.module.scss?inline";
 
 const {
-  Component: { Badge, DrawerItem, MarkdownViewer },
+  Component: { DrawerItem, MarkdownViewer },
 } = Renderer;
 
 export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example> {
@@ -28,7 +28,7 @@ export const ExampleDetails = observer((props: ExampleDetailsProps) =>
             <MarkdownViewer markdown={object.spec.description ?? ""} />
           </DrawerItem>
           <DrawerItem name="Example checkbox">
-            <Badge className={getBooleanClass(preferences.enabled)} label={getBooleanText(preferences.enabled)} />
+            <BadgeBoolean value={preferences.enabled} />
           </DrawerItem>
         </div>
       </>
