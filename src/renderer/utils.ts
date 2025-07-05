@@ -1,3 +1,5 @@
+import style from "./utils.module.scss";
+
 export function getBooleanText(value?: boolean) {
   if (value === true) return "True";
   if (value === false) return "False";
@@ -5,7 +7,7 @@ export function getBooleanText(value?: boolean) {
 }
 
 export function getBooleanClass(value?: boolean) {
-  if (value === true) return "success";
-  if (value === false) return "error";
+  if (value === true) return style.success;
+  if (value === false) return style.error;
   return "info";
 }

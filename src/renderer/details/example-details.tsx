@@ -4,7 +4,8 @@ import { ExamplePreferencesStore } from "../../common/store";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import { getBooleanClass, getBooleanText } from "../utils";
-import styleInline from "./example-details.scss?inline";
+import style from "./example-details.module.scss";
+import styleInline from "./example-details.module.scss?inline";
 
 const {
   Component: { Badge, DrawerItem, MarkdownViewer },
@@ -22,7 +23,7 @@ export const ExampleDetails = observer((props: ExampleDetailsProps) =>
     return (
       <>
         <style>{styleInline}</style>
-        <div className="ExampleDetails">
+        <div className={style.exampleDetails}>
           <DrawerItem name="Description">
             <MarkdownViewer markdown={object.spec.description ?? ""} />
           </DrawerItem>
