@@ -1,5 +1,6 @@
 declare const classNames: {
-  readonly error: "error";
-  readonly success: "success";
+  readonly false: "false";
+  readonly true: "true";
+  readonly undefined: "undefined";
 };
 export = classNames;
