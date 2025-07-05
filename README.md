@@ -13,6 +13,10 @@
 This repository serves as an example how to build and publish extensions for
 Freelens application.
 
+Visit wiki page about [creating
+extensions](https://github.com/freelensapp/freelens/wiki/Creating-extensions)
+for more informations.
+
 ## Requirements
 
 - Kubernetes >= 1.24
