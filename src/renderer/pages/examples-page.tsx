@@ -1,14 +1,14 @@
 import { Common, Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
+import { BadgeBoolean } from "../components/badge-boolean";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
-import { getBooleanClass, getBooleanText } from "../utils";
 import style from "./examples-page.module.scss";
 import styleInline from "./examples-page.module.scss?inline";
 
 const {
-  Component: { Badge, KubeObjectAge, KubeObjectListLayout, WithTooltip },
+  Component: { KubeObjectAge, KubeObjectListLayout, WithTooltip },
   K8sApi: { namespacesApi },
   Navigation: { getDetailsUrl },
 } = Renderer;
@@ -59,7 +59,7 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
             >
               <WithTooltip>{object.getNs()}</WithTooltip>
             </Link>,
-            <Badge className={getBooleanClass(object.spec.active)} label={getBooleanText(object.spec.active)} />,
+            <BadgeBoolean value={object.spec.active} />,
             <WithTooltip>{object.spec.title}</WithTooltip>,
             <KubeObjectAge object={object} key="age" />,
           ]}
