@@ -97,6 +97,25 @@ to be loaded, or drag and drop the extension tarball into the Freelens window.
 After loading for a moment, the extension should appear in the list of enabled
 extensions.
 
+### Check code statically
+
+```sh
+pnpm lint:check
+```
+
+or
+
+```sh
+pnpm trunk:check
+```
+
+and
+
+```sh
+pnpm build
+pnpm knip:check
+```
+
 ## License
 
 Copyright (c) 2025 Freelens Authors.

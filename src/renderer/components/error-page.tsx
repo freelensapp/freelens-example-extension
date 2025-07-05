@@ -1,5 +1,7 @@
 import { Common, type Renderer } from "@freelensapp/extensions";
 import React from "react";
+import style from "./error-page.module.scss";
+import styleInline from "./error-page.module.scss?inline";
 
 export interface ErrorPageProps {
   error?: unknown;
@@ -12,10 +14,13 @@ export const ErrorPage = ({ error, extension, children }: ErrorPageProps) => {
     Common.logger.error(`[${extension.name}]: ${error}`);
   }
   return (
-    <div className="flex justify-center w-full h-full">
-      {error ? <p className="flex align-center error">{String(error)}</p> : <></>}
-      {children}
-    </div>
+    <>
+      <style>{styleInline}</style>
+      <div className={style.errorPage}>
+        {error ? <p className={style.errorMessage}>{String(error)}</p> : <></>}
+        {children}
+      </div>
+    </>
   );
 };
 

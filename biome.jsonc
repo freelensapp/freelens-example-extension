@@ -24,7 +24,15 @@
     }
   },
   "files": {
-    "includes": ["**", "!**/.trunk/**", "!**/build/**", "!**/dist/**", "!**/package.json"]
+    "includes": [
+      "**",
+      "!**/.trunk/**",
+      "!**/build/**",
+      "!**/dist/**",
+      "!**/package.json",
+      "!**/*.css.d.ts",
+      "!**/*.scss.d.ts"
+    ]
   },
   "formatter": {
     "attributePosition": "auto",

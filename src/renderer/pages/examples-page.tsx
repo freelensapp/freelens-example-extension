@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import { getBooleanClass, getBooleanText } from "../utils";
-import styleInline from "./examples-page.scss?inline";
+import style from "./examples-page.module.scss";
+import styleInline from "./examples-page.module.scss?inline";
 
 const {
   Component: { Badge, KubeObjectAge, KubeObjectListLayout, WithTooltip },
@@ -31,7 +32,7 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
         <style>{styleInline}</style>
         <KubeObjectListLayout
           tableId={`${KubeObject.crd.singular}Table`}
-          className={KubeObject.crd.plural}
+          className={style.examplesPage}
           store={store}
           sortingCallbacks={{
             name: (object: KubeObject) => object.getName(),
@@ -43,11 +44,11 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
           searchFilters={[(object: KubeObject) => object.getSearchFields()]}
           renderHeaderTitle={KubeObject.crd.title}
           renderTableHeader={[
-            { title: "Name", className: "name", sortBy: "name" },
-            { title: "Namespace", className: "namespace", sortBy: "namespace" },
-            { title: "Active", className: "active", sortBy: "active" },
-            { title: "Title", className: "title", sortBy: "title" },
-            { title: "Age", className: "age", sortBy: "age" },
+            { title: "Name", sortBy: "name" },
+            { title: "Namespace", sortBy: "namespace" },
+            { title: "Active", sortBy: "active", className: style.active },
+            { title: "Title", sortBy: "title", className: style.title },
+            { title: "Age", sortBy: "age", className: style.age },
           ]}
           renderTableContents={(object: KubeObject) => [
             <WithTooltip>{object.getName()}</WithTooltip>,
