@@ -118,6 +118,17 @@ pnpm knip:check
 
 ### Testing the extension with unpublished Freelens
 
+In Freelens working repository:
+
+```sh
+rm -f *.tgz
+pnpm i
+pnpm build
+pnpm pack -r
+```
+
+then for extension:
+
 ```sh
 echo "overrides:" >> pnpm-workspace.yaml
 for i in ../freelens/*.tgz; do
