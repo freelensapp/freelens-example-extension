@@ -1,14 +1,13 @@
 import { Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
-import { BadgeBoolean } from "../components/badge-boolean";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import style from "./example-details.module.scss";
 import styleInline from "./example-details.module.scss?inline";
 
 const {
-  Component: { DrawerItem, MarkdownViewer },
+  Component: { BadgeBoolean, DrawerItem, MarkdownViewer },
 } = Renderer;
 
 export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example> {

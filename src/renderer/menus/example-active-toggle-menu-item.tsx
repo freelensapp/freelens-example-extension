@@ -16,26 +16,30 @@ export const ExampleActiveToggleMenuItem = (props: ExampleActiveToggleMenuItemPr
 
     if (!object) return <></>;
 
-    const store = Example.getStore();
+    const store = Example.getStore<Example>();
 
     const disable = async () => {
-      await store.patch(object, [
+      await store.patch(
+        object,
         {
-          op: "replace",
-          path: "/spec/active",
-          value: false,
+          spec: {
+            active: false,
+          },
         },
-      ]);
+        "merge",
+      );
     };
 
     const enable = async () => {
-      await store.patch(object, [
+      await store.patch(
+        object,
         {
-          op: "replace",
-          path: "/spec/active",
-          value: true,
+          spec: {
+            active: true,
+          },
         },
-      ]);
+        "merge",
+      );
     };
 
     if (object.spec.active === false) {
