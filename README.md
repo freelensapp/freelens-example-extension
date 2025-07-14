@@ -20,7 +20,7 @@ for more informations.
 ## Requirements
 
 - Kubernetes >= 1.24
-- Freelens >= 1.4.0
+- Freelens >= 1.5.0
 
 ## API supported
 
@@ -67,8 +67,8 @@ nvm install
 mise install
 # or
 winget install CoreyButler.NVMforWindows
-nvm install 22.15.1
-nvm use 22.15.1
+nvm install 22.16.0
+nvm use 22.16.0
 ```
 
 Install Pnpm:
@@ -114,6 +114,30 @@ and
 ```sh
 pnpm build
 pnpm knip:check
+```
+
+### Testing the extension with unpublished Freelens
+
+In Freelens working repository:
+
+```sh
+rm -f *.tgz
+pnpm i
+pnpm build
+pnpm pack -r
+```
+
+then for extension:
+
+```sh
+echo "overrides:" >> pnpm-workspace.yaml
+for i in ../freelens/*.tgz; do
+  name=$(tar zxOf $i package/package.json | jq -r .name)
+  echo "  \"$name\": $i" >> pnpm-workspace.yaml
+done
+
+pnpm clean:node_modules
+pnpm build
 ```
 
 ## License

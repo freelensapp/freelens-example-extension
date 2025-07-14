@@ -1,6 +1,6 @@
 {
   "name": "@freelensapp/example-extension",
-  "version": "1.5.0-0",
+  "version": "1.5.0-1",
   "description": "Example of a Freelens extension",
   "repository": {
     "type": "git",
@@ -13,8 +13,8 @@
     "out/**/*"
   ],
   "engines": {
-    "node": ">= 22.15.1",
-    "freelens": "^1.4.0"
+    "node": ">= 22.16.0",
+    "freelens": "^1.5.0"
   },
   "copyright": "© 2025 Freelens Authors",
   "license": "MIT",
@@ -57,8 +57,8 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
-    "@freelensapp/extensions": "^1.4.0",
-    "@types/node": "~22.15.34",
+    "@freelensapp/extensions": "^1.5.0",
+    "@types/node": "~22.15.35",
     "@types/react": "^17.0.87",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.6.0",

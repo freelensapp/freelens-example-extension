@@ -1,14 +1,13 @@
 import { Common, Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { BadgeBoolean } from "../components/badge-boolean";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
 import style from "./examples-page.module.scss";
 import styleInline from "./examples-page.module.scss?inline";
 
 const {
-  Component: { KubeObjectAge, KubeObjectListLayout, WithTooltip },
+  Component: { BadgeBoolean, KubeObjectAge, KubeObjectListLayout, WithTooltip },
   K8sApi: { namespacesApi },
   Navigation: { getDetailsUrl },
 } = Renderer;
