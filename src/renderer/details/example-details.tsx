@@ -3,8 +3,8 @@ import { observer } from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
-import style from "./example-details.module.scss";
-import styleInline from "./example-details.module.scss?inline";
+import styles from "./example-details.module.scss";
+import stylesInline from "./example-details.module.scss?inline";
 
 const {
   Component: { BadgeBoolean, DrawerItem, MarkdownViewer },
@@ -21,8 +21,8 @@ export const ExampleDetails = observer((props: ExampleDetailsProps) =>
 
     return (
       <>
-        <style>{styleInline}</style>
-        <div className={style.exampleDetails}>
+        <style>{stylesInline}</style>
+        <div className={styles.exampleDetails}>
           <DrawerItem name="Description">
             <MarkdownViewer markdown={object.spec.description ?? ""} />
           </DrawerItem>

@@ -3,8 +3,8 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { withErrorPage } from "../components/error-page";
 import { Example } from "../k8s/example";
-import style from "./examples-page.module.scss";
-import styleInline from "./examples-page.module.scss?inline";
+import styles from "./examples-page.module.scss";
+import stylesInline from "./examples-page.module.scss?inline";
 
 const {
   Component: { BadgeBoolean, KubeObjectAge, KubeObjectListLayout, WithTooltip },
@@ -28,10 +28,10 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
     const store = KubeObject.getStore();
     return (
       <>
-        <style>{styleInline}</style>
+        <style>{stylesInline}</style>
         <KubeObjectListLayout
           tableId={`${KubeObject.crd.singular}Table`}
-          className={style.examplesPage}
+          className={styles.examplesPage}
           store={store}
           sortingCallbacks={{
             name: (object: KubeObject) => object.getName(),
@@ -45,9 +45,9 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
           renderTableHeader={[
             { title: "Name", sortBy: "name" },
             { title: "Namespace", sortBy: "namespace" },
-            { title: "Active", sortBy: "active", className: style.active },
-            { title: "Title", sortBy: "title", className: style.title },
-            { title: "Age", sortBy: "age", className: style.age },
+            { title: "Active", sortBy: "active", className: styles.active },
+            { title: "Title", sortBy: "title", className: styles.title },
+            { title: "Age", sortBy: "age", className: styles.age },
           ]}
           renderTableContents={(object: KubeObject) => [
             <WithTooltip>{object.getName()}</WithTooltip>,

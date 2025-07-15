@@ -1,7 +1,7 @@
 import { Common, type Renderer } from "@freelensapp/extensions";
 import React from "react";
-import style from "./error-page.module.scss";
-import styleInline from "./error-page.module.scss?inline";
+import styles from "./error-page.module.scss";
+import stylesInline from "./error-page.module.scss?inline";
 
 export interface ErrorPageProps {
   error?: unknown;
@@ -15,9 +15,9 @@ export function ErrorPage({ error, extension, children }: ErrorPageProps) {
   }
   return (
     <>
-      <style>{styleInline}</style>
-      <div className={style.errorPage}>
-        {error ? <p className={style.errorMessage}>{String(error)}</p> : <></>}
+      <style>{stylesInline}</style>
+      <div className={styles.errorPage}>
+        {error ? <p className={styles.errorMessage}>{String(error)}</p> : <></>}
         {children}
       </div>
     </>
