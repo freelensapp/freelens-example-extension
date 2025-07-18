@@ -4,6 +4,7 @@
 
 [![Home](https://img.shields.io/badge/%F0%9F%8F%A0-freelens.app-02a7a0)](https://freelens.app)
 [![GitHub](https://img.shields.io/github/stars/freelensapp/freelens?style=flat&label=GitHub%20%E2%AD%90)](https://github.com/freelensapp/freelens)
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/freelensapp/freelens-example-extension)
 [![Release](https://img.shields.io/github/v/release/freelensapp/freelens-example-extension?display_name=tag&sort=semver)](https://github.com/freelensapp/freelens-example-extension)
 [![Integration tests](https://github.com/freelensapp/freelens-example-extension/actions/workflows/integration-tests.yaml/badge.svg?branch=main)](https://github.com/freelensapp/freelens-example-extension/actions/workflows/integration-tests.yaml)
 [![npm](https://img.shields.io/npm/v/@freelensapp/example-extension.svg)](https://www.npmjs.com/package/@freelensapp/example-extension)
@@ -20,7 +21,7 @@ for more informations.
 ## Requirements
 
 - Kubernetes >= 1.24
-- Freelens >= 1.5.0
+- Freelens >= 1.5.1
 
 ## API supported
 
