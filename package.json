@@ -1,6 +1,6 @@
 {
   "name": "@freelensapp/example-extension",
-  "version": "1.5.1",
+  "version": "1.5.2-0",
   "description": "Example of a Freelens extension",
   "repository": {
     "type": "git",
