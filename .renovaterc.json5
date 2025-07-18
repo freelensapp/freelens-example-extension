@@ -36,6 +36,9 @@
     "react-dom",
     "react-router-dom",
   ],
+  "allowedCommands": [
+    "^pnpm biome:migrate$"
+  ],
   "packageRules": [
     // peerDependencies are widen
     {
@@ -72,9 +75,11 @@
       "matchDepNames": [
         "@biomejs/biome",
       ],
-      "postUpdateOptions": [
-        "runScripts"
-      ]
+      "postUpgradeTasks": {
+        "commands": [
+          "pnpm biome:migrate"
+        ]
+      }
     }
   ],
   "customManagers": [
