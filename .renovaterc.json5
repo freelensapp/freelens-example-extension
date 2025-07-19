@@ -111,11 +111,11 @@
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
         "/^\\.github/workflows/.*\\.ya?ml$/",
-        "/^\\.trunk/trunk.yaml/",
+        "/^\\.trunk/trunk.yaml$/",
         "/^\\.tool-versions$/"
       ],
       "matchStrings": [
-        "(\\s+|.*?@)(?<currentValue>\\S+)\\s*#\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?(\\s+registryUrl=(?<registryUrl>\\S+))?\\s*\\n"
+        "(\\s+|.*?@)(?<currentValue>\\S+?)!?\\s*#\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?(\\s+registryUrl=(?<registryUrl>\\S+))?\\s*\\n"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
