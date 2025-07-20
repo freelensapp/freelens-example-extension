@@ -14,7 +14,7 @@
   ],
   "engines": {
     "node": ">= 22.16.0",
-    "freelens": "^1.5.1"
+    "freelens": "^1.5.2"
   },
   "copyright": "© 2025 Freelens Authors",
   "license": "MIT",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
-    "@freelensapp/extensions": "^1.5.1",
+    "@freelensapp/extensions": "^1.5.2",
     "@types/node": "~22.15.35",
     "@types/react": "^17.0.87",
     "@types/react-router-dom": "^5.3.3",
