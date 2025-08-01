@@ -48,7 +48,7 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
       <>
         <style>{stylesInline}</style>
         <KubeObjectListLayout<KubeObject, KubeObjectApi>
-          tableId={`${KubeObject.crd.singular}Table`}
+          tableId={`${KubeObject.crd.plural}Table`}
           className={styles.examplesPage}
           store={store}
           sortingCallbacks={sortingCallbacks}
