@@ -34,7 +34,7 @@ export function ErrorPage({ error, extension, children }: ErrorPageProps) {
  * ```
  */
 export function withErrorPage<P extends { extension: Renderer.LensExtension }>(
-  props,
+  props: P,
   wrapped: (props: P) => JSX.Element,
 ) {
   try {
