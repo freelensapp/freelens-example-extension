@@ -23,8 +23,8 @@ type KubeObjectApi = ExampleApi;
 const sortingCallbacks = {
   name: (object: KubeObject) => object.getName(),
   namespace: (object: KubeObject) => object.getNs(),
-  active: (object: KubeObject) => String(object.spec.active ?? false),
-  title: (object: KubeObject) => object.spec.title,
+  active: (object: KubeObject) => String(object.getActive()),
+  title: (object: KubeObject) => object.getTitle(),
   age: (object: KubeObject) => object.getCreationTimestamp(),
 };
 
@@ -49,7 +49,7 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
         <style>{stylesInline}</style>
         <KubeObjectListLayout<KubeObject, KubeObjectApi>
           tableId={`${KubeObject.crd.plural}Table`}
-          className={styles.examplesPage}
+          className={styles.page}
           store={store}
           sortingCallbacks={sortingCallbacks}
           searchFilters={[(object: KubeObject) => object.getSearchFields()]}
@@ -64,8 +64,8 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
             >
               <WithTooltip>{object.getNs()}</WithTooltip>
             </Link>,
-            <BadgeBoolean value={object.spec.active} />,
-            <WithTooltip>{object.spec.title}</WithTooltip>,
+            <BadgeBoolean value={object.getActive()} />,
+            <WithTooltip>{object.getTitle() ?? "N/A"}</WithTooltip>,
             <KubeObjectAge object={object} key="age" />,
           ]}
         />

@@ -27,6 +27,14 @@ export class Example extends Renderer.K8sApi.LensExtensionKubeObject<
     shortNames: ["ex"],
     title: "Examples",
   };
+
+  getActive(): boolean {
+    return this.spec.active ?? false;
+  }
+
+  getTitle(): string | undefined {
+    return this.spec.title;
+  }
 }
 
 export class ExampleApi extends Renderer.K8sApi.KubeApi<Example> {}

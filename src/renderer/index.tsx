@@ -14,7 +14,7 @@ import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences";
 
 export default class ExampleRenderer extends Renderer.LensExtension {
   async onActivate() {
-    await ExamplePreferencesStore.getInstanceOrCreate().loadExtension(this);
+    ExamplePreferencesStore.getInstanceOrCreate().loadExtension(this);
   }
 
   appPreferences = [
@@ -33,7 +33,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       apiVersions: Example.crd.apiVersions,
       priority: 10,
       components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<Example>) => (
+        Details: (props: Renderer.Component.KubeObjectDetailsProps<any>) => (
           <ExampleDetails {...props} extension={this} />
         ),
       },
