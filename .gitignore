@@ -5,6 +5,7 @@
 *.map
 *.out
 *.tgz
+*.tmp
 
 !custom.d.ts
 !env.d.ts
