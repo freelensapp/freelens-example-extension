@@ -18,6 +18,7 @@ const {
 
 const KubeObject = Example;
 type KubeObject = Example;
+type KubeObjectApi = ExampleApi;
 
 const sortingCallbacks = {
   name: (object: KubeObject) => object.getName(),
@@ -41,12 +42,12 @@ export interface ExamplesPageProps {
 
 export const ExamplesPage = observer((props: ExamplesPageProps) =>
   withErrorPage(props, () => {
-    const store = KubeObject.getStore<Example>();
+    const store = KubeObject.getStore<KubeObject>();
 
     return (
       <>
         <style>{stylesInline}</style>
-        <KubeObjectListLayout<Example, ExampleApi>
+        <KubeObjectListLayout<KubeObject, KubeObjectApi>
           tableId={`${KubeObject.crd.singular}Table`}
           className={styles.examplesPage}
           store={store}
