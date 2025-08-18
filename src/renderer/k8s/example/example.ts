@@ -28,12 +28,12 @@ export class Example extends Renderer.K8sApi.LensExtensionKubeObject<
     title: "Examples",
   };
 
-  getActive(): boolean {
-    return this.spec.active ?? false;
+  static getActive(object: Example): boolean {
+    return object.spec.active ?? false;
   }
 
-  getTitle(): string | undefined {
-    return this.spec.title;
+  static getTitle(object: Example): string | undefined {
+    return object.spec.title;
   }
 }
 
