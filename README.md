@@ -90,6 +90,12 @@ pnpm build
 pnpm pack
 ```
 
+One script to build then pack the extension to test:
+
+```sh
+pnpm pack:dev
+```
+
 ### Install built extension
 
 The tarball for the extension will be placed in the current directory. In
