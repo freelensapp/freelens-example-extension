@@ -73,7 +73,9 @@ jobs:
         run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
 
       - name: Run biome migrate
-        run: pnpm biome:migrate | tee .github/pr_body.log
+        run: |
+          set -o pipefail
+          pnpm biome:migrate | tee .github/pr_body.log
 
       - name: Check for changes
         run: |

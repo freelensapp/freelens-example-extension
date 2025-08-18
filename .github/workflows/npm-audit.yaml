@@ -70,6 +70,7 @@ jobs:
 
       - name: Run npm audit
         run: |
+          set -o pipefail
           pnpm audit report 2>&1 | tee .github/report.log || true
           pnpm audit fix 2>&1 | tee .github/fix.log || true
           sed -e 's/\x1b\[[0-9;]*m//g' .github/report.log > .github/pr_body.log
