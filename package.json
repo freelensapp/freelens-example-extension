@@ -71,7 +71,7 @@
     "mobx": "6.13.7",
     "mobx-react": "7.6.0",
     "react": "17.0.2",
-    "sass": "^1.90.0",
+    "sass": "^1.93.0",
     "typescript": "5.9.2",
     "vite": "^7.1.6",
     "vite-plugin-external": "^6.2.2",
