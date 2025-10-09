@@ -26,10 +26,10 @@ jobs:
         include:
           - os: ubuntu-22.04
             arch: x64
-            freelens_version: v1.5.3
+            freelens_version: 1.5.3
           - os: ubuntu-22.04
             arch: x64
-            freelens_version: v1.6.1
+            freelens_version: 1.6.1
           - os: ubuntu-22.04
             arch: x64
             freelens_version: latest
