@@ -26,7 +26,7 @@ jobs:
         include:
           - os: ubuntu-22.04
             arch: x64
-            freelens_version: 1.5.3
+            freelens_version: 1.5.2
           - os: ubuntu-22.04
             arch: x64
             freelens_version: 1.6.1
@@ -79,7 +79,7 @@ jobs:
       - name: Update pnpm dependencies for extension (retry)
         if: steps.update-pnpm-extension.outcome == 'failure'
         shell: bash
-        run: timeout 300 pnpm update @freelensapp/extensions@${{ matrix.freelens_version }} --color=always --prefer-offline
+        run: timeout 300 pnpm update -D @freelensapp/extensions@${{ matrix.freelens_version }} --color=always --prefer-offline
 
       - name: Get Freelens version
         shell: bash
