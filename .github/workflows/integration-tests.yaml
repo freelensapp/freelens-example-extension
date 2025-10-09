@@ -26,13 +26,13 @@ jobs:
         include:
           - os: ubuntu-22.04
             arch: x64
-            freelens_version: 1.5.2
+            freelens_version: v1.5.2
           - os: ubuntu-22.04
             arch: x64
-            freelens_version: 1.6.1
+            freelens_version: v1.6.1
           - os: ubuntu-22.04
             arch: x64
-            freelens_version: latest
+            freelens_version: main
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -70,26 +70,6 @@ jobs:
         shell: bash
         run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
 
-      - name: Update pnpm dependencies for extension
-        id: update-pnpm-extension
-        shell: bash
-        run: timeout 300 pnpm install @freelensapp/extensions@${{ matrix.freelens_version }} --color=always --prefer-offline
-        continue-on-error: true
-
-      - name: Update pnpm dependencies for extension (retry)
-        if: steps.update-pnpm-extension.outcome == 'failure'
-        shell: bash
-        run: timeout 300 pnpm update -D @freelensapp/extensions@${{ matrix.freelens_version }} --color=always --prefer-offline
-
-      - name: Get Freelens version
-        shell: bash
-        run: |
-          freelens_version=$(pnpm list @freelensapp/extensions --json | jq -r '.[0].devDependencies["@freelensapp/extensions"].version')
-          case "$freelens_version" in
-            [0-9]*) echo "freelens_version=${freelens_version}" >> ${GITHUB_ENV};;
-            *) exit 1
-          esac
-
       - name: Build plugin
         run: pnpm build
 
@@ -100,20 +80,12 @@ jobs:
         shell: bash
         run: echo "EXTENSION_PATH=$(find $(pwd) -name '*.tgz')" >> ${GITHUB_ENV}
 
-      - name: Checkout app (release)
+      - name: Checkout app
         if: matrix.freelens_version != 'latest'
         uses: actions/checkout@v5
         with:
           repository: freelensapp/freelens
-          ref: v${{ matrix.freelens_version }}
-          path: freelens
-
-      - name: Checkout app (latest)
-        if: matrix.freelens_version == 'latest'
-        uses: actions/checkout@v5
-        with:
-          repository: freelensapp/freelens
-          ref: main
+          ref: ${{ matrix.freelens_version }}
           path: freelens
 
       - name: Move app to upper directory
