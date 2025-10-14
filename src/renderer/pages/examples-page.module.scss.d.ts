@@ -3,6 +3,7 @@ declare const classNames: {
   readonly tableCell: "tableCell";
   readonly title: "title";
   readonly active: "active";
+  readonly resumed: "resumed";
   readonly age: "age";
 };
 export = classNames;

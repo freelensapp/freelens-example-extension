@@ -2,19 +2,20 @@ import { Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
 import { withErrorPage } from "../components/error-page";
-import { Example } from "../k8s/example";
 import styles from "./example-details.module.scss";
 import stylesInline from "./example-details.module.scss?inline";
+
+import type { Example_v1alpha1 } from "../k8s/example/example-v1alpha1";
 
 const {
   Component: { BadgeBoolean, DrawerItem, MarkdownViewer },
 } = Renderer;
 
-export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example> {
+export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example_v1alpha1> {
   extension: Renderer.LensExtension;
 }
 
-export const ExampleDetails = observer((props: ExampleDetailsProps) =>
+export const ExampleDetails_v1alpha1 = observer((props: ExampleDetailsProps) =>
   withErrorPage(props, () => {
     const { object } = props;
     const preferences = ExamplePreferencesStore.getInstance<ExamplePreferencesStore>();
@@ -23,6 +24,7 @@ export const ExampleDetails = observer((props: ExampleDetailsProps) =>
       <>
         <style>{stylesInline}</style>
         <div className={styles.exampleDetails}>
+          <DrawerItem name="Api Version">v1alpha1</DrawerItem>
           <DrawerItem name="Description">
             <MarkdownViewer markdown={object.spec.description ?? ""} />
           </DrawerItem>
