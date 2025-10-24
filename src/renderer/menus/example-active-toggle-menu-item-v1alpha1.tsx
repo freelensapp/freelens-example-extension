@@ -1,23 +1,22 @@
 import { Renderer } from "@freelensapp/extensions";
 import { withErrorPage } from "../components/error-page";
-import { Example_v1alpha1 } from "../k8s/example/example-v1alpha1";
+import { Example } from "../k8s/example/example-v1alpha1";
 
 const {
   Component: { MenuItem, Icon },
 } = Renderer;
 
-export interface ExampleActiveToggleMenuItemProps_v1alpha1
-  extends Renderer.Component.KubeObjectMenuProps<Example_v1alpha1> {
+export interface ExampleActiveToggleMenuItemProps extends Renderer.Component.KubeObjectMenuProps<Example> {
   extension: Renderer.LensExtension;
 }
 
-export const ExampleActiveToggleMenuItem_v1alpha1 = (props: ExampleActiveToggleMenuItemProps_v1alpha1) =>
+export const ExampleActiveToggleMenuItem = (props: ExampleActiveToggleMenuItemProps) =>
   withErrorPage(props, () => {
     const { object, toolbar } = props;
 
     if (!object) return <></>;
 
-    const store = Example_v1alpha1.getStore<Example_v1alpha1>();
+    const store = Example.getStore<Example>();
 
     const disable = async () => {
       await store.patch(

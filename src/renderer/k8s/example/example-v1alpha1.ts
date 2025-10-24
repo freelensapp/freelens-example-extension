@@ -2,19 +2,19 @@ import { Renderer } from "@freelensapp/extensions";
 
 import type { ExampleKubeObjectCRD, NamespacedObjectReference } from "../types";
 
-export interface ExampleSpec_v1alpha1 {
+export interface ExampleSpec {
   title?: string;
   active?: boolean;
   description?: string;
   examples?: NamespacedObjectReference[];
 }
 
-export type ExampleStatus_v1alpha1 = {};
+export type ExampleStatus = {};
 
-export class Example_v1alpha1 extends Renderer.K8sApi.LensExtensionKubeObject<
+export class Example extends Renderer.K8sApi.LensExtensionKubeObject<
   Renderer.K8sApi.KubeObjectMetadata,
-  ExampleStatus_v1alpha1,
-  ExampleSpec_v1alpha1
+  ExampleStatus,
+  ExampleSpec
 > {
   static readonly kind = "Example";
   static readonly namespaced = true;
@@ -28,14 +28,14 @@ export class Example_v1alpha1 extends Renderer.K8sApi.LensExtensionKubeObject<
     title: "Examples",
   };
 
-  static getActive(object: Example_v1alpha1): boolean {
+  static getActive(object: Example): boolean {
     return object.spec.active ?? false;
   }
 
-  static getTitle(object: Example_v1alpha1): string | undefined {
+  static getTitle(object: Example): string | undefined {
     return object.spec.title;
   }
 }
 
-export class ExampleApi_v1alpha1 extends Renderer.K8sApi.KubeApi<Example_v1alpha1> {}
-export class ExampleStore_v1alpha1 extends Renderer.K8sApi.KubeObjectStore<Example_v1alpha1, ExampleApi_v1alpha1> {}
+export class ExampleApi extends Renderer.K8sApi.KubeApi<Example> {}
+export class ExampleStore extends Renderer.K8sApi.KubeObjectStore<Example, ExampleApi> {}

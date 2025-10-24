@@ -5,17 +5,17 @@ import { withErrorPage } from "../components/error-page";
 import styles from "./example-details.module.scss";
 import stylesInline from "./example-details.module.scss?inline";
 
-import type { Example_v1alpha1 } from "../k8s/example/example-v1alpha1";
+import type { Example } from "../k8s/example/example-v1alpha1";
 
 const {
   Component: { BadgeBoolean, DrawerItem, MarkdownViewer },
 } = Renderer;
 
-export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example_v1alpha1> {
+export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example> {
   extension: Renderer.LensExtension;
 }
 
-export const ExampleDetails_v1alpha1 = observer((props: ExampleDetailsProps) =>
+export const ExampleDetails = observer((props: ExampleDetailsProps) =>
   withErrorPage(props, () => {
     const { object } = props;
     const preferences = ExamplePreferencesStore.getInstance<ExamplePreferencesStore>();
