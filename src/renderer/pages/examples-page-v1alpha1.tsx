@@ -37,7 +37,7 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
   withErrorPage(props, () => {
     const store = KubeObject.getStore<KubeObject>();
 
-    return store ? (
+    return (
       <>
         <style>{stylesInline}</style>
         <KubeObjectListLayout<KubeObject, KubeObjectApi>
@@ -57,8 +57,6 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
           ]}
         />
       </>
-    ) : (
-      <></>
     );
   }),
 );
