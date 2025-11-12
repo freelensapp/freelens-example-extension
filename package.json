@@ -85,5 +85,5 @@
     "openlens",
     "freelens"
   ],
-  "packageManager": "pnpm@10.19.0"
+  "packageManager": "pnpm@10.22.0"
 }
