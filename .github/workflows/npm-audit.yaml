@@ -17,20 +17,11 @@ jobs:
   npm-audit:
     name: npm audit
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-22.04
-            arch: x64
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
     environment: automated
     timeout-minutes: 10
 
-    if: >-
-      github.event_name != 'issue_comment' || (startsWith(github.event.issue.title, 'Automated npm audit') && contains(github.event.comment.body, '/rerun'))
-
+    if: github.event_name != 'issue_comment' || (startsWith(github.event.issue.title, 'Automated npm audit') && contains(github.event.comment.body, '/rerun'))
     steps:
       - name: Checkout
         uses: actions/checkout@v5
