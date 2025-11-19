@@ -18,7 +18,7 @@ env:
 
 jobs:
   test-integration:
-    name: "integration tests on ubuntu-22.04 with Freelens ${{ matrix.freelens_version }}"
+    name: "integration tests with Freelens ${{ matrix.freelens_version }}"
 
     strategy:
       fail-fast: false
