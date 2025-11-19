@@ -19,14 +19,7 @@ jobs:
   npm-version:
     name: npm version
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-22.04
-            arch: x64
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
     environment: automated
     timeout-minutes: 10
 

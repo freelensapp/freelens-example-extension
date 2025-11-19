@@ -14,16 +14,9 @@ permissions:
 
 jobs:
   knip:
-    name: test update on ${{ matrix.os }}
+    name: test update
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-22.04
-            arch: x64
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
