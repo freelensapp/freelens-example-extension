@@ -40,10 +40,10 @@
     "trunk:fix": "corepack pnpm trunk check --fix",
     "trunk:fix:all": "corepack pnpm trunk check --fix --all",
     "lint": "corepack pnpm lint:check",
-    "lint:check": "corepack pnpm \"/^(biome|prettier):check$/\"",
-    "lint:fix": "corepack pnpm \"/^(biome|prettier):fix$/\"",
+    "lint:check": "corepack pnpm \"/^(biome|prettier):check\\$/\"",
+    "lint:fix": "corepack pnpm \"/^(biome|prettier):fix\\$/\"",
     "knip": "corepack pnpm dlx knip@5.70.0 --dependencies --no-gitignore",
-    "knip:check": "corepack pnpm \"/^knip:(development|production)$/\"",
+    "knip:check": "corepack pnpm \"/^knip:(development|production)\\$/\"",
     "knip:development": "corepack pnpm knip",
     "knip:production": "corepack pnpm knip --production --strict",
     "type:check": "tsc --noEmit -p tsconfig.json --composite false",
@@ -58,7 +58,7 @@
     "clean:node_modules": "corepack pnpm dlx shx@0.4.0 rm -rf node_modules",
     "clean:out": "corepack pnpm dlx shx@0.4.0 rm -rf out",
     "clean:tgz": "corepack pnpm dlx shx@0.4.0 rm -f \"*.tgz\"",
-    "clean:all": "corepack pnpm \"/^clean:(dts|node_modules|out|tgz)$/\"",
+    "clean:all": "corepack pnpm \"/^clean:(dts|node_modules|out|tgz)\\$/\"",
     "postupdate": "corepack pnpm biome:migrate"
   },
   "devDependencies": {
