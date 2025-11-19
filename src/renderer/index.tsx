@@ -5,6 +5,7 @@
 
 import { Renderer } from "@freelensapp/extensions";
 import { ExamplePreferencesStore } from "../common/store";
+import { createAvailableVersionPage } from "./components/available-version";
 import { ExampleDetails as ExampleDetailsV1alpha1 } from "./details/example-details-v1alpha1";
 import { ExampleDetails as ExampleDetailsV1alpha2 } from "./details/example-details-v1alpha2";
 import { ExampleIcon } from "./icons";
@@ -71,6 +72,15 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       id: "example",
       components: {
         Page: () => <ExamplesPageV1alpha2 extension={this} />,
+      },
+    },
+    {
+      id: "example",
+      components: {
+        Page: createAvailableVersionPage("Examples", [
+          { kubeObjectClass: ExampleV1alpha2, PageComponent: ExamplesPageV1alpha2, version: "v1alpha2" },
+          { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
+        ]),
       },
     },
   ];

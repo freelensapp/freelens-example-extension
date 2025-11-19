@@ -6,7 +6,8 @@
 *.out
 *.tgz
 *.tmp
-electron.vite.config.[0-9]*.mjs
+*~
+?.*
 
 !custom.d.ts
 !env.d.ts
@@ -15,12 +16,16 @@ electron.vite.config.[0-9]*.mjs
 
 /dist/
 
+/freelens/
+
+.turbo
+
 /coverage/
 /node_modules/
 /out/
 
 /.nyc_output/
 
-.DS_Store
+*.DS_Store
 /.idea
 /.vscode
