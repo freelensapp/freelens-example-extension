@@ -21,7 +21,7 @@ for more informations.
 ## Requirements
 
 - Kubernetes >= 1.24
-- Freelens >= 1.6.0
+- Freelens >= 1.8.0
 
 ## API supported
 
@@ -68,8 +68,8 @@ nvm install
 mise install
 # or
 winget install CoreyButler.NVMforWindows
-nvm install 22.16.0
-nvm use 22.16.0
+nvm install 22.21.1
+nvm use 22.21.1
 ```
 
 Install Pnpm:
