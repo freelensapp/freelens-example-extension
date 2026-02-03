@@ -21,7 +21,7 @@ for more informations.
 ## Requirements
 
 - Kubernetes >= 1.24
-- Freelens >= 1.6.0
+- Freelens >= 1.8.0
 
 ## API supported
 
