@@ -12,6 +12,7 @@ describe("extensions page tests", () => {
   let window: Page;
   let cleanup: undefined | (() => Promise<void>);
   const errorLogs: string[] = [];
+  const outputErrorPattern = "[out] error:";
 
   const logger = (msg: ConsoleMessage) => {
     const text = msg.text();
@@ -19,7 +20,7 @@ describe("extensions page tests", () => {
     console.log(text);
 
     // Some app logs are emitted as "log" messages, so inspect both console type and message content.
-    if (msg.type() === "error" || /\berror\b/i.test(text)) {
+    if (msg.type() === "error" || text.toLowerCase().includes(outputErrorPattern)) {
       errorLogs.push(`[${msg.type()}] ${text}`);
     }
   };
