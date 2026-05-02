@@ -2,8 +2,7 @@ diff --git a/package.json b/package.json
 index e77923e8a8b79d64c03a3a82fd26ce1780cb82c3..43a52b361ec44c95e5d110e1aed24ad80ae3b6d3 100644
 --- a/package.json
 +++ b/package.json
-@@ -19,8 +19,14 @@
-   "main": "static/build/main.js",
+@@ -19,7 +19,13 @@
    "exports": {
      "./package.json": "./package.json",
 -    "./main": "./static/build/library/main.js",
