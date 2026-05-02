@@ -13,25 +13,37 @@ describe("extensions page tests", () => {
   let cleanup: undefined | (() => Promise<void>);
   const errorLogs: string[] = [];
   const processErrorLogs: string[] = [];
-  const outputErrorPattern = "[out] error:";
+  const outputErrorPattern = /\[out\]\s*error:/i;
+  const ansiEscapePattern = /\u001b\[[0-9;]*m/g;
+  let processOutputBuffer = "";
   let restoreProcessOutputHooks: undefined | (() => void);
 
   const collectOutputErrors = (chunk: string | Uint8Array) => {
     const text = typeof chunk === "string" ? chunk : Buffer.from(chunk).toString("utf8");
+    processOutputBuffer += text;
 
-    if (text.toLowerCase().includes(outputErrorPattern)) {
-      processErrorLogs.push(text.trim());
+    // Keep buffer bounded while preserving enough tail to match split patterns across chunks.
+    if (processOutputBuffer.length > 200_000) {
+      processOutputBuffer = processOutputBuffer.slice(-20_000);
+    }
+
+    const normalizedOutput = processOutputBuffer.replaceAll(ansiEscapePattern, "");
+
+    if (outputErrorPattern.test(normalizedOutput)) {
+      processErrorLogs.push(normalizedOutput.trim());
+      processOutputBuffer = "";
     }
   };
 
   const logger = (msg: ConsoleMessage) => {
     const text = msg.text();
+    const normalizedText = text.replaceAll(ansiEscapePattern, "");
 
     console.log(text);
 
     // Some app logs are emitted as "log" messages, so inspect both console type and message content.
-    if (msg.type() === "error" || text.toLowerCase().includes(outputErrorPattern)) {
-      errorLogs.push(`[${msg.type()}] ${text}`);
+    if (msg.type() === "error" || outputErrorPattern.test(normalizedText)) {
+      errorLogs.push(`[${msg.type()}] ${normalizedText}`);
     }
   };
 
@@ -98,10 +110,11 @@ describe("extensions page tests", () => {
 
   afterAll(
     async () => {
-      // Cannot log after tests are done.
+      // Keep listeners active through cleanup to catch late shutdown errors in CI logs.
+      await cleanup?.();
       window.off("console", logger);
       restoreProcessOutputHooks?.();
-      await cleanup?.();
+      expect([...errorLogs, ...processErrorLogs]).toEqual([]);
     },
     10 * 60 * 1000,
   );
