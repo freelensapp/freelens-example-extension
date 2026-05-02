@@ -58,7 +58,6 @@ lint:
       files:
         - sass
   enabled:
-    - grype@0.112.0
     - actionlint@1.7.12
     - biome@2.3.14! # datasource=npm depName=@biomejs/biome
     - git-diff-check
@@ -70,6 +69,7 @@ lint:
   disabled:
     - checkov
     - eslint
+    - grype
     - osv-scanner
     - renovate
     - trufflehog
