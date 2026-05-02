@@ -139,14 +139,16 @@ jobs:
 
       - name: Install pnpm dependencies for app
         id: install-pnpm-app
-        run: cd freelens && timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
+        working-directory: freelens
+        run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
         continue-on-error: true
 
       - name: Install pnpm dependencies for app (retry)
         if: steps.install-pnpm-app.outcome == 'failure'
-        run: cd freelens && timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
+        working-directory: freelens
+        run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
 
@@ -226,7 +228,7 @@ jobs:
           mv freelens/node_modules_prod freelens/node_modules
 
       - name: Build Electron app
-        working-directory: freelens
+        working-directory: freelens/freelens
         run: node "$ELECTRON_BUILDER_PATH" --publish never --linux dir --x64
         env:
           DEBUG: electron-builder,electron-builder:*
