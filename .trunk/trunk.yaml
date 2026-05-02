@@ -58,6 +58,7 @@ lint:
       files:
         - sass
   enabled:
+    - taplo@0.10.0
     - actionlint@1.7.12
     - biome@2.4.14! # datasource=npm depName=@biomejs/biome
     - git-diff-check
