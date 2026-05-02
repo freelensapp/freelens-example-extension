@@ -235,6 +235,7 @@ jobs:
           npm_config_user_agent: pnpm
 
       - name: Restore dev node_modules
+        working-directory: freelens
         run: |
           mv freelens/node_modules freelens/node_modules_prod
           mv freelens/node_modules_dev freelens/node_modules
