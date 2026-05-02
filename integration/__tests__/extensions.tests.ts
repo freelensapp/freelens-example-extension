@@ -12,7 +12,17 @@ describe("extensions page tests", () => {
   let window: Page;
   let cleanup: undefined | (() => Promise<void>);
   const errorLogs: string[] = [];
+  const processErrorLogs: string[] = [];
   const outputErrorPattern = "[out] error:";
+  let restoreProcessOutputHooks: undefined | (() => void);
+
+  const collectOutputErrors = (chunk: string | Uint8Array) => {
+    const text = typeof chunk === "string" ? chunk : Buffer.from(chunk).toString("utf8");
+
+    if (text.toLowerCase().includes(outputErrorPattern)) {
+      processErrorLogs.push(text.trim());
+    }
+  };
 
   const logger = (msg: ConsoleMessage) => {
     const text = msg.text();
@@ -27,6 +37,26 @@ describe("extensions page tests", () => {
 
   beforeAll(async () => {
     let app: ElectronApplication;
+
+    const originalStdoutWrite = process.stdout.write.bind(process.stdout);
+    const originalStderrWrite = process.stderr.write.bind(process.stderr);
+
+    process.stdout.write = ((chunk, encoding, cb) => {
+      collectOutputErrors(chunk);
+
+      return originalStdoutWrite(chunk, encoding as never, cb as never);
+    }) as typeof process.stdout.write;
+
+    process.stderr.write = ((chunk, encoding, cb) => {
+      collectOutputErrors(chunk);
+
+      return originalStderrWrite(chunk, encoding as never, cb as never);
+    }) as typeof process.stderr.write;
+
+    restoreProcessOutputHooks = () => {
+      process.stdout.write = originalStdoutWrite;
+      process.stderr.write = originalStderrWrite;
+    };
 
     ({ window, cleanup, app } = await utils.start());
     window.on("console", logger);
@@ -70,6 +100,7 @@ describe("extensions page tests", () => {
     async () => {
       // Cannot log after tests are done.
       window.off("console", logger);
+      restoreProcessOutputHooks?.();
       await cleanup?.();
     },
     10 * 60 * 1000,
@@ -78,7 +109,7 @@ describe("extensions page tests", () => {
   it(
     "installs an extension",
     async () => {
-      expect(errorLogs).toEqual([]);
+      expect([...errorLogs, ...processErrorLogs]).toEqual([]);
     },
     100 * 60 * 1000,
   );
