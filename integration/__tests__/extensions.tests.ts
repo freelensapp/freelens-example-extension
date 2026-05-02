@@ -11,8 +11,18 @@ import type { ConsoleMessage, ElectronApplication, Page } from "playwright";
 describe("extensions page tests", () => {
   let window: Page;
   let cleanup: undefined | (() => Promise<void>);
+  const errorLogs: string[] = [];
 
-  const logger = (msg: ConsoleMessage) => console.log(msg.text());
+  const logger = (msg: ConsoleMessage) => {
+    const text = msg.text();
+
+    console.log(text);
+
+    // Some app logs are emitted as "log" messages, so inspect both console type and message content.
+    if (msg.type() === "error" || /\berror\b/i.test(text)) {
+      errorLogs.push(`[${msg.type()}] ${text}`);
+    }
+  };
 
   beforeAll(async () => {
     let app: ElectronApplication;
@@ -67,7 +77,7 @@ describe("extensions page tests", () => {
   it(
     "installs an extension",
     async () => {
-      // Nothing, as only beforeAll is called
+      expect(errorLogs).toEqual([]);
     },
     100 * 60 * 1000,
   );
