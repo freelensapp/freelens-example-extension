@@ -139,7 +139,7 @@ then for extension:
 ```sh
 echo "overrides:" >> pnpm-workspace.yaml
 for i in ../freelens/*.tgz; do
-  name=$(tar zxOf $i package/package.json | jq -r .name)
+  name=$(tar zxOf $i package/package.json | yq -r .name)
   echo "  \"$name\": $i" >> pnpm-workspace.yaml
 done
 
