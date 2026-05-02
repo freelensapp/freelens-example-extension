@@ -6,7 +6,7 @@ export interface ExamplePreferencesModel {
 }
 
 export class ExamplePreferencesStore extends Common.Store.ExtensionStore<ExamplePreferencesModel> {
-  @observable accessor enabled = false;
+  @observable enabled = false;
 
   constructor() {
     super({

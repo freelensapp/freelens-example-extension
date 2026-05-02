@@ -13,7 +13,7 @@ export default defineConfig({
         // Freelens 1.xx extensions are CommonJS modules
         formats: ["cjs"],
       },
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           // silence warning about using `chunk.default` to access the default export
           exports: "named",
@@ -23,6 +23,12 @@ export default defineConfig({
         },
       },
       sourcemap: true,
+    },
+    oxc: {
+      decorator: {
+        legacy: true,
+        emitDecoratorMetadata: true,
+      },
     },
     plugins: [
       react({
@@ -60,7 +66,7 @@ export default defineConfig({
         formats: ["cjs"],
       },
       outDir: "out/renderer",
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           // silence warning about using `chunk.default` to access the default export
           exports: "named",
@@ -74,6 +80,12 @@ export default defineConfig({
     css: {
       modules: {
         localsConvention: "camelCaseOnly",
+      },
+    },
+    oxc: {
+      decorator: {
+        legacy: true,
+        emitDecoratorMetadata: true,
       },
     },
     plugins: [
