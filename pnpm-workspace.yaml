@@ -4,3 +4,6 @@ onlyBuiltDependencies:
   - esbuild
   - node-pty
   - playwright
+
+patchedDependencies:
+  '@freelensapp/core@1.8.1': patches/@freelensapp__core@1.8.1.patch
