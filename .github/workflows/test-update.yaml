@@ -29,6 +29,9 @@ jobs:
           node-version-file: .nvmrc
           package-manager-cache: false
 
+      - name: Upgrade npm
+        run: npm install -g npm@11
+
       - name: Setup pnpm
         run: corepack enable
 
