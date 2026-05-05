@@ -137,12 +137,8 @@ jobs:
           restore-keys: |
             ubuntu-22.04-x64-turborepo-
 
-      - name: Setup pnpm for app
-        working-directory: freelens
-        run: corepack enable
-
-      - name: Delete lock file from previous runs to avoid issues with pnpm install
-        run: rm -f pnpm-lock.yaml
+      - name: Delete node packages from the previous build to avoid issues with pnpm
+        run: rm -rf pnpm-lock.yaml node_modules
 
       - name: Install pnpm dependencies for app
         id: install-pnpm-app
