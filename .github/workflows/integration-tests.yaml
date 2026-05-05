@@ -141,10 +141,13 @@ jobs:
         working-directory: freelens
         run: corepack enable
 
+      - name: Delete lock file from previous runs to avoid issues with pnpm install
+        run: rm -f pnpm-lock.yaml
+
       - name: Install pnpm dependencies for app
         id: install-pnpm-app
         working-directory: freelens
-        run: timeout 300 pnpm install --color=always --prefer-offline
+        run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
         continue-on-error: true
