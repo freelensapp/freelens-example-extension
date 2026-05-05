@@ -144,7 +144,7 @@ jobs:
       - name: Install pnpm dependencies for app
         id: install-pnpm-app
         working-directory: freelens
-        run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
+        run: timeout 300 pnpm install --color=always --prefer-offline
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
         continue-on-error: true
