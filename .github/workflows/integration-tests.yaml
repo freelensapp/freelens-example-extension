@@ -137,6 +137,10 @@ jobs:
           restore-keys: |
             ubuntu-22.04-x64-turborepo-
 
+      - name: Setup pnpm for app
+        working-directory: freelens
+        run: corepack enable
+
       - name: Install pnpm dependencies for app
         id: install-pnpm-app
         working-directory: freelens
