@@ -25,6 +25,7 @@ jobs:
       matrix:
         include:
           - freelens_version: v1.8.1
+          - freelens_version: v1.9.0
           - freelens_version: main
 
     runs-on: ubuntu-22.04
