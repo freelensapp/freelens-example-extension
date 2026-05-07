@@ -4,8 +4,7 @@
   "compilerOptions": {
     "composite": true,
     "esModuleInterop": true,
-    "module": "node20",
-    "moduleResolution": "node16",
+    "moduleResolution": "node10",
     "jsx": "react-jsx",
     "types": ["vite/client", "electron-vite/node"],
     "paths": {
