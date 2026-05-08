@@ -15,8 +15,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(@types/node@22.19.17)
       '@freelensapp/extensions':
-        specifier: ^1.8.0
-        version: 1.8.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)
+        specifier: ^1.9.0
+        version: 1.9.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)
       '@types/node':
         specifier: ~22.19.17
         version: 22.19.17
@@ -604,123 +604,120 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@freelensapp/animate@1.8.0':
-    resolution: {integrity: sha512-eTX3gUUYcMZocFXna2usF+9hrg/KHeFykVvBwsNtc0+EPG2yYRFDUcGY+scFy/8uXgrwi6lTp7srjVLl36tBgw==}
+  '@freelensapp/animate@1.9.0':
+    resolution: {integrity: sha512-hK/GGKL5q2uJPOnIN3tQnCLZXXBOkdJXO46/dVm53Vlv6CZ0QbH36nQuJsFdCOzSe5w8kK3UM8+Kd3nCgZOqHw==}
 
-  '@freelensapp/application-for-electron-main@1.8.0':
-    resolution: {integrity: sha512-+A0Y6SAbWX5609ANchDqDXJ/VEyPVjszMPYGqC8Xs6tou/vYOw9g7DF8j1vYLm6ujxWgyNL0gAS0YfcoftWLJg==}
+  '@freelensapp/application-for-electron-main@1.9.0':
+    resolution: {integrity: sha512-TkI/R7FCBnENC/5+TcAy9bZ3beW/OQTaZNz2X4Q7suk5RcbFJnLCrcc8CZVx0XxK8XeFPosNxMXwNZ7Dgxnfbg==}
 
-  '@freelensapp/application@1.8.0':
-    resolution: {integrity: sha512-NMnYmKKESZ654twDv1DLrGaO0eGzZZgcopuO7Huj6iAkqwZ5EQZCOe1K+mFg+8QdLbk+rVevbw5Wr6ktRUOIgg==}
+  '@freelensapp/application@1.9.0':
+    resolution: {integrity: sha512-otW3uuayUFzpqySjTbATpbCdp3/hnTyAD/G0z6q8VSBZJRgQI4qz2r1crOxi+tGGksIWAGuSKNsKS/muOcJLog==}
 
-  '@freelensapp/button@1.8.0':
-    resolution: {integrity: sha512-WmBjHYeFzTyzWuFwtH1eAX3gDO5/aSWyRPdTxDCNJ421hZlz9EqYZcwfUXJih1k94MRvvAuDkTx3VoGM8M8KUQ==}
+  '@freelensapp/button@1.9.0':
+    resolution: {integrity: sha512-mFO1ZUlYFod8bimZi1sjuPJbZYyLHzf5cPjFzLR5AxUgnJsZSpZdlJQZTTPR0RGpXcLCHtCij65agQwh2zMJNw==}
 
-  '@freelensapp/cluster-settings@1.8.0':
-    resolution: {integrity: sha512-0iYAWw8WjLoIuAb4y/InEi24TvSDos773cfIkR2zDaKJUdFdpLsm+CnmuHAjhqoOHH/9IfFfEndhl5Pfp5fy0Q==}
+  '@freelensapp/cluster-settings@1.9.0':
+    resolution: {integrity: sha512-m8KVA3dlLB2SCH4WIx0BtsEY16Epv7i6k5hxmThdddzepkLRDRgjeJhngJZHIiFthubOIJiRzTSYUjH9OM+YLw==}
 
-  '@freelensapp/cluster-sidebar@1.8.0':
-    resolution: {integrity: sha512-AQj17coFcpPMxYIqvfRBZ67p7n93ZpS71ptPsIXF6rto5xWA+RtR0XYBTTnR6yXqlVn+OnzNtO9cEupoH8HlMw==}
+  '@freelensapp/cluster-sidebar@1.9.0':
+    resolution: {integrity: sha512-/dpBHCmdyIMdMeWpQzbcrEMs6VtZ4VTAZKQQ2H8LCCCEBoagrQPmA+WtkA2f117sorf4lCdzwT3Zp4HU+2F4jg==}
 
-  '@freelensapp/core@1.8.0':
-    resolution: {integrity: sha512-F2Xrlt0SB85DbGpfJ7U2Pl/EAcJp0vo2nLJiVCRFVMIZhPzpy3PXEMW5fWoimH91ZwmVuesKl/qKCKS1Z9nVHw==}
+  '@freelensapp/core@1.9.0':
+    resolution: {integrity: sha512-CiX+ZGdmoV9ZNnTdrRuTEHRdkKuL7Eqxnt957NkIUKyBdtR57p2zNq8aOlyzFOT8efpIJjqbqBN/Exrb9AICYQ==}
     engines: {node: ^22.0.0}
 
-  '@freelensapp/error-boundary@1.8.0':
-    resolution: {integrity: sha512-iWuAYAJuez6hOwojjIh3DkWRx+CNVS5tBhEcEg1WCf7E5kqeWpbhOBfYgpPe0b2i6X0iU/+yruxDJgeP7F1Mow==}
+  '@freelensapp/error-boundary@1.9.0':
+    resolution: {integrity: sha512-RP7Bw+yz68UBZv+O8dQyXnZWTmA9b8RhApBDQOFNGzB8fSWbZ28T2nmg4nF31Ib1/UtRZebpJo+2TxQisjJZ9A==}
 
-  '@freelensapp/event-emitter@1.8.0':
-    resolution: {integrity: sha512-y83Exy+UBq4fdPO+0a1N6Ne2ZGljlmhbwB8dRInzo/qCVeFcufuE3KXfU5+TLOVxcfwPEq/v+XKDYKXCgVQI2w==}
+  '@freelensapp/event-emitter@1.9.0':
+    resolution: {integrity: sha512-g61aLMO1eWaPzIQ/cfxjIJ3alt0FuVQgBNX7mV+hN24hYLBAaryHxa7NsI07FrZjzsCAqYG9vYDg3jh2mGzmvg==}
 
-  '@freelensapp/extensions@1.8.0':
-    resolution: {integrity: sha512-KXHdWJh8A9CRjaC2ofpTwmlfRgbiNdVo/z3bM6ecYi0KsLeZDH7mLKQ9Ey8JcYdb9XIPg6zjQJju5dZIQSWCrQ==}
+  '@freelensapp/extensions@1.9.0':
+    resolution: {integrity: sha512-AZ8OzkkV1TziqP4t8mgpj8dhkICIawW+aVuBVBaM4W7zqK5+M8OArN28dtHSHhvDA5mcvMTBJgOwz+InK0AHMQ==}
 
-  '@freelensapp/feature-core@1.8.0':
-    resolution: {integrity: sha512-qy1KhaapJZF28l+VsO2Z1uEMD5eUNTkgLgog2duyffm9y70PGQsn1vft2WGHsOIRNHgHbR1kMiyRgB1sLdv+XA==}
+  '@freelensapp/feature-core@1.9.0':
+    resolution: {integrity: sha512-drLg/p0/TIbi/wjiul6lqfZ0JZ1VSqTS2TxhHPzrJAQKQLMIQokSrMY3XcqclfeO3FpuZV5uUwSVTqC/YY6JfA==}
 
-  '@freelensapp/icon@1.8.0':
-    resolution: {integrity: sha512-0NlTFqoxQkL1KcsxmpRvpOhdYDMutxEdXB5IkidnvYLuepCk2qP0SoIPoFBhTZNi4CETm5zCgRxvZf10tnBIwA==}
+  '@freelensapp/icon@1.9.0':
+    resolution: {integrity: sha512-RkWzwmTXb+JFbN0kOH0nYY1DQ674/V+rWHIjdJmo6AqaXKPMKS6eC5jO/tnJSMcYC/j4qect7YxdXyI/bzgc1Q==}
 
-  '@freelensapp/json-api@1.8.0':
-    resolution: {integrity: sha512-636/u1GQmF2IV8i/xgwCufPg2h4fU6/r9dXbwUlm3piIEu6ZFlT5cDGiIgWczCYmCXuOQfg/npHRxHL1LRTJjQ==}
+  '@freelensapp/json-api@1.9.0':
+    resolution: {integrity: sha512-6Y2Sq9AEMSffzMvMtSdRoUVq8ezhxufnZaChFFa4EwuvuH0oc8ML17YAnUoC1E9mQ5PTk4sjFnlSvp95k3aKMg==}
 
-  '@freelensapp/kube-api-specifics@1.8.0':
-    resolution: {integrity: sha512-gJb4H0sVJBfTGU/Bwzey6iRRjrJtMT5FYTp7H3/n441ndaVZF7HJ9RQZYN+H35hCub3AABWSs7PhEXhs2vWlCA==}
+  '@freelensapp/kube-api-specifics@1.9.0':
+    resolution: {integrity: sha512-eQnenxEHsMTBuAz4y5iCwi0b6kTIDjDyjRhvKeLh/bJ1+zPZePffp06q0p+SO2sHzDHknaaXv3UMsj6apzWX4A==}
 
-  '@freelensapp/kube-api@1.8.0':
-    resolution: {integrity: sha512-Bnj7rNVwEAxswNL8B57cYLgePS+Be34Eg4GEC14d7sCUBgACdWt/N9ilCL2+5nioYQdK75Tz3JeS9lAuHrpNwA==}
+  '@freelensapp/kube-api@1.9.0':
+    resolution: {integrity: sha512-dEf2atSEZDXTctXQS5Y2NYYAvb4pZPTRp4XNXYFj7l/WwKsKItj9+Qmwt4mSe9E5Yi6CJ1LAo+i7SQx+nGF1SQ==}
 
-  '@freelensapp/kube-object@1.8.0':
-    resolution: {integrity: sha512-wW9hpbbR8JBP5fqnycTYhkJM4klNDdmUGnjz6dvFOBQgw2cwwDBIqk20oA20t7zj22QRcH/c266Px6bUS6v3KA==}
+  '@freelensapp/kube-object@1.9.0':
+    resolution: {integrity: sha512-Qfpix2zb6QK8GPlevK84ByI23QsBoUu8FfwDktFbYNE8YKAOK3qVSVdQNSlfaE5rK0jkQrD5HliSzW+MvJRmCQ==}
 
-  '@freelensapp/kubectl-versions@1.8.0':
-    resolution: {integrity: sha512-AeTfAOgSc1PPYfLO+3Y5AnxX0dyJGXaia1wqSKniuqBZXMBQCJMHA98N4vP/PfxNIbBq9Emty8hyg2P4ubzm0A==}
+  '@freelensapp/kubectl-versions@1.9.0':
+    resolution: {integrity: sha512-ub752DRPp3BSjuDxJpoPQj//NaowOvLja1qELo95p6Nq7wPPmGZuoIbC/LLLtwPomnSs1LbyigMoJR5YLYUCUw==}
 
-  '@freelensapp/kubernetes-client-node@1.8.0':
-    resolution: {integrity: sha512-tpwfAcXn50LOL04yI8LSTUeAXPG5xqtoC5FTWIF/SEyomf5V5VbNiVj9NZ/ynWpeQkCe6H/ryz/iaqxp6Lo9BA==}
+  '@freelensapp/kubernetes-client-node@1.9.0':
+    resolution: {integrity: sha512-Z2Gf+A2ZL1gmRUhvQMBcjCC7gqryhMBioPFCS/qBVTqSZu4Vd1/iCUNOmJHE9sCxqCUo6sxXl2jpRsd7YtaG7g==}
 
-  '@freelensapp/legacy-extensions@1.8.0':
-    resolution: {integrity: sha512-PGO1b+zfDY7V0RUjg22bYmN57HfqnZ65+49zUifiARwKq8//12w9vBz6GdkVJHHwQ4ssE7QVbBvW1NasYPcdUw==}
+  '@freelensapp/legacy-extensions@1.9.0':
+    resolution: {integrity: sha512-QNEsX2WXVtuP4rl2/FYWbJgl1U1k57CWp2iPpfEX957wiQ2YZXV2qg+r6pHhi4QCBeEKWSmdgcu0dgbWXBY9Tg==}
 
-  '@freelensapp/legacy-global-di@1.8.0':
-    resolution: {integrity: sha512-ayMlGgkXgR1ff0OuU/4djaECW7MA0Zmqacfk5ivFo0segO8aFOCc+S5zA3l8gsmVPSL/buj550zuxpNQDHBXgg==}
+  '@freelensapp/legacy-global-di@1.9.0':
+    resolution: {integrity: sha512-xsVExEwueSUCdYiE3b7hKPAquxP02CjNz6dUdw8rjewHuIa/ETMlddSpaJVEi1PiDDi9DZsAKnt88s/ku2hSxw==}
 
-  '@freelensapp/list-layout@1.8.0':
-    resolution: {integrity: sha512-T7f2/GCiGSDeKsoZ7m8WUEvfwSh8t+3dyPG6/++OUf/w/IoMjJswvV91AiplPyJNvJwd7K0GP0zfUq87OQdD7A==}
+  '@freelensapp/list-layout@1.9.0':
+    resolution: {integrity: sha512-G5R31+vfKUH4wc1z2xX2qUzSk6ypzjEOv5S9KEYowdui+DSOKAcP1k1pX/rhRQsCu3a5VOByb/IjrTZSXV00fw==}
 
-  '@freelensapp/logger@1.8.0':
-    resolution: {integrity: sha512-O5ZpUYtZF2R2Tm0Dp6/4tL4vspaBZ6kKjzsXyT8NTRBkiQZeXdePPRHPUMw9PPpKJzYEaYS2dKWuN3qM8vrNxw==}
+  '@freelensapp/logger@1.9.0':
+    resolution: {integrity: sha512-7WeDDNgIZUkaQ/xFAN1JyvQ2L2AcW79/bQD4bVXZYa26B6CycLVlztyhUYms/EbtlYi8DNvvzEKkWi2sryyWdQ==}
 
-  '@freelensapp/messaging@1.8.0':
-    resolution: {integrity: sha512-fHJg7jg5fhyuyw77I+4wVX+k1sz3XGWg9SGwjLqPjuvOv31DdlrCe0rgV3qoAOryFUDp2aLELTek4RdMIDYvoA==}
+  '@freelensapp/messaging@1.9.0':
+    resolution: {integrity: sha512-wMKiJceP7SvU5KZXFC5kcZFjdOr7M0lTBiyQ4MbBFRGP2vPxc9Rt4onaRNj5Jtq0MmXnodYYwsB8h90dDVt4uw==}
 
-  '@freelensapp/metrics@1.8.0':
-    resolution: {integrity: sha512-51+aGc43z7HNu/iVLam+aP9kU8uV1ZUf6HT2Xl4uu1DJaDxzTkSI8yggQydIlqbXV+rm3DIFE4GwwKQVv2syjQ==}
+  '@freelensapp/metrics@1.9.0':
+    resolution: {integrity: sha512-Rx+RBbQ7otkqtS+xDydv3/U0mOSvUYBRaDC7RVdqU+DY/6UKcmvS5rLkH7LSpaDy8+goCdBhWjjhScNAr+q7jg==}
 
-  '@freelensapp/node-fetch@1.8.0':
-    resolution: {integrity: sha512-4TqNmqPuw8mpKb3YeZwkyZvZaNbDMLg9p4I0D7ZOq1vl4/D2ibo6W0+615/p6zAB948mrDLHXS4oJcZyNNe67w==}
+  '@freelensapp/node-fetch@1.9.0':
+    resolution: {integrity: sha512-FFj6dp/Zzf157lZXYtxePe9cCKYUnoQdKv7HpVEx633OkN1TZt483Msmj8qmGFOVHKrKftAVzarmzfhsILA9YA==}
 
-  '@freelensapp/notifications@1.8.0':
-    resolution: {integrity: sha512-yRGKb6knrtjPDPqhWP7jJCgR/YS7WVBiEu8SyeTo1xhXHi48CT+X69BcNEMr6Ya+QMBo4PGjftLrpgzu6tBCoQ==}
+  '@freelensapp/notifications@1.9.0':
+    resolution: {integrity: sha512-obwUQqn+ScXvTS0xSFnOXO38OnB5iXH+VUnovz/oVPkd9mTGQzt5k314ClQSvaBT4ivIPqehdEGmNpX0/YN59g==}
 
-  '@freelensapp/openid-client@1.8.0':
-    resolution: {integrity: sha512-GK26I0l/eoAhOMMxXwJLucICdDOWXqE2+1lBFX6g7TJIaJpZ8Cu7yGPLQH4CmRYDY9iPgjHePD0ahtOTFPCxDA==}
+  '@freelensapp/openid-client@1.9.0':
+    resolution: {integrity: sha512-GpIazDIlIddLryVtNxiKnr1d8u3SiKuH9qvrk2g4mfmTHSU48uvl46/twwTZmV5DQGU3j2OEb4rbKsqcPXVP/A==}
 
-  '@freelensapp/prometheus@1.8.0':
-    resolution: {integrity: sha512-WrEItT3BJrqWGbErzYXNVlQIBEyy8CN6fTWgNKmDjDQ+rVUbzjRzPEBr/Pm6SEDJFUgG3Y5IZMG2h9WRLNlUNg==}
+  '@freelensapp/prometheus@1.9.0':
+    resolution: {integrity: sha512-NWymwQnAsml/gaR3Esmol70xeYQ1HZbh9wf+peUwKj8Ul7yxJHiP9vqlNmpGuLy03CgphAPYaw50QQNXH51+8Q==}
 
-  '@freelensapp/random@1.8.0':
-    resolution: {integrity: sha512-L5bCjamohg1qaazu7Q2bH7f+9Nn2Tq9zDuAaL15yScHKShI2htdWDNCOZSvlabh3RvVoYZkyUpu92v7cVnsC/A==}
+  '@freelensapp/random@1.9.0':
+    resolution: {integrity: sha512-bYB+JGah1WHGb55iOgjWIp0obUA12sd1eg0ymMpatQ64+G8RPwsxF4+wY0zTLxAzOh4jQbezbsmFy59Q1mfRbQ==}
 
-  '@freelensapp/react-application@1.8.0':
-    resolution: {integrity: sha512-ynAANWHPukLuJgAglYHhw1fQm/FVfZQSluF9kR3ouuyLGVlyplqoCMCPpVS3vephorOYcj0DoDoke0kJDobdsA==}
+  '@freelensapp/react-application@1.9.0':
+    resolution: {integrity: sha512-6SW6Xq6BX2tOxxd/KOkWVQbxrbgCdoaGoLvDvaE9H7Ioe4eIllJI+Cm/yRuzGvzlpAk1zaXR2Pq6hHC3wMqheQ==}
 
-  '@freelensapp/resizing-anchor@1.8.0':
-    resolution: {integrity: sha512-cADZjNqv98lLGLHnHxVXrhbBhaYwn6Rhur1lN15U1nahZhqnSWnykBXObMqK7aO4AXFkOPpwACnybBS9+XLXWA==}
+  '@freelensapp/resizing-anchor@1.9.0':
+    resolution: {integrity: sha512-QL4vDt13a0dwOc5WHigB0fBsaEv0+ORvIcoWv8ENJ9gNNS31/Sl5BdieDCMExaTlQokROHPMW3QlsX7J9oFRIg==}
 
-  '@freelensapp/resource-templates@1.8.0':
-    resolution: {integrity: sha512-oLnu5fpRsVH9FZg7YmeZ8VIiQpRNYomtXYUMafqA45nOpxr0erHt6FsBF369LJA56QA4QBIcz352pJ4UrQ7xsA==}
+  '@freelensapp/resource-templates@1.9.0':
+    resolution: {integrity: sha512-3sJsy2yCwt31Ai0gKItyTpGGYgTIf+BqMdhCE4/vDgrnqye/rFQ6a3DyeDsy5nAsWeGOjJi8uYfh6yfts/5ixQ==}
 
-  '@freelensapp/routing@1.8.0':
-    resolution: {integrity: sha512-P1BVk1B11dELoy4Zu8fc9b6ZPWtoW4zzGYN38srmeRgaK0IJaSwfK+xNw5w5pfSc7fohyoB/1T3F5WeByZzMZA==}
+  '@freelensapp/routing@1.9.0':
+    resolution: {integrity: sha512-IdM467AwcLKO5weJvd3vEwn/kRSXL+btYHu657A1UvJYjkC/5CgrSsgxzQ/oCGVeuCiJekm5tihsFnmOmsDJBA==}
 
-  '@freelensapp/run-many@1.8.0':
-    resolution: {integrity: sha512-8qqB7XhfvPeppjaiDo4CGMrP13ZFVWWQdC8gWRzP6QqRz55uppIZ7kmbKxVOyVTvfAs7aIH+XzFoU2ZABkRcGQ==}
+  '@freelensapp/run-many@1.9.0':
+    resolution: {integrity: sha512-//dVgp9oee/q6bkS6nj33wrGiBUwI1B8nafXv2oJV/iMFi6sZIXF1f/F6nMO+VeSis64u4HNu+9hk8PpA2wwUw==}
 
-  '@freelensapp/spinner@1.8.0':
-    resolution: {integrity: sha512-cMMtdKuC0k/vFNMCVOUf5KAjQCfInFKPW46tVmYYrDhRcj537mctFbroGW/WDSmnGRUQBjXPisfdqlxzqaR0bQ==}
+  '@freelensapp/spinner@1.9.0':
+    resolution: {integrity: sha512-+oxTxev2uN6SlH3LlrLPNbpdzjVlajBHVkRRAu7SN09wsLFz0L3sQQWfM/oYU4N0EGWyB1hYtHQYJEG4D43LxA==}
 
-  '@freelensapp/startable-stoppable@1.8.0':
-    resolution: {integrity: sha512-UhYUbMD3dE1Cb0diUL0+mbsrIaVJx+EgK7F0xi6UFA8OZ/0ScbTedlgoYsHQX1sIv+IW6+kyicIqySYiLDpX5w==}
+  '@freelensapp/startable-stoppable@1.9.0':
+    resolution: {integrity: sha512-u48h4u/Y9eckK/w19TdwQ01BCt0Kb55LR+LzaDMsJsmKJNRVLQ45GKC28niEfgC/k+izCGOzhStgVrlrFaDiuA==}
 
-  '@freelensapp/tooltip@1.8.0':
-    resolution: {integrity: sha512-x3DwAwQWV/gnXc8eVNHVMPTSQajRI1EKGJCdVMqT0tKVRDdCTX5vo18QiWyQZTCxChaBbx5AueGCf1/RWIXzdg==}
+  '@freelensapp/tooltip@1.9.0':
+    resolution: {integrity: sha512-KNV5251wmkb6JhjAfiZoLsILh4ZInDgXX6eO0jUBu+nEzwt7KJuFG1dNMa+hAWo4/INjjoH+YgUh36s5KCkZIQ==}
 
-  '@freelensapp/typescript@1.8.0':
-    resolution: {integrity: sha512-dCr/OegD+AYJRgzNbEM1kJtTUZJyiItoRNgD3iKB/d1iFvGeXAwBhjOGJ2Gin9vUtxsk12LpLL88o5SqEDGHdw==}
-
-  '@freelensapp/utilities@1.8.0':
-    resolution: {integrity: sha512-dLPzD59fV5V/ParZKbwQ+jUL8sKY5SOiDrS7S+Rduvb83X1TXwan5aZaq7hQWzVwky08MuQpz/K88zw01FcKtQ==}
+  '@freelensapp/utilities@1.9.0':
+    resolution: {integrity: sha512-VPWWF3+qzBx8Zacy1jW8BtWVTmNXHGfPAq2FW7eaIHkXAcyPXtyDNBnXWbBFlqvNlzKsRjKQ58WOmCez/l+G+Q==}
 
   '@hapi/address@5.1.1':
     resolution: {integrity: sha512-A+po2d/dVoY7cYajycYI43ZbYMXukuopIsqCjh5QzsBCipDtdofHntljDlpccMjIfTy6UOkg+5KPriwYch2bXA==}
@@ -738,8 +735,8 @@ packages:
   '@hapi/call@9.0.1':
     resolution: {integrity: sha512-uPojQRqEL1GRZR4xXPqcLMujQGaEpyVPRyBlD8Pp5rqgIwLhtveF9PkixiKru2THXvuN8mUrLeet5fqxKAAMGg==}
 
-  '@hapi/content@6.0.0':
-    resolution: {integrity: sha512-CEhs7j+H0iQffKfe5Htdak5LBOz/Qc8TRh51cF+BFv0qnuph3Em4pjGVzJMkI2gfTDdlJKWJISGWS1rK34POGA==}
+  '@hapi/content@6.0.2':
+    resolution: {integrity: sha512-OKyCOTjNR1hftwSjk9ueyAQTw8AwapvzBrPIWMGn39vhR5PmqLdYFmLc35bsSBye7gSMnlkXfc679bUdMIcRyQ==}
 
   '@hapi/file@3.0.0':
     resolution: {integrity: sha512-w+lKW+yRrLhJu620jT3y+5g2mHqnKfepreykvdOcl9/6up8GrQQn+l3FRTsjHTKbkbfQFkuksHpdv2EcpKcJ4Q==}
@@ -754,14 +751,14 @@ packages:
     resolution: {integrity: sha512-uv3dtYuB4IsNaha+tigWmN8mQw/O9Qzl5U26Gm4ZcJVtDdB1AVJOwX3X5wOX+A07qzpEZnOMBAm8jjSqGsU6Nw==}
     engines: {node: '>=14.0.0'}
 
-  '@hapi/pez@6.1.0':
-    resolution: {integrity: sha512-+FE3sFPYuXCpuVeHQ/Qag1b45clR2o54QoonE/gKHv9gukxQ8oJJZPR7o3/ydDTK6racnCJXxOyT1T93FCJMIg==}
+  '@hapi/pez@6.1.1':
+    resolution: {integrity: sha512-yg2OS1tC0S1sHXvhUtWsfRn6lrKl9jKtRhZ+EI0woOW/gqX5vM2PZ1459ypCvCYDRLJ9nIyueeEH5MJV1ZDqIg==}
 
   '@hapi/pinpoint@2.0.1':
     resolution: {integrity: sha512-EKQmr16tM8s16vTT3cA5L0kZZcTMU5DUOZTuvpnY738m+jyP3JIUj+Mm1xc1rsLkGBQ/gVnfKYPwOmPg1tUR4Q==}
 
-  '@hapi/subtext@8.1.1':
-    resolution: {integrity: sha512-ex1Y2s/KuJktS8Ww0k6XJ5ysSKrzNym4i5pDVuCwlSgHHviHUsT1JNzE6FYhNU9TTHSNdyfue/t2m89bpkX9Jw==}
+  '@hapi/subtext@8.1.3':
+    resolution: {integrity: sha512-WTpEZQjBP3UJ3gGunNl3w5Ao1EOJsuu2vttZ2KEcG+csSLxc0dI6VIkl2md2jDlHiQ2ARAoqdSUScy05A/NHtA==}
 
   '@hapi/tlds@1.1.3':
     resolution: {integrity: sha512-QIvUMB5VZ8HMLZF9A2oWr3AFM430QC8oGd0L35y2jHpuW6bIIca6x/xL7zUf4J7L9WJ3qjz+iJII8ncaeMbpSg==}
@@ -773,8 +770,8 @@ packages:
   '@hapi/vise@5.0.1':
     resolution: {integrity: sha512-XZYWzzRtINQLedPYlIkSkUr7m5Ddwlu99V9elh8CSygXstfv3UnWIXT0QD+wmR0VAG34d2Vx3olqcEhRRoTu9A==}
 
-  '@hapi/wreck@18.1.0':
-    resolution: {integrity: sha512-0z6ZRCmFEfV/MQqkQomJ7sl/hyxvcZM7LtuVqN3vdAO4vM9eBbowl0kaqQj9EJJQab+3Uuh1GxbGIBFy4NfJ4w==}
+  '@hapi/wreck@18.1.1':
+    resolution: {integrity: sha512-UwTeGBfAnB/1mkw4gD6IQGI/bgMu7iGmqgT8K+xxye3z4ZHhCZlmS2wuHBJmENhBJSKqvoYzJ71ds3Xfq4gofQ==}
 
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
@@ -1164,8 +1161,8 @@ packages:
   '@so-ric/colorspace@1.1.6':
     resolution: {integrity: sha512-/KiKkpHNOBgkFJwu9sh48LkHSMYGyuTcSFK/qMBdnOAlrRJzRSXAOFB5qwzaVQuDl8wAvHVMkaASQDReTahxuw==}
 
-  '@standard-schema/spec@1.0.0':
-    resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
+  '@standard-schema/spec@1.1.0':
+    resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
@@ -1206,12 +1203,6 @@ packages:
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
-
-  '@types/postcss-modules-local-by-default@4.0.2':
-    resolution: {integrity: sha512-CtYCcD+L+trB3reJPny+bKWKMzPfxEyQpKIwit7kErnOexf5/faaGpkFy4I5AwbV4hp1sk7/aTg0tt0B67VkLQ==}
-
-  '@types/postcss-modules-scope@3.0.4':
-    resolution: {integrity: sha512-//ygSisVq9kVI0sqx3UPLzWIMCmtSVrzdljtuaAEJtGoGnpjBikZ2sXO5MpH9SnWX9HRfXxHifDAXcQjupWnIQ==}
 
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
@@ -1255,18 +1246,14 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
-  '@xterm/addon-fit@0.10.0':
-    resolution: {integrity: sha512-UFYkDm4HUahf2lnEyHvio51TNGiLK66mqP2JoATy7hRZeXaGMRDr00JiSF7m63vR5WKATF605yEggJKsw0JpMQ==}
-    peerDependencies:
-      '@xterm/xterm': ^5.0.0
+  '@xterm/addon-fit@0.11.0':
+    resolution: {integrity: sha512-jYcgT6xtVYhnhgxh3QgYDnnNMYTcf8ElbxxFzX0IZo+vabQqSPAjC3c1wJrKB5E19VwQei89QCiZZP86DCPF7g==}
 
-  '@xterm/addon-web-links@0.11.0':
-    resolution: {integrity: sha512-nIHQ38pQI+a5kXnRaTgwqSHnX7KE6+4SVoceompgHL26unAxdfP6IPqUTSYPQgSwM56hsElfoNrrW5V7BUED/Q==}
-    peerDependencies:
-      '@xterm/xterm': ^5.0.0
+  '@xterm/addon-web-links@0.12.0':
+    resolution: {integrity: sha512-4Smom3RPyVp7ZMYOYDoC/9eGJJJqYhnPLGGqJ6wOBfB8VxPViJNSKdgRYb8NpaM6YSelEKbA2SStD7lGyqaobw==}
 
-  '@xterm/xterm@5.5.0':
-    resolution: {integrity: sha512-hqJHYaQb5OptNunnyAnkHyM8aCjZ1MEIDTQu1iIbbTD/xops91NB5yq1ZK/dC2JDbVWtF23zUtl9JE2NqwT87A==}
+  '@xterm/xterm@6.0.0':
+    resolution: {integrity: sha512-TQwDdQGtwwDt+2cgKDLn0IRaSxYu1tSUjgKarSDkUM0ZNiSRXFpjxEsvc/Zgc5kq5omJ+V0a8/kIM2WD3sMOYg==}
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -1518,8 +1505,8 @@ packages:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
     engines: {node: '>=10'}
 
-  cronstrue@3.11.0:
-    resolution: {integrity: sha512-nXST7NEkjPF6loOTJtCwbLHB6cOVR5Ofuq/VZ4UGsZw/0HTvxy6mRCrDHOJ4xoLPcuS3ooruBLyUk3INaidKwg==}
+  cronstrue@3.14.0:
+    resolution: {integrity: sha512-XnW4vuK/jPJjmTyDWiej1Zq36Od7ITwxaV2O1pzHZuyMVvdy7NAvyvIBzybt+idqSpfqYuoDG7uf/ocGtJVWxA==}
     hasBin: true
 
   crypto-js@4.2.0:
@@ -1531,11 +1518,6 @@ packages:
 
   css-box-model@1.2.1:
     resolution: {integrity: sha512-a7Vr4Q/kd/aw96bnJG332W9V9LkJO69JRcaCYDUqjp6/z0w6VcZjgAcTbgFxEPfBgdnAwlh3iwu+hLopa+flJw==}
-
-  cssesc@3.0.0:
-    resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
-    engines: {node: '>=4'}
-    hasBin: true
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
@@ -1614,16 +1596,12 @@ packages:
   dompurify@3.1.7:
     resolution: {integrity: sha512-VaTstWtsneJY8xzy7DekmYWEOZcmzIe3Qb3zPd4STve1OBTa+e+WmS1ITQec1fZYXI3HCsOZZiSMpG6oxoWMWQ==}
 
-  dompurify@3.3.1:
-    resolution: {integrity: sha512-qkdCKzLNtrgPFP1Vo+98FRzJnBRGe4ffyCea9IwHB1fyxPOeNTHpLKYGd4Uk9xvNoH0ZoOjwZxNptyMwqrId1Q==}
+  dompurify@3.4.2:
+    resolution: {integrity: sha512-lHeS9SA/IKeIFFyYciHBr2n0v1VMPlSj843HdLOwjb2OxNwdq9Xykxqhk+FE42MzAdHvInbAolSE4mhahPpjXA==}
 
   dot-prop@6.0.1:
     resolution: {integrity: sha512-tE7ztYzXHIeyvc7N+hR3oi7FIbf/NIjVP9hmAt3yMXzrQ072/fpjGLx2GxNxGxUl5V73MEqYzioOMoVhGMJ5cA==}
     engines: {node: '>=10'}
-
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
 
   electron-devtools-installer@4.0.0:
     resolution: {integrity: sha512-9Tntu/jtfSn0n6N/ZI6IdvRqXpDyLQiDuuIbsBI+dL+1Ef7C8J2JwByw58P3TJiNeuqyV3ZkphpNWuZK5iSY2w==}
@@ -1646,8 +1624,8 @@ packages:
     resolution: {integrity: sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg==}
     engines: {node: '>=8.0.0'}
 
-  electron@39.5.1:
-    resolution: {integrity: sha512-6s/sBQar+bbW59XSqohZj04MPic+kdVUAWjLbfQB/uLOeNw9jWX5FHaTxpHK29Xp3mKOHef7wErsjwMyCuWltg==}
+  electron@39.8.10:
+    resolution: {integrity: sha512-zbYtGPYUI7PzqLAzkk21Rk6j67WN0hxn0Mq/njErZo1d0HSf33is4f8ICI5fMLy5vYe0JtCtM5sYunNOaochSQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -1789,8 +1767,8 @@ packages:
       debug:
         optional: true
 
-  fs-extra@11.3.3:
-    resolution: {integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==}
+  fs-extra@11.3.5:
+    resolution: {integrity: sha512-eKpRKAovdpZtR1WopLHxlBWvAgPny3c4gX1G5Jhwmmw4XJj0ifSD5qB5TOo8hmA0wlRKDAOAhEE1yVPgs6Fgcg==}
     engines: {node: '>=14.14'}
 
   fs-extra@8.1.0:
@@ -1853,8 +1831,8 @@ packages:
   grapheme-splitter@1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
 
-  handlebars@4.7.8:
-    resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
+  handlebars@4.7.9:
+    resolution: {integrity: sha512-4E71E0rpOaQuJR2A3xDZ+GM1HyWYv1clR58tC8emQNeQe3RH7MAzSbat+V0wG78LQBo6m6bzSG/L4pBuCsgnUQ==}
     engines: {node: '>=0.4.7'}
     hasBin: true
 
@@ -1894,12 +1872,6 @@ packages:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
 
-  icss-utils@5.1.0:
-    resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -1912,8 +1884,8 @@ packages:
   immediate@3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
 
-  immer@11.1.3:
-    resolution: {integrity: sha512-6jQTc5z0KJFtr1UgFpIL3N9XSC3saRaI9PwWtzM2pSqkNGtiNkYY2OSwkOGDK2XcTRcLb1pi/aNkKZz0nxVH4Q==}
+  immer@11.1.8:
+    resolution: {integrity: sha512-/tbkHMW7y10Lx6i1crLjD4/OhNkRG+Fo7byZHtah0547nIeXYcpIXaUh0IAQY6gO5459qpGGYapcEOHtFXkIuA==}
 
   immutable@5.1.5:
     resolution: {integrity: sha512-t7xcm2siw+hlUM68I+UEOK+z84RzmN59as9DZ7P1l0994DKUWV7UXBMQZVxaoMSRQ+PBZbHCOoBt7a2wxOMt+A==}
@@ -2007,8 +1979,8 @@ packages:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
 
-  joi@18.0.2:
-    resolution: {integrity: sha512-RuCOQMIt78LWnktPoeBL0GErkNaJPTBGcYuyaBvUOQSpcpcLfWrHPPihYdOGbV5pam9VTWbeoF7TsGiHugcjGA==}
+  joi@18.2.1:
+    resolution: {integrity: sha512-2/OKlogiESf2Nh3TFCrRjrr9z1DRHeW0I+KReF67+4J0Ns+8hBtHRmoWAZ2OFU6I5+TWLEe6sVlSdXPjHm5UbQ==}
     engines: {node: '>= 20'}
 
   js-tokens@4.0.0:
@@ -2147,10 +2119,6 @@ packages:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
     engines: {node: '>= 12.0.0'}
 
-  lilconfig@2.1.0:
-    resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
-    engines: {node: '>=10'}
-
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
@@ -2158,11 +2126,8 @@ packages:
     resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
     engines: {node: '>=6'}
 
-  lodash.camelcase@4.3.0:
-    resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
-
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   logform@2.7.0:
     resolution: {integrity: sha512-TFYA4jnP7PVbmlBIfhlSe+WKxs9dklXMTEGcBCIvLhE/Tn3H6Gk1norupVW7m5Cnd4bLcr08AytbyV/xj7f/kQ==}
@@ -2306,8 +2271,8 @@ packages:
   mobx@6.15.0:
     resolution: {integrity: sha512-UczzB+0nnwGotYSgllfARAqWCJ5e/skuV2K/l+Zyck/H6pJIhLXuBnz+6vn2i211o7DtbE78HQtsYEKICHGI+g==}
 
-  moment-timezone@0.6.0:
-    resolution: {integrity: sha512-ldA5lRNm3iJCWZcBCab4pnNL3HSZYXVb/3TYr75/1WCTWYuTqYUb5f/S384pncYjJ88lbO8Z4uPDvmoluHJc8Q==}
+  moment-timezone@0.6.2:
+    resolution: {integrity: sha512-lDsQv8FoGdBUdf0+TjGsq2orxKuXdwFlQ6Zw6TX3xIcTwTfEpCLyKqvEauvCHJ8iu3KBV8+uPhlv70YsNGdUBQ==}
 
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
@@ -2341,8 +2306,8 @@ packages:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
     engines: {node: '>= 6.13.0'}
 
-  node-pty@1.1.0-beta43:
-    resolution: {integrity: sha512-CYyIQogRs97Rfjo0WKyku8V56Bm4WyWUijrbWDs5LJ+ZmsUW2gqbVAEpD+1gtA7dEZ6v1A08GzfqsDuIl/eRqw==}
+  node-pty@1.2.0-beta.12:
+    resolution: {integrity: sha512-uExTCG/4VmSJa4+TjxFwPXv8BfacmfFEBL6JpxCMDghcwqzvD0yTcGmZ1fKOK6HY33tp0CelLblqTECJizc+Yw==}
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
@@ -2455,8 +2420,8 @@ packages:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
     engines: {node: '>=8'}
 
-  pnpm@10.28.2:
-    resolution: {integrity: sha512-QYcvA3rSL3NI47Heu69+hnz9RI8nJtnPdMCPGVB8MdLI56EVJbmD/rwt9kC1Q43uYCPrsfhO1DzC1lTSvDJiZA==}
+  pnpm@10.33.4:
+    resolution: {integrity: sha512-HGezs1my1AgRm6HtKJ80uPw8aHNBK+xv0mT73IJInlEPy+y5zp0i2ufzt2Jp2EQQRgFL3KU7mXnNelYa1jG4AA==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -2465,43 +2430,6 @@ packages:
     engines: {node: ^12 || ^14 || >= 16}
     peerDependencies:
       postcss: ^8.4.21
-
-  postcss-load-config@3.1.4:
-    resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
-    engines: {node: '>= 10'}
-    peerDependencies:
-      postcss: '>=8.0.9'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      postcss:
-        optional: true
-      ts-node:
-        optional: true
-
-  postcss-modules-extract-imports@3.1.0:
-    resolution: {integrity: sha512-k3kNe0aNFQDAZGbin48pL2VNidTF0w4/eASDsxlyspobzU3wZQLOGj7L9gfRe0Jo9/4uud09DsjFNH7winGv8Q==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-
-  postcss-modules-local-by-default@4.2.0:
-    resolution: {integrity: sha512-5kcJm/zk+GJDSfw+V/42fJ5fhjL5YbFDl8nVdXkJPLLW+Vf9mTD5Xe0wqIaDnLuL2U6cDNpTr+UQ+v2HWIBhzw==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-
-  postcss-modules-scope@3.2.1:
-    resolution: {integrity: sha512-m9jZstCVaqGjTAuny8MdgE88scJnCiQSlSrOWcTQgM2t32UBe+MUmFSO5t7VMSfAf/FJKImAxBav8ooCHJXCJA==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-
-  postcss-selector-parser@7.1.0:
-    resolution: {integrity: sha512-8sLjZwK0R+JlxlYcTuVnyT2v+htpdrjDOKuMcOVdYjt52Lh8hWRYpxBPoKx/Zg+bcjc3wx6fmQevMmUztS/ccA==}
-    engines: {node: '>=4'}
-
-  postcss-value-parser@4.2.0:
-    resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
 
   postcss@8.5.13:
     resolution: {integrity: sha512-qif0+jGGZoLWdHey3UFHHWP0H7Gbmsk8T5VEqyYFbWqPr1XqvLGBbk/sl8V5exGmcYJklJOhOQq1pV9IcsiFag==}
@@ -2656,9 +2584,6 @@ packages:
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
-  reserved-words@0.1.2:
-    resolution: {integrity: sha512-0S5SrIUJ9LfpbVl4Yzij6VipUdafHrOTzvmfazSw/jeZrZtQK303OPZW+obtkaw7jQlTQppy0UvZWm9872PbRw==}
-
   resolve-alpn@1.2.1:
     resolution: {integrity: sha512-0a1F4l73/ZFZOakJnQ3FvkJ2+gSTQWz/r2KE5OdDY0TxPm5h4GkqkWWfM47T7HsbnOtcJVEF4epCVy6u7Q3K+g==}
 
@@ -2688,8 +2613,8 @@ packages:
   rfc4648@1.5.4:
     resolution: {integrity: sha512-rRg/6Lb+IGfJqO05HZkN50UtY7K/JhxJag1kP23+zyMfrvoB0B7RWv06MbOzoc79RgCdNTiUaNsTT1AJZ7Z+cg==}
 
-  rfc6902@5.1.2:
-    resolution: {integrity: sha512-zxcb+PWlE8PwX0tiKE6zP97THQ8/lHmeiwucRrJ3YFupWEmp25RmFSlB1dNTqjkovwqG4iq+u1gzJMBS3um8mA==}
+  rfc6902@5.2.0:
+    resolution: {integrity: sha512-ZNQpVnWsdLMTCcLZcUY9ZBhxWuj7/H13EM7NL2gvbAMBXfLeN3iOLi3TWT1+8Or7OTLYXRDCy7sTEStk3j4KBA==}
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -2854,8 +2779,8 @@ packages:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  semver@7.7.3:
-    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2941,10 +2866,6 @@ packages:
   string_decoder@1.3.0:
     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
 
-  strip-bom@3.0.0:
-    resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
-    engines: {node: '>=4'}
-
   stylis@4.2.0:
     resolution: {integrity: sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==}
 
@@ -2976,16 +2897,15 @@ packages:
     resolution: {integrity: sha512-GTt8rSKje5FilG+wEdfCkOcLL7LWqpMlr2c3LRuKt/YXxcJ52aGSbGBAdI4L3aaqfrBt6y711El53ItyH1NWzg==}
     engines: {node: '>=16.0.0'}
 
-  tar-fs@3.1.1:
-    resolution: {integrity: sha512-LZA0oaPOc2fVo82Txf3gw+AkEd38szODlptMYejQUhndHMLQ9M059uXR+AfS7DNo0NpINvSqDsvyaCrBVkptWg==}
+  tar-fs@3.1.2:
+    resolution: {integrity: sha512-QGxxTxxyleAdyM3kpFs14ymbYmNFrfY+pHj7Z8FgtbZ7w2//VAgLMac7sT6nRpIHjppXO2AwwEOg0bPFVRcmXw==}
 
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar@7.5.7:
-    resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
+  tar@7.5.15:
+    resolution: {integrity: sha512-dzGK0boVlC4W5QFuQN1EFSl3bIDYsk7Tj40U6eIBnK2k/8ml7TZ5agbI5j5+qnoVcAA+rNtBml8SEiLxZpNqRQ==}
     engines: {node: '>=18'}
-    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tcp-port-used@1.0.2:
     resolution: {integrity: sha512-l7ar8lLUD3XS1V2lfoJlCBaeoaWo/2xfYt81hM7VlvR4RrMVFqfmzfhLVk40hAb368uitje5gPtBRL1m/DGvLA==}
@@ -3027,10 +2947,6 @@ packages:
     resolution: {integrity: sha512-aZbgViZrg1QNcG+LULa7nhZpJTZSLm/mXnHXnbAbjmN5aSa0y7V+wvv6+4WaBtpISJzThKy+PIPxc1Nq1EJ9mg==}
     engines: {node: '>= 14.0.0'}
 
-  tsconfig-paths@4.2.0:
-    resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
-    engines: {node: '>=6'}
-
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
@@ -3048,11 +2964,6 @@ packages:
 
   typed-regex@0.0.8:
     resolution: {integrity: sha512-1XkGm1T/rUngbFROIOw9wPnMAKeMsRoc+c9O6GwOHz6aH/FrJFtcyd2sHASbT0OXeGLot5N1shPNpwHGTv9RdQ==}
-
-  typescript-plugin-css-modules@5.2.0:
-    resolution: {integrity: sha512-c5pAU5d+m3GciDr/WhkFldz1NIEGBafuP/3xhFt9BEXS2gmn/LvjkoZ11vEBIuP8LkXfPNhOt1BUhM5efFuwOw==}
-    peerDependencies:
-      typescript: '>=4.0.0'
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -3204,8 +3115,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+  ws@8.20.0:
+    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3237,8 +3148,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@4.3.6:
-    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
 
@@ -3726,12 +3637,12 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@freelensapp/animate@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))':
+  '@freelensapp/animate@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/utilities': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/utilities': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
     transitivePeerDependencies:
       - '@ogre-tools/fp'
@@ -3740,107 +3651,104 @@ snapshots:
       - mobx-react
       - react-dom
 
-  '@freelensapp/application-for-electron-main@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/application-for-electron-main@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/application': 1.8.0(lodash@4.17.21)
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/run-many': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      electron: 39.5.1
+      '@freelensapp/application': 1.9.0(lodash@4.18.1)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/run-many': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      electron: 39.8.10
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
       - supports-color
 
-  '@freelensapp/application@1.8.0(lodash@4.17.21)':
+  '@freelensapp/application@1.9.0(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/run-many': 1.8.0
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/run-many': 1.9.0
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - lodash
 
-  '@freelensapp/button@1.8.0':
+  '@freelensapp/button@1.9.0':
     dependencies:
-      '@freelensapp/tooltip': 1.8.0
-      '@freelensapp/typescript': 1.8.0
-      '@freelensapp/utilities': 1.8.0
+      '@freelensapp/tooltip': 1.9.0
+      '@freelensapp/utilities': 1.9.0
       react: 17.0.2
     transitivePeerDependencies:
       - react-native
-      - supports-color
-      - ts-node
 
-  '@freelensapp/cluster-settings@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/cluster-settings@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/cluster-sidebar@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/cluster-sidebar@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/utilities': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.15.0)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/utilities': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx@6.15.0)
       mobx: 6.15.0
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/core@1.8.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)':
+  '@freelensapp/core@1.9.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)':
     dependencies:
       '@dnd-kit/core': 6.3.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       '@dnd-kit/sortable': 10.0.0(@dnd-kit/core@6.3.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(react@17.0.2)
       '@dnd-kit/utilities': 3.2.2(react@17.0.2)
-      '@freelensapp/animate': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))
-      '@freelensapp/application': 1.8.0(lodash@4.17.21)
-      '@freelensapp/application-for-electron-main': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/button': 1.8.0
-      '@freelensapp/cluster-settings': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/cluster-sidebar': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/error-boundary': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))
-      '@freelensapp/event-emitter': 1.8.0
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/icon': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))
-      '@freelensapp/json-api': 1.8.0
-      '@freelensapp/kube-api': 1.8.0
-      '@freelensapp/kube-api-specifics': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/kube-object': 1.8.0
-      '@freelensapp/kubectl-versions': 1.8.0
-      '@freelensapp/kubernetes-client-node': 1.8.0(ws@8.18.3)
-      '@freelensapp/legacy-extensions': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/legacy-global-di': 1.8.0
-      '@freelensapp/list-layout': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/logger': 1.8.0
-      '@freelensapp/messaging': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/metrics': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/node-fetch': 1.8.0
-      '@freelensapp/notifications': 1.8.0
-      '@freelensapp/prometheus': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/random': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/react-application': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/resizing-anchor': 1.8.0(react-dom@17.0.2(react@17.0.2))
-      '@freelensapp/resource-templates': 1.8.0
-      '@freelensapp/routing': 1.8.0(lodash@4.17.21)
-      '@freelensapp/run-many': 1.8.0
-      '@freelensapp/spinner': 1.8.0
-      '@freelensapp/startable-stoppable': 1.8.0
-      '@freelensapp/tooltip': 1.8.0
-      '@freelensapp/utilities': 1.8.0
+      '@freelensapp/animate': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))
+      '@freelensapp/application': 1.9.0(lodash@4.18.1)
+      '@freelensapp/application-for-electron-main': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/button': 1.9.0
+      '@freelensapp/cluster-settings': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/cluster-sidebar': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/error-boundary': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))
+      '@freelensapp/event-emitter': 1.9.0
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/icon': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))
+      '@freelensapp/json-api': 1.9.0
+      '@freelensapp/kube-api': 1.9.0
+      '@freelensapp/kube-api-specifics': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/kube-object': 1.9.0
+      '@freelensapp/kubectl-versions': 1.9.0
+      '@freelensapp/kubernetes-client-node': 1.9.0(ws@8.20.0)
+      '@freelensapp/legacy-extensions': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/legacy-global-di': 1.9.0
+      '@freelensapp/list-layout': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/logger': 1.9.0
+      '@freelensapp/messaging': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/metrics': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/node-fetch': 1.9.0
+      '@freelensapp/notifications': 1.9.0
+      '@freelensapp/prometheus': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/random': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/react-application': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/resizing-anchor': 1.9.0(react-dom@17.0.2(react@17.0.2))
+      '@freelensapp/resource-templates': 1.9.0
+      '@freelensapp/routing': 1.9.0(lodash@4.18.1)
+      '@freelensapp/run-many': 1.9.0
+      '@freelensapp/spinner': 1.9.0
+      '@freelensapp/startable-stoppable': 1.9.0
+      '@freelensapp/tooltip': 1.9.0
+      '@freelensapp/utilities': 1.9.0
       '@hapi/call': 9.0.1
-      '@hapi/subtext': 8.1.1
+      '@hapi/subtext': 8.1.3
       '@mui/lab': 5.0.0-alpha.142(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@types/react@17.0.91)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       '@mui/material': 5.18.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.15.0)
-      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@xterm/addon-fit': 0.10.0(@xterm/xterm@5.5.0)
-      '@xterm/addon-web-links': 0.11.0(@xterm/xterm@5.5.0)
-      '@xterm/xterm': 5.5.0
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx@6.15.0)
+      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@xterm/addon-fit': 0.11.0
+      '@xterm/addon-web-links': 0.12.0
+      '@xterm/xterm': 6.0.0
       ansi_up: 5.2.1
       auto-bind: 4.0.0
       await-lock: 2.2.2
@@ -3850,33 +3758,33 @@ snapshots:
       clsx: 2.1.1
       color: 4.2.3
       conf: 10.2.0
-      cronstrue: 3.11.0
+      cronstrue: 3.14.0
       crypto-js: 4.2.0
-      dompurify: 3.3.1
+      dompurify: 3.4.2
       electron-devtools-installer: 4.0.0
       electron-window-state: 5.0.3
-      fs-extra: 11.3.3
+      fs-extra: 11.3.5
       glob-to-regexp: 0.4.1
       grapheme-splitter: 1.0.4
-      handlebars: 4.7.8
+      handlebars: 4.7.9
       history: 4.10.1
       hpagent: 1.2.0
       http-proxy-node16: 1.0.6
-      immer: 11.1.3
-      joi: 18.0.2
+      immer: 11.1.8
+      joi: 18.2.1
       js-yaml: 4.1.1
-      lodash: 4.17.21
+      lodash: 4.18.1
       marked: 15.0.12
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       mobx-react-lite: 4.1.1(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       mobx-utils: 6.1.1(mobx@6.15.0)
       moment: 2.30.1
-      moment-timezone: 0.6.0
+      moment-timezone: 0.6.2
       monaco-editor: 0.54.0
-      node-pty: 1.1.0-beta43
+      node-pty: 1.2.0-beta.12
       path-to-regexp: 6.3.0
-      pnpm: 10.28.2
+      pnpm: 10.33.4
       proper-lockfile: 4.1.2
       query-string: 7.1.3
       randomcolor: 0.6.2
@@ -3889,11 +3797,11 @@ snapshots:
       react-table: 7.8.0(react@17.0.2)
       react-virtualized-auto-sizer: 1.0.26(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react-window: 1.8.11(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      rfc6902: 5.1.2
+      rfc6902: 5.2.0
       selfsigned: 4.0.1
-      semver: 7.7.3
+      semver: 7.7.4
       stoppable: 1.1.0
-      tar: 7.5.7
+      tar: 7.5.15
       tcp-port-used: 1.0.2
       tempy: 1.0.1
       triple-beam: 1.4.1
@@ -3903,8 +3811,8 @@ snapshots:
       winston: 3.19.0
       winston-transport: 4.9.0
       winston-transport-browserconsole: 1.0.5
-      ws: 8.18.3
-      zod: 4.3.6
+      ws: 8.20.0
+      zod: 4.4.3
     transitivePeerDependencies:
       - '@emotion/react'
       - '@emotion/styled'
@@ -3914,16 +3822,15 @@ snapshots:
       - debug
       - react-native
       - supports-color
-      - ts-node
       - utf-8-validate
 
-  '@freelensapp/error-boundary@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))':
+  '@freelensapp/error-boundary@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))':
     dependencies:
-      '@freelensapp/button': 1.8.0
-      '@freelensapp/routing': 1.8.0(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      lodash: 4.17.21
+      '@freelensapp/button': 1.9.0
+      '@freelensapp/routing': 1.9.0(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      lodash: 4.18.1
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
@@ -3931,14 +3838,12 @@ snapshots:
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - react-native
-      - supports-color
-      - ts-node
 
-  '@freelensapp/event-emitter@1.8.0': {}
+  '@freelensapp/event-emitter@1.9.0': {}
 
-  '@freelensapp/extensions@1.8.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)':
+  '@freelensapp/extensions@1.9.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)':
     dependencies:
-      '@freelensapp/core': 1.8.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)
+      '@freelensapp/core': 1.9.0(@emotion/react@11.14.0(@types/react@17.0.91)(react@17.0.2))(@types/react@17.0.91)
     transitivePeerDependencies:
       - '@emotion/react'
       - '@emotion/styled'
@@ -3948,24 +3853,23 @@ snapshots:
       - debug
       - react-native
       - supports-color
-      - ts-node
       - utf-8-validate
 
-  '@freelensapp/feature-core@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/feature-core@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/icon@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))':
+  '@freelensapp/icon@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))':
     dependencies:
-      '@freelensapp/logger': 1.8.0
-      '@freelensapp/tooltip': 1.8.0
-      '@freelensapp/utilities': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      lodash: 4.17.21
+      '@freelensapp/logger': 1.9.0
+      '@freelensapp/tooltip': 1.9.0
+      '@freelensapp/utilities': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      lodash: 4.18.1
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
@@ -3975,119 +3879,119 @@ snapshots:
       - '@ogre-tools/fp'
       - react-native
 
-  '@freelensapp/json-api@1.8.0':
+  '@freelensapp/json-api@1.9.0':
     dependencies:
-      '@freelensapp/event-emitter': 1.8.0
-      '@freelensapp/utilities': 1.8.0
-      lodash: 4.17.21
+      '@freelensapp/event-emitter': 1.9.0
+      '@freelensapp/utilities': 1.9.0
+      lodash: 4.18.1
 
-  '@freelensapp/kube-api-specifics@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/kube-api-specifics@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/kube-api': 1.8.0
-      '@freelensapp/logger': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/kube-api': 1.9.0
+      '@freelensapp/logger': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/kube-api@1.8.0':
+  '@freelensapp/kube-api@1.9.0':
     dependencies:
-      '@freelensapp/json-api': 1.8.0
-      '@freelensapp/kube-object': 1.8.0
-      '@freelensapp/utilities': 1.8.0
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@freelensapp/json-api': 1.9.0
+      '@freelensapp/kube-object': 1.9.0
+      '@freelensapp/utilities': 1.9.0
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
       byline: 5.0.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       mobx: 6.15.0
       moment: 2.30.1
 
-  '@freelensapp/kube-object@1.8.0':
+  '@freelensapp/kube-object@1.9.0':
     dependencies:
-      '@freelensapp/utilities': 1.8.0
+      '@freelensapp/utilities': 1.9.0
       auto-bind: 4.0.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       moment: 2.30.1
       typed-regex: 0.0.8
 
-  '@freelensapp/kubectl-versions@1.8.0': {}
+  '@freelensapp/kubectl-versions@1.9.0': {}
 
-  '@freelensapp/kubernetes-client-node@1.8.0(ws@8.18.3)':
+  '@freelensapp/kubernetes-client-node@1.9.0(ws@8.20.0)':
     dependencies:
-      '@freelensapp/node-fetch': 1.8.0
-      '@freelensapp/openid-client': 1.8.0
+      '@freelensapp/node-fetch': 1.9.0
+      '@freelensapp/openid-client': 1.9.0
       hpagent: 1.2.0
-      isomorphic-ws: 5.0.0(ws@8.18.3)
+      isomorphic-ws: 5.0.0(ws@8.20.0)
       js-yaml: 4.1.1
       rfc4648: 1.5.4
       socks-proxy-agent: 8.0.5
       stream-buffers: 3.0.3
-      tar-fs: 3.1.1
+      tar-fs: 3.1.2
     transitivePeerDependencies:
       - bare-buffer
       - supports-color
       - ws
 
-  '@freelensapp/legacy-extensions@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/legacy-extensions@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/legacy-global-di@1.8.0': {}
+  '@freelensapp/legacy-global-di@1.9.0': {}
 
-  '@freelensapp/list-layout@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/list-layout@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/logger@1.8.0':
+  '@freelensapp/logger@1.9.0':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      lodash: 4.17.21
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      lodash: 4.18.1
       winston: 3.19.0
 
-  '@freelensapp/messaging@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/messaging@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/application': 1.8.0(lodash@4.17.21)
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/startable-stoppable': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.15.0)
+      '@freelensapp/application': 1.9.0(lodash@4.18.1)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/startable-stoppable': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx@6.15.0)
       mobx: 6.15.0
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/metrics@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/metrics@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/node-fetch@1.8.0': {}
+  '@freelensapp/node-fetch@1.9.0': {}
 
-  '@freelensapp/notifications@1.8.0':
+  '@freelensapp/notifications@1.9.0':
     dependencies:
-      '@freelensapp/animate': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/icon': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))
-      '@freelensapp/json-api': 1.8.0
-      '@freelensapp/logger': 1.8.0
-      '@freelensapp/react-application': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/utilities': 1.8.0
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@freelensapp/animate': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/icon': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))
+      '@freelensapp/json-api': 1.9.0
+      '@freelensapp/logger': 1.9.0
+      '@freelensapp/react-application': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/utilities': 1.9.0
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       auto-bind: 4.0.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
@@ -4095,34 +3999,34 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@freelensapp/openid-client@1.8.0': {}
+  '@freelensapp/openid-client@1.9.0': {}
 
-  '@freelensapp/prometheus@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/prometheus@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/application': 1.8.0(lodash@4.17.21)
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@freelensapp/utilities': 1.8.0
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@freelensapp/application': 1.9.0(lodash@4.18.1)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@freelensapp/utilities': 1.9.0
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/random@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/random@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
       uuid: 11.1.0
     transitivePeerDependencies:
       - '@ogre-tools/fp'
       - lodash
 
-  '@freelensapp/react-application@1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@freelensapp/react-application@1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/application': 1.8.0(lodash@4.17.21)
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.15.0)
-      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@freelensapp/application': 1.9.0(lodash@4.18.1)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/injectable-extension-for-mobx': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx@6.15.0)
+      '@ogre-tools/injectable-react': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
@@ -4132,10 +4036,10 @@ snapshots:
       - lodash
       - react-native
 
-  '@freelensapp/resizing-anchor@1.8.0(react-dom@17.0.2(react@17.0.2))':
+  '@freelensapp/resizing-anchor@1.9.0(react-dom@17.0.2(react@17.0.2))':
     dependencies:
-      '@freelensapp/utilities': 1.8.0
-      lodash: 4.17.21
+      '@freelensapp/utilities': 1.9.0
+      lodash: 4.18.1
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
@@ -4143,35 +4047,35 @@ snapshots:
       - react-dom
       - react-native
 
-  '@freelensapp/resource-templates@1.8.0': {}
+  '@freelensapp/resource-templates@1.9.0': {}
 
-  '@freelensapp/routing@1.8.0(lodash@4.17.21)':
+  '@freelensapp/routing@1.9.0(lodash@4.18.1)':
     dependencies:
-      '@freelensapp/feature-core': 1.8.0(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
+      '@freelensapp/feature-core': 1.9.0(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
       history: 4.10.1
       mobx-observable-history: 2.0.3
     transitivePeerDependencies:
       - lodash
 
-  '@freelensapp/run-many@1.8.0':
+  '@freelensapp/run-many@1.9.0':
     dependencies:
-      '@freelensapp/utilities': 1.8.0
+      '@freelensapp/utilities': 1.9.0
       uuid: 11.1.0
 
-  '@freelensapp/spinner@1.8.0':
+  '@freelensapp/spinner@1.9.0':
     dependencies:
-      '@freelensapp/utilities': 1.8.0
+      '@freelensapp/utilities': 1.9.0
       react: 17.0.2
 
-  '@freelensapp/startable-stoppable@1.8.0': {}
+  '@freelensapp/startable-stoppable@1.9.0': {}
 
-  '@freelensapp/tooltip@1.8.0':
+  '@freelensapp/tooltip@1.9.0':
     dependencies:
-      '@freelensapp/utilities': 1.8.0
+      '@freelensapp/utilities': 1.9.0
       auto-bind: 4.0.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
@@ -4179,26 +4083,18 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@freelensapp/typescript@1.8.0':
-    dependencies:
-      typescript: 5.9.3
-      typescript-plugin-css-modules: 5.2.0(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-      - ts-node
-
-  '@freelensapp/utilities@1.8.0':
+  '@freelensapp/utilities@1.9.0':
     dependencies:
       '@astronautlabs/jsonpath': 1.1.2
       crypto-js: 4.2.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       mobx: 6.15.0
       moment: 2.30.1
       p-limit: 3.1.0
       path-to-regexp: 6.3.0
       react: 17.0.2
-      semver: 7.7.3
-      tar: 7.5.7
+      semver: 7.7.4
+      tar: 7.5.15
       typed-regex: 0.0.8
 
   '@hapi/address@5.1.1':
@@ -4220,7 +4116,7 @@ snapshots:
       '@hapi/boom': 10.0.1
       '@hapi/hoek': 11.0.7
 
-  '@hapi/content@6.0.0':
+  '@hapi/content@6.0.2':
     dependencies:
       '@hapi/boom': 10.0.1
 
@@ -4235,25 +4131,25 @@ snapshots:
       '@hapi/hoek': 11.0.7
       '@hapi/vise': 5.0.1
 
-  '@hapi/pez@6.1.0':
+  '@hapi/pez@6.1.1':
     dependencies:
       '@hapi/b64': 6.0.1
       '@hapi/boom': 10.0.1
-      '@hapi/content': 6.0.0
+      '@hapi/content': 6.0.2
       '@hapi/hoek': 11.0.7
       '@hapi/nigel': 5.0.1
 
   '@hapi/pinpoint@2.0.1': {}
 
-  '@hapi/subtext@8.1.1':
+  '@hapi/subtext@8.1.3':
     dependencies:
       '@hapi/boom': 10.0.1
       '@hapi/bourne': 3.0.0
-      '@hapi/content': 6.0.0
+      '@hapi/content': 6.0.2
       '@hapi/file': 3.0.0
       '@hapi/hoek': 11.0.7
-      '@hapi/pez': 6.1.0
-      '@hapi/wreck': 18.1.0
+      '@hapi/pez': 6.1.1
+      '@hapi/wreck': 18.1.1
 
   '@hapi/tlds@1.1.3': {}
 
@@ -4265,7 +4161,7 @@ snapshots:
     dependencies:
       '@hapi/hoek': 11.0.7
 
-  '@hapi/wreck@18.1.0':
+  '@hapi/wreck@18.1.1':
     dependencies:
       '@hapi/boom': 10.0.1
       '@hapi/bourne': 3.0.0
@@ -4431,31 +4327,31 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@ogre-tools/fp@17.11.1(lodash@4.17.21)':
+  '@ogre-tools/fp@17.11.1(lodash@4.18.1)':
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.18.1
 
-  '@ogre-tools/injectable-extension-for-mobx@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx@6.15.0)':
+  '@ogre-tools/injectable-extension-for-mobx@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx@6.15.0)':
     dependencies:
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      lodash: 4.17.21
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      lodash: 4.18.1
       mobx: 6.15.0
 
-  '@ogre-tools/injectable-react@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21))(lodash@4.17.21)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+  '@ogre-tools/injectable-react@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1))(lodash@4.18.1)(mobx-react@7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(mobx@6.15.0)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
     dependencies:
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)
-      lodash: 4.17.21
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      '@ogre-tools/injectable': 17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)
+      lodash: 4.18.1
       mobx: 6.15.0
       mobx-react: 7.6.0(mobx@6.13.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
 
-  '@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.17.21))(lodash@4.17.21)':
+  '@ogre-tools/injectable@17.11.1(@ogre-tools/fp@17.11.1(lodash@4.18.1))(lodash@4.18.1)':
     dependencies:
-      '@ogre-tools/fp': 17.11.1(lodash@4.17.21)
-      lodash: 4.17.21
+      '@ogre-tools/fp': 17.11.1(lodash@4.18.1)
+      lodash: 4.18.1
 
   '@oxc-project/types@0.127.0': {}
 
@@ -4582,7 +4478,7 @@ snapshots:
       color: 5.0.3
       text-hex: 1.0.0
 
-  '@standard-schema/spec@1.0.0': {}
+  '@standard-schema/spec@1.1.0': {}
 
   '@szmarczak/http-timer@4.0.6':
     dependencies:
@@ -4634,14 +4530,6 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/postcss-modules-local-by-default@4.0.2':
-    dependencies:
-      postcss: 8.5.13
-
-  '@types/postcss-modules-scope@3.0.4':
-    dependencies:
-      postcss: 8.5.13
-
   '@types/prop-types@15.7.15': {}
 
   '@types/react-redux@7.1.34':
@@ -4682,15 +4570,11 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-rc.7
       vite: 8.0.10(@types/node@22.19.17)(esbuild@0.27.2)(jiti@2.4.2)(less@4.4.0)(sass-embedded@1.89.2)(sass@1.99.0)(stylus@0.62.0)(terser@5.39.0)
 
-  '@xterm/addon-fit@0.10.0(@xterm/xterm@5.5.0)':
-    dependencies:
-      '@xterm/xterm': 5.5.0
+  '@xterm/addon-fit@0.11.0': {}
 
-  '@xterm/addon-web-links@0.11.0(@xterm/xterm@5.5.0)':
-    dependencies:
-      '@xterm/xterm': 5.5.0
+  '@xterm/addon-web-links@0.12.0': {}
 
-  '@xterm/xterm@5.5.0': {}
+  '@xterm/xterm@6.0.0': {}
 
   acorn@8.15.0:
     optional: true
@@ -4922,7 +4806,7 @@ snapshots:
       json-schema-typed: 7.0.3
       onetime: 5.1.2
       pkg-up: 3.1.0
-      semver: 7.7.3
+      semver: 7.7.4
 
   convert-source-map@1.9.0: {}
 
@@ -4931,6 +4815,7 @@ snapshots:
   copy-anything@2.0.6:
     dependencies:
       is-what: 3.14.1
+    optional: true
 
   core-util-is@1.0.3: {}
 
@@ -4942,7 +4827,7 @@ snapshots:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  cronstrue@3.11.0: {}
+  cronstrue@3.14.0: {}
 
   crypto-js@4.2.0: {}
 
@@ -4951,8 +4836,6 @@ snapshots:
   css-box-model@1.2.1:
     dependencies:
       tiny-invariant: 1.3.3
-
-  cssesc@3.0.0: {}
 
   csstype@3.2.3: {}
 
@@ -5024,15 +4907,13 @@ snapshots:
 
   dompurify@3.1.7: {}
 
-  dompurify@3.3.1:
+  dompurify@3.4.2:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
   dot-prop@6.0.1:
     dependencies:
       is-obj: 2.0.0
-
-  dotenv@16.6.1: {}
 
   electron-devtools-installer@4.0.0:
     dependencies:
@@ -5057,7 +4938,7 @@ snapshots:
       jsonfile: 4.0.0
       mkdirp: 0.5.6
 
-  electron@39.5.1:
+  electron@39.8.10:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.19.17
@@ -5229,7 +5110,7 @@ snapshots:
 
   follow-redirects@1.15.9: {}
 
-  fs-extra@11.3.3:
+  fs-extra@11.3.5:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
@@ -5275,7 +5156,7 @@ snapshots:
       es6-error: 4.1.1
       matcher: 3.0.0
       roarr: 2.15.4
-      semver: 7.7.3
+      semver: 7.7.4
       serialize-error: 7.0.1
     optional: true
 
@@ -5315,7 +5196,7 @@ snapshots:
 
   grapheme-splitter@1.0.4: {}
 
-  handlebars@4.7.8:
+  handlebars@4.7.9:
     dependencies:
       minimist: 1.2.8
       neo-async: 2.6.2
@@ -5370,10 +5251,6 @@ snapshots:
       safer-buffer: 2.1.2
     optional: true
 
-  icss-utils@5.1.0(postcss@8.5.13):
-    dependencies:
-      postcss: 8.5.13
-
   ignore@5.3.2: {}
 
   image-size@0.5.5:
@@ -5381,7 +5258,7 @@ snapshots:
 
   immediate@3.0.6: {}
 
-  immer@11.1.3: {}
+  immer@11.1.8: {}
 
   immutable@5.1.5: {}
 
@@ -5434,7 +5311,8 @@ snapshots:
 
   is-what-type@1.1.4: {}
 
-  is-what@3.14.1: {}
+  is-what@3.14.1:
+    optional: true
 
   is2@2.0.9:
     dependencies:
@@ -5446,14 +5324,14 @@ snapshots:
 
   isarray@1.0.0: {}
 
-  isomorphic-ws@5.0.0(ws@8.18.3):
+  isomorphic-ws@5.0.0(ws@8.20.0):
     dependencies:
-      ws: 8.18.3
+      ws: 8.20.0
 
   jiti@2.4.2:
     optional: true
 
-  joi@18.0.2:
+  joi@18.2.1:
     dependencies:
       '@hapi/address': 5.1.1
       '@hapi/formula': 3.0.2
@@ -5461,7 +5339,7 @@ snapshots:
       '@hapi/pinpoint': 2.0.1
       '@hapi/tlds': 1.1.3
       '@hapi/topo': 6.0.2
-      '@standard-schema/spec': 1.0.0
+      '@standard-schema/spec': 1.1.0
 
   js-tokens@4.0.0: {}
 
@@ -5522,6 +5400,7 @@ snapshots:
       mime: 1.6.0
       needle: 3.3.1
       source-map: 0.6.1
+    optional: true
 
   levn@0.3.0:
     dependencies:
@@ -5581,8 +5460,6 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
-  lilconfig@2.1.0: {}
-
   lines-and-columns@1.2.4: {}
 
   locate-path@3.0.0:
@@ -5590,9 +5467,7 @@ snapshots:
       p-locate: 3.0.0
       path-exists: 3.0.0
 
-  lodash.camelcase@4.3.0: {}
-
-  lodash@4.17.21: {}
+  lodash@4.18.1: {}
 
   logform@2.7.0:
     dependencies:
@@ -5722,7 +5597,7 @@ snapshots:
 
   mobx@6.15.0: {}
 
-  moment-timezone@0.6.0:
+  moment-timezone@0.6.2:
     dependencies:
       moment: 2.30.1
 
@@ -5751,7 +5626,7 @@ snapshots:
 
   node-forge@1.3.1: {}
 
-  node-pty@1.1.0-beta43:
+  node-pty@1.2.0-beta.12:
     dependencies:
       node-addon-api: 7.1.1
 
@@ -5818,7 +5693,8 @@ snapshots:
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
 
-  parse-node-version@1.0.1: {}
+  parse-node-version@1.0.1:
+    optional: true
 
   path-exists@3.0.0: {}
 
@@ -5849,42 +5725,12 @@ snapshots:
     dependencies:
       find-up: 3.0.0
 
-  pnpm@10.28.2: {}
+  pnpm@10.33.4: {}
 
   postcss-js@4.0.1(postcss@8.5.13):
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.5.13
-
-  postcss-load-config@3.1.4(postcss@8.5.13):
-    dependencies:
-      lilconfig: 2.1.0
-      yaml: 1.10.2
-    optionalDependencies:
-      postcss: 8.5.13
-
-  postcss-modules-extract-imports@3.1.0(postcss@8.5.13):
-    dependencies:
-      postcss: 8.5.13
-
-  postcss-modules-local-by-default@4.2.0(postcss@8.5.13):
-    dependencies:
-      icss-utils: 5.1.0(postcss@8.5.13)
-      postcss: 8.5.13
-      postcss-selector-parser: 7.1.0
-      postcss-value-parser: 4.2.0
-
-  postcss-modules-scope@3.2.1(postcss@8.5.13):
-    dependencies:
-      postcss: 8.5.13
-      postcss-selector-parser: 7.1.0
-
-  postcss-selector-parser@7.1.0:
-    dependencies:
-      cssesc: 3.0.0
-      util-deprecate: 1.0.2
-
-  postcss-value-parser@4.2.0: {}
 
   postcss@8.5.13:
     dependencies:
@@ -6075,8 +5921,6 @@ snapshots:
 
   requires-port@1.0.0: {}
 
-  reserved-words@0.1.2: {}
-
   resolve-alpn@1.2.1: {}
 
   resolve-from@4.0.0: {}
@@ -6099,7 +5943,7 @@ snapshots:
 
   rfc4648@1.5.4: {}
 
-  rfc6902@5.1.2: {}
+  rfc6902@5.2.0: {}
 
   rimraf@3.0.2:
     dependencies:
@@ -6260,7 +6104,7 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.7.3: {}
+  semver@7.7.4: {}
 
   serialize-error@7.0.1:
     dependencies:
@@ -6338,8 +6182,6 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  strip-bom@3.0.0: {}
-
   stylis@4.2.0: {}
 
   stylus@0.62.0:
@@ -6375,7 +6217,7 @@ snapshots:
 
   sync-message-port@1.1.3: {}
 
-  tar-fs@3.1.1:
+  tar-fs@3.1.2:
     dependencies:
       pump: 3.0.3
       tar-stream: 3.1.7
@@ -6391,7 +6233,7 @@ snapshots:
       fast-fifo: 1.3.2
       streamx: 2.22.1
 
-  tar@7.5.7:
+  tar@7.5.15:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
@@ -6445,12 +6287,6 @@ snapshots:
 
   triple-beam@1.4.1: {}
 
-  tsconfig-paths@4.2.0:
-    dependencies:
-      json5: 2.2.3
-      minimist: 1.2.8
-      strip-bom: 3.0.0
-
   tslib@2.8.1: {}
 
   type-check@0.3.2:
@@ -6463,30 +6299,6 @@ snapshots:
   type-fest@0.16.0: {}
 
   typed-regex@0.0.8: {}
-
-  typescript-plugin-css-modules@5.2.0(typescript@5.9.3):
-    dependencies:
-      '@types/postcss-modules-local-by-default': 4.0.2
-      '@types/postcss-modules-scope': 3.0.4
-      dotenv: 16.6.1
-      icss-utils: 5.1.0(postcss@8.5.13)
-      less: 4.4.0
-      lodash.camelcase: 4.3.0
-      postcss: 8.5.13
-      postcss-load-config: 3.1.4(postcss@8.5.13)
-      postcss-modules-extract-imports: 3.1.0(postcss@8.5.13)
-      postcss-modules-local-by-default: 4.2.0(postcss@8.5.13)
-      postcss-modules-scope: 3.2.1(postcss@8.5.13)
-      reserved-words: 0.1.2
-      sass: 1.99.0
-      source-map-js: 1.2.1
-      tsconfig-paths: 4.2.0
-      typescript: 5.9.3
-    optionalDependencies:
-      stylus: 0.62.0
-    transitivePeerDependencies:
-      - supports-color
-      - ts-node
 
   typescript@5.9.3: {}
 
@@ -6545,7 +6357,7 @@ snapshots:
   vite-plugin-external@6.2.2:
     dependencies:
       '@types/fs-extra': 11.0.4
-      fs-extra: 11.3.3
+      fs-extra: 11.3.5
       is-what-type: 1.1.4
       vp-runtime-helper: 1.0.10
     transitivePeerDependencies:
@@ -6583,7 +6395,7 @@ snapshots:
       base-log-factory: 2.1.4
       blf-debug-appender: 1.0.5
       figlet: 1.8.2
-      fs-extra: 11.3.3
+      fs-extra: 11.3.5
       picocolors: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -6619,7 +6431,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.18.3: {}
+  ws@8.20.0: {}
 
   yaku@0.16.7: {}
 
@@ -6636,4 +6448,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@4.3.6: {}
+  zod@4.4.3: {}
