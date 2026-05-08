@@ -1,9 +1,11 @@
 import { Renderer } from "@freelensapp/extensions";
-import { observer } from "mobx-react";
+import * as MobxReact from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
 import { withErrorPage } from "../components/error-page";
 
 import type { Example } from "../k8s/example/example-v1alpha1";
+
+const { observer } = MobxReact;
 
 const {
   Component: { BadgeBoolean, DrawerItem, MarkdownViewer },
