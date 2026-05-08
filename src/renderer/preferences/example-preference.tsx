@@ -1,6 +1,8 @@
 import { Renderer } from "@freelensapp/extensions";
-import { observer } from "mobx-react";
+import * as MobxReact from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
+
+const { observer } = MobxReact;
 
 const {
   Component: { Checkbox },
