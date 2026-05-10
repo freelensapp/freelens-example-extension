@@ -26,17 +26,21 @@ for more informations.
 ## API supported
 
 - example.freelens.app/v1alpha1
+- example.freelens.app/v1alpha2
 
 To install Custom Resource Definition for this example run:
 
 ```sh
-kubectl apply -f examples/crds/customresourcedefinition.yaml
+kubectl apply -k examples/v1alpha1/crds
+kubectl apply -k examples/v1alpha2/crds
 ```
 
 Examples provide a resource for test:
 
 ```sh
-kubectl apply -f examples/test/example.yaml
+kubectl apply -k examples/v1alpha2/test
+# or
+kubectl apply -k examples/v1alpha1/test
 ```
 
 ## Install
@@ -149,6 +153,6 @@ pnpm build
 
 ## License
 
-Copyright (c) 2025 Freelens Authors.
+Copyright (c) 2025-2026 Freelens Authors.
 
 [MIT License](https://opensource.org/licenses/MIT)
