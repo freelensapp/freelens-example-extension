@@ -22,6 +22,33 @@ Definitions (CRDs). Each resource is accessible from the Freelens sidebar,
 with status conditions, spec fields, and related objects displayed in the
 detail view.
 
+Notable patterns demonstrated in this repository:
+
+- **Multiple API versions of the same CRD** -- the `Example` resource is
+  implemented for both `v1alpha1` and `v1alpha2`, each with separate typed
+  interfaces, detail views, list pages, and context menu items. The
+  v1alpha1 to v1alpha2 migration also illustrates a field rename with
+  inverted semantics (`active` to `suspended`).
+
+- **Auto-detection of the available API version** -- the
+  `createAvailableVersionPage` helper tries each registered version in
+  priority order at runtime, renders the page for the first version whose
+  store is available in the cluster, and shows a friendly message if the
+  CRD is not installed.
+
+- **Static methods instead of instance methods** -- Freelens creates plain
+  object copies of Kubernetes resources rather than class instances, so all
+  per-object logic is implemented as `static` methods on the KubeObject
+  subclass (e.g. `Example.getActive(object)`).
+
+- **Error boundary with `withErrorPage`** -- every component render is
+  wrapped in a `withErrorPage(props, fn)` helper that catches errors, logs
+  them, and renders a graceful error UI instead of crashing the panel.
+
+- **Persisted preferences with MobX** -- `ExamplePreferencesStore` shows
+  how to persist extension settings across restarts using
+  `Common.Store.ExtensionStore` with MobX `@observable` fields.
+
 Visit the wiki page about [creating
 extensions](https://github.com/freelensapp/freelens/wiki/Creating-extensions)
 for more information.
