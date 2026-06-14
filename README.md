@@ -11,31 +11,74 @@
 
 <!-- markdownlint-enable MD013 -->
 
-This repository serves as an example how to build and publish extensions for
-Freelens application.
+## Overview
 
-Visit wiki page about [creating
+This repository serves as an example and template for building and publishing
+extensions for the [Freelens](https://freelens.app) application.
+
+It demonstrates how to add support for custom Kubernetes resources by
+implementing cluster pages, list views, and detail panels for Custom Resource
+Definitions (CRDs). Each resource is accessible from the Freelens sidebar,
+with status conditions, spec fields, and related objects displayed in the
+detail view.
+
+Notable patterns demonstrated in this repository:
+
+- **Multiple API versions of the same CRD** -- the `Example` resource is
+  implemented for both `v1alpha1` and `v1alpha2`, each with separate typed
+  interfaces, detail views, list pages, and context menu items. The
+  v1alpha1 to v1alpha2 migration also illustrates a field rename with
+  inverted semantics (`active` to `suspended`).
+
+- **Auto-detection of the available API version** -- the
+  `createAvailableVersionPage` helper tries each registered version in
+  priority order at runtime, renders the page for the first version whose
+  store is available in the cluster, and shows a friendly message if the
+  CRD is not installed.
+
+- **Static methods instead of instance methods** -- Freelens creates plain
+  object copies of Kubernetes resources rather than class instances, so all
+  per-object logic is implemented as `static` methods on the KubeObject
+  subclass (e.g. `Example.getActive(object)`).
+
+- **Error boundary with `withErrorPage`** -- every component render is
+  wrapped in a `withErrorPage(props, fn)` helper that catches errors, logs
+  them, and renders a graceful error UI instead of crashing the panel.
+
+- **Persisted preferences with MobX** -- `ExamplePreferencesStore` shows
+  how to persist extension settings across restarts using
+  `Common.Store.ExtensionStore` with MobX `@observable` fields.
+
+Visit the wiki page about [creating
 extensions](https://github.com/freelensapp/freelens/wiki/Creating-extensions)
-for more informations.
+for more information.
 
 ## Requirements
 
 - Kubernetes >= 1.24
 - Freelens >= 1.8.0
 
-## API supported
+## Supported APIs
 
-- example.freelens.app/v1alpha1
-- example.freelens.app/v1alpha2
+### example.freelens.app
 
-To install Custom Resource Definition for this example run:
+<!-- markdownlint-disable MD013 -->
+
+| API Version | Kind | Scope | Description |
+| --- | --- | --- | --- |
+| v1alpha1 | `Example` | Namespaced | Example custom resource (v1alpha1) |
+| v1alpha2 | `Example` | Namespaced | Example custom resource (v1alpha2) |
+
+<!-- markdownlint-enable MD013 -->
+
+To install Custom Resource Definitions for this example run:
 
 ```sh
 kubectl apply -k examples/v1alpha1/crds
 kubectl apply -k examples/v1alpha2/crds
 ```
 
-Examples provide a resource for test:
+Example resources for testing:
 
 ```sh
 kubectl apply -k examples/v1alpha2/test
@@ -45,22 +88,22 @@ kubectl apply -k examples/v1alpha1/test
 
 ## Install
 
-To install open Freelens and go to Extensions (`ctrl`+`shift`+`E` or
-`cmd`+`shift`+`E`), and install `@freelensapp/example-extension`.
+To install, open Freelens and go to Extensions (`ctrl`+`shift`+`E` or
+`cmd`+`shift`+`E`), then search for and install
+`@freelensapp/example-extension`.
 
-or:
+Alternatively, open the following URL in the browser to install directly:
 
-Use a following URL in the browser:
 [freelens://app/extensions/install/%40freelensapp%2Fexample-extension](freelens://app/extensions/install/%40freelensapp%2Fexample-extension)
 
 ## Build from the source
 
-You can build the extension using this repository.
+You can build the extension from this repository.
 
 ### Prerequisites
 
-Use [NVM](https://github.com/nvm-sh/nvm) or
-[mise-en-place](https://mise.jdx.dev/) or
+Use [NVM](https://github.com/nvm-sh/nvm),
+[mise-en-place](https://mise.jdx.dev/), or
 [windows-nvm](https://github.com/coreybutler/nvm-windows) to install the
 required Node.js version.
 
@@ -76,7 +119,7 @@ nvm install 24.15.0
 nvm use 24.15.0
 ```
 
-Install Pnpm:
+Install pnpm:
 
 ```sh
 corepack install
@@ -94,7 +137,7 @@ pnpm build
 pnpm pack
 ```
 
-One script to build then pack the extension to test:
+One script to build and pack the extension for testing:
 
 ```sh
 pnpm pack:dev
@@ -102,11 +145,9 @@ pnpm pack:dev
 
 ### Install built extension
 
-The tarball for the extension will be placed in the current directory. In
-Freelens, navigate to the Extensions list and provide the path to the tarball
-to be loaded, or drag and drop the extension tarball into the Freelens window.
-After loading for a moment, the extension should appear in the list of enabled
-extensions.
+The tarball will be placed in the current directory. In Freelens, navigate
+to the Extensions page and provide the path to the tarball, or drag and
+drop the `.tgz` file into the Freelens window.
 
 ### Check code statically
 
@@ -129,7 +170,7 @@ pnpm knip:check
 
 ### Testing the extension with unpublished Freelens
 
-In Freelens working repository:
+In the Freelens working repository:
 
 ```sh
 rm -f *.tgz
@@ -138,7 +179,7 @@ pnpm build
 pnpm pack -r
 ```
 
-then for extension:
+Then in the extension repository:
 
 ```sh
 echo "overrides:" >> pnpm-workspace.yaml
