@@ -72,6 +72,18 @@ jobs:
         run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
 
       - name: Build plugin
+        id: build-plugin
+        run: pnpm build
+        continue-on-error: true
+
+      - name: Build plugin (retry)
+        id: build-plugin-2
+        if: steps.build-plugin.outcome == 'failure'
+        run: pnpm build
+        continue-on-error: true
+
+      - name: Build plugin (retry 2)
+        if: steps.build-plugin-2.outcome == 'failure'
         run: pnpm build
 
       - name: Pack plugin
