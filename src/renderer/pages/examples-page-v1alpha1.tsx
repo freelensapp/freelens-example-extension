@@ -1,7 +1,7 @@
 import { Renderer } from "@freelensapp/extensions";
 import * as MobxReact from "mobx-react";
 import { withErrorPage } from "../components/error-page";
-import { Example, type ExampleApi } from "../k8s/example/example-v1alpha1";
+import { Example, type ExampleApi } from "../api/example/example-v1alpha1";
 import styles from "./examples-page.module.scss";
 import stylesInline from "./examples-page.module.scss?inline";
 

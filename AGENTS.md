@@ -50,7 +50,7 @@ pnpm clean:all            # Clean everything (dts, node_modules, out, tgz)
 src/
   main/index.ts            # Extension entry point (main process, CJS)
   renderer/index.tsx       # Extension entry point (renderer process, CJS)
-  renderer/k8s/gateway-api/ # K8s object model classes (one file per CRD)
+  renderer/api/gateway-api/ # K8s object model classes (one file per CRD)
   renderer/details/gateway-api/ # Detail view components for CRDs
   renderer/pages/gateway-api/  # Cluster page components
   renderer/components/      # Shared components

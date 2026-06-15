@@ -3,7 +3,7 @@ import * as MobxReact from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
 import { withErrorPage } from "../components/error-page";
 
-import type { Example } from "../k8s/example/example-v1alpha2";
+import type { Example } from "../api/example/example-v1alpha2";
 
 const { observer } = MobxReact;
 
