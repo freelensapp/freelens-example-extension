@@ -5,12 +5,12 @@
 
 import { Renderer } from "@freelensapp/extensions";
 import { ExamplePreferencesStore } from "../common/store";
+import { Example as ExampleV1alpha1 } from "./api/example/example-v1alpha1";
+import { Example as ExampleV1alpha2 } from "./api/example/example-v1alpha2";
 import { createAvailableVersionPage } from "./components/available-version";
 import { ExampleDetails as ExampleDetailsV1alpha1 } from "./details/example-details-v1alpha1";
 import { ExampleDetails as ExampleDetailsV1alpha2 } from "./details/example-details-v1alpha2";
 import { ExampleIcon } from "./icons";
-import { Example as ExampleV1alpha1 } from "./api/example/example-v1alpha1";
-import { Example as ExampleV1alpha2 } from "./api/example/example-v1alpha2";
 import {
   ExampleActiveToggleMenuItem as ExampleActiveToggleMenuItem_v1alpha1,
   type ExampleActiveToggleMenuItemProps as ExampleActiveToggleMenuItemProps_v1alpha1,

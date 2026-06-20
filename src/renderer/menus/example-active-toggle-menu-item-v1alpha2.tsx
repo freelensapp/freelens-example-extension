@@ -1,6 +1,6 @@
 import { Renderer } from "@freelensapp/extensions";
-import { withErrorPage } from "../components/error-page";
 import { Example } from "../api/example/example-v1alpha2";
+import { withErrorPage } from "../components/error-page";
 
 const {
   Component: { MenuItem, Icon },
