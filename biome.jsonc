@@ -25,6 +25,14 @@
       }
     }
   },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    }
+  },
   "files": {
     "includes": ["**", "!**/.trunk/**", "!**/build/**", "!**/dist/**"]
   },
