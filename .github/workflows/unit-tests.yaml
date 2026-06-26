@@ -1,8 +1,3 @@
-# This workflow lives under `github-workflows/` instead of `.github/workflows/`
-# because the Claude GitHub App is not allowed to create or modify files in
-# `.github/workflows/`. A maintainer should move this file into
-# `.github/workflows/unit-tests.yaml` to enable it.
-
 name: Unit tests
 
 on:
