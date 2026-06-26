@@ -109,7 +109,6 @@
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": [
         "/^\\.github/workflows/.*\\.ya?ml$/",
-        "/^\\.trunk/trunk.yaml$/",
         "/^\\.tool-versions$/"
       ],
       "matchStrings": [
