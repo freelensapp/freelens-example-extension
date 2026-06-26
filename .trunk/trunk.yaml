@@ -62,13 +62,13 @@ lint:
     - yamlfmt@0.21.0
     - yamllint@1.38.0
   disabled:
-    - prettier
     - checkov
     - svgo
     - eslint
     - grype
     - osv-scanner
     - pinact
+    - prettier
     - renovate
     - trufflehog
 actions:
