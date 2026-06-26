@@ -155,6 +155,12 @@ drop the `.tgz` file into the Freelens window.
 pnpm lint:check
 ```
 
+or
+
+```sh
+pnpm trunk:check
+```
+
 and
 
 ```sh
