@@ -68,6 +68,7 @@ lint:
     - grype
     - osv-scanner
     - pinact
+    - prettier
     - renovate
     - trufflehog
 actions:
