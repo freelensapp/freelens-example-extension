@@ -67,6 +67,7 @@ lint:
     - eslint
     - grype
     - osv-scanner
+    - oxipng
     - pinact
     - prettier
     - renovate
