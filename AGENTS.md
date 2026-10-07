@@ -22,7 +22,9 @@ of Freelens for tools run with `pnpm dlx` (Biome, knip, Trunk launcher), and
 Freelens's `mise.toml` and `.nvmrc` for Node and the other mise tools.
 `mise.lock` pins a checksum and a URL per tool for all eight platforms; after
 changing `mise.toml`, run `mise lock` (not only `mise install`, which re-locks
-just the current platform). `@freelensapp/extensions` is
+just the current platform). `mise.lock` is lockfile revision 3
+(`lockfile_version = 3`), which needs mise 2026.9.16 or newer; older versions
+reject it. `@freelensapp/extensions` is
 pinned to one exact version. The libraries the host provides at runtime
 (`react`, `react-dom`, `mobx`, `mobx-react`) and their types are
 devDependencies only, for compiling and testing; `electron` is a devDependency
