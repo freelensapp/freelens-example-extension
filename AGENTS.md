@@ -9,10 +9,20 @@ This file provides guidance to coding agents when working with code in this repo
 This repository serves as an example how to build and publish extensions for
 Freelens application.
 
-- **Language**: TypeScript 5.9.3
-- **Runtime**: Node.js >= 22.0.0, Freelens >= 1.8.0
+- **Language**: TypeScript 7.0.2
+- **Runtime**: Freelens >= 2.0.0 (extension API v2)
+- **Toolchain**: Node.js 24.21.0 (`.nvmrc`, `mise.toml` with `mise.lock`)
 - **Package manager**: pnpm 10.x (locked)
 - **License**: MIT
+
+Library and tool versions follow the Freelens stack exactly: the catalog in
+Freelens's `pnpm-workspace.yaml` for libraries, the root `package.json` scripts
+of Freelens for tools run with `pnpm dlx` (Biome, knip, Trunk launcher), and
+Freelens's `mise.toml` and `.nvmrc` for Node. `@freelensapp/extensions` is
+pinned to one exact version. The libraries the host provides at runtime
+(`react`, `react-dom`, `mobx`, `mobx-react`) and their types are
+devDependencies only, for compiling and testing; `electron` is a devDependency
+for its types only.
 
 ## Common Commands
 
@@ -122,7 +132,7 @@ Other dependencies ARE bundled into the extension output.
 - **Biome** formats **TypeScript/TSX, JS, JSON, CSS/SCSS, HTML**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
 - **Trunk** formats **Markdown, YAML**, and other formats not covered by biome — use `pnpm trunk:fix`
 - Import order (enforced by biome organizeImports): built-in modules → `@freelensapp/**` → packages → relative paths
-- React 17 (no `react/jsx-runtime` in tsconfig needed, but handled by build)
+- React 19 (no `react/jsx-runtime` in tsconfig needed, but handled by build)
 - **No emoji** in Markdown files (`.md`), comments, or any source code
 
 ## Security

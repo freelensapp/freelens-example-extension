@@ -11,10 +11,6 @@
   "project": ["*.{js,mjs,ts}", "out/**/*.js!", "src/**/*.{ts,tsx}"],
 
   "ignoreBinaries": ["electron-rebuild", "yq"],
-  "ignoreDependencies": [
-    // used as vite plugin
-    "@babel/plugin-proposal-decorators"
-  ],
 
   "typescript": {
     "config": ["tsconfig.json"]
