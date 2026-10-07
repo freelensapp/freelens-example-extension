@@ -203,7 +203,8 @@ MobX 7 supports standard decorators only, and Oxc, which transpiles TypeScript
 for Vite, passes them through unlowered, while neither Node nor Chromium runs
 them yet. `build/vite-plugin-standard-decorators.mjs`, copied from Freelens,
 hands every module with a decorator to esbuild first, which lowers the
-decorators and their `accessor` fields. A decorator that reaches the host
+decorators and their `accessor` fields. Both `vite.config.mjs` and
+`vitest.config.ts` use it. A decorator that reaches the host or a test
 unlowered is a syntax error when the module is evaluated.
 
 An observable field is an `accessor` (`@observable accessor enabled = false;`),
@@ -315,6 +316,17 @@ program. Test and test-support files import what they use:
 ```ts
 import { describe, expect, it, vi } from "vitest";
 ```
+
+The module resolves from every program, so Biome keeps it out of the
+extension's code: `style/noRestrictedImports` rejects an import of `vitest`
+outside `src/**/*.test.*` and `test/`. `globals: true` stays on in
+`vitest.config.ts` at runtime only, because React Testing Library registers its
+automatic cleanup only when `afterEach` is a global.
+
+The stub in `test/freelens-extensions.ts` covers only what the tests use, at
+runtime only. Vitest runs the development build of mobx, so a test that imports
+a class with `@observable` on a field without `accessor` fails when the class
+is defined; `src/common/store/preferences-store.test.ts` relies on that.
 
 The root `tsconfig.json` checks the tooling files. It has `checkJs`, so the
 Vite config and the build plugins are type-checked too; give their function
