@@ -61,12 +61,13 @@ pnpm type:check:tooling        # Vite and Vitest configs, build plugins
 pnpm type:check:environments   # Environment tests
 
 # Linting & formatting
-pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS/SCSS, HTML (biome)
+pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS, HTML (biome)
 pnpm biome:fix            # Auto-fix the formats above
-pnpm trunk:check          # Markdown, YAML, TOML, and other formats not covered by biome
-pnpm trunk:fix            # Auto-fix Markdown, YAML, etc.
+pnpm trunk:check          # Markdown, YAML, TOML, SCSS, workflows, and Biome again (changed files)
+pnpm trunk:fix            # Auto-fix Markdown, YAML, SCSS, etc.
 pnpm lint:check           # Alias for biome:check
 pnpm lint:fix             # Alias for biome:fix
+pnpm knip:check           # Unused and unlisted dependencies (knip)
 
 # Tests
 pnpm test:unit            # vitest
@@ -80,9 +81,9 @@ pnpm build:production     # Same as build:force
 pnpm pack:dev             # Bump prerelease version, build, and create .tgz for install in Freelens app
 
 # Clean
-pnpm clean                # Clean out/
+pnpm clean                # Clean dist/
 pnpm clean:dts            # Remove generated *.d.scss.ts files
-pnpm clean:all            # Clean everything (dts, node_modules, out, tgz)
+pnpm clean:all            # Clean everything (dist, dts, node_modules, tgz)
 ```
 
 ## Architecture
@@ -319,7 +320,7 @@ import { describe, expect, it, vi } from "vitest";
 
 The module resolves from every program, so Biome keeps it out of the
 extension's code: `style/noRestrictedImports` rejects an import of `vitest`
-outside `src/**/*.test.*` and `test/`. `globals: true` stays on in
+outside `src/**/*.test.*`, `test/` and `integration/`. `globals: true` stays on in
 `vitest.config.ts` at runtime only, because React Testing Library registers its
 automatic cleanup only when `afterEach` is a global.
 
@@ -332,10 +333,68 @@ The root `tsconfig.json` checks the tooling files. It has `checkJs`, so the
 Vite config and the build plugins are type-checked too; give their function
 parameters JSDoc types.
 
+## Lint and CI
+
+### Biome
+
+`biome.jsonc` has the formatter, import groups and rules of Freelens. Two
+overrides are specific to how the extension is laid out:
+
+- `style/noRestrictedImports` keeps `vitest` out of the extension's code (see
+  "Tests and tooling").
+- `correctness/noNodejsModules` rejects a Node builtin import in
+  `src/renderer/` and `src/common/`, tests left out. It flags the import in the
+  editor, before `pnpm type:check` does; it does not see Node globals such as
+  `Buffer` or `process`, which only the type check catches.
+
+Every path in an override starts with `**/`. Trunk runs Biome from a sandbox
+outside the repository, with `--config-path` pointing back at `biome.jsonc`,
+and there a path anchored at the repository root matches no file, so the
+override silently does nothing. A plain `biome check` matches both forms, so
+only `trunk check` shows the difference.
+
+Biome does not read SCSS; Trunk formats it with Prettier.
+
+### Knip
+
+`pnpm knip:check` runs knip twice, for dependencies only: a development pass
+over everything, and a `--production --strict` pass over the code that reaches
+the bundles, which are the entries marked with `!` in `knip.jsonc`. In the
+production pass only `dependencies` count, so a bundled library that the
+extension's code imports belongs there. The host-provided modules are
+devDependencies, for their types, and are ignored.
+
+`knip.jsonc` lists the entries knip cannot find: the two source entries, the
+Vitest alias target `test/freelens-extensions.ts` and the probes in
+`environment-tests/`. Its Vite plugin is off: it adds the renderer entry of
+`vite.config.mjs` as a development entry, which displaces
+`src/renderer/index.tsx!`, and the production pass then skips the renderer.
+`--no-config-hints` is set because one config serves both passes, and an entry
+that only the production pass needs is reported as redundant by the other.
+
+### Workflows
+
+| Workflow                 | Runs                                                                          |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| `type-check.yaml`        | `pnpm type:check`                                                             |
+| `check.yaml`             | `pnpm build:production`, `pnpm lint:check`, `pnpm knip:check`                 |
+| `unit-tests.yaml`        | `pnpm test:unit`                                                              |
+| `trunk-check.yaml`       | `trunk check --all`                                                           |
+| `integration-tests.yaml` | the integration tests in `integration/`, against a Freelens build             |
+| `mise-lock-check.yaml`   | on a change to `mise.lock`: no checksum changed for an unchanged tool version |
+
+The integration tests run inside a Freelens checkout: the workflow builds the
+extension, packs it with a `.tgz.sha256` checksum next to the tarball, as the
+release publishes it, checks out and packages Freelens, copies
+`integration/__tests__/` into `freelens/integration/__tests__/` and runs them
+there under Freelens's Vitest, with its helpers. The test installs the
+tarball from the extensions page and fails on any error logged by either
+process.
+
 ## Code Style
 
-- **Biome** formats **TypeScript/TSX, JS, JSON, CSS/SCSS, HTML**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
-- **Trunk** formats **Markdown, YAML**, and other formats not covered by biome — use `pnpm trunk:fix`
+- **Biome** formats **TypeScript/TSX, JS, JSON, CSS, HTML**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
+- **Trunk** formats **Markdown, YAML, SCSS** (with Prettier), and other formats not covered by biome — use `pnpm trunk:fix`
 - Import order (enforced by biome organizeImports): built-in modules → `@freelensapp/**` → packages → relative paths
 - React 19; JSX compiles to `react/jsx-runtime` imports, which the build maps to the host's React
 - **No emoji** in Markdown files (`.md`), comments, or any source code
@@ -375,7 +434,7 @@ Code in `src/common/` is shared between both processes.
 
 ### Changes Not Appearing
 
-1. Check that files are not in ignored output directories (`out/`, `dist/`, `node_modules/`)
+1. Check that files are not in ignored output directories (`dist/`, `node_modules/`)
 2. Full clean and rebuild: `pnpm clean:all && pnpm build`
 3. Reinstall the extension in Freelens (or restart the app in dev mode)
 
@@ -400,8 +459,8 @@ Code in `src/common/` is shared between both processes.
 2. **Follow existing patterns** — grep for similar implementations before creating new ones
 3. **Test changes** before committing
 4. **Run validation before committing:** `pnpm lint:fix && pnpm type:check && pnpm test:unit`
-5. **For TypeScript/TSX, JS, JSON, CSS/SCSS, HTML files:** run `pnpm biome:fix` (or `biome check` directly if `biome` is installed locally)
-6. **For Markdown, YAML, and other formats:** run `pnpm trunk:fix` (or `trunk check` directly if `trunk` is installed locally)
+5. **For TypeScript/TSX, JS, JSON, CSS, HTML files:** run `pnpm biome:fix` (or `biome check` directly if `biome` is installed locally)
+6. **For Markdown, YAML, SCSS and other formats:** run `pnpm trunk:fix` (or `trunk check` directly if `trunk` is installed locally)
 7. **Full build** when in doubt about cached state: `pnpm clean:all && pnpm build`
 8. **Do not use Anthropic Fable for coding tasks** — Fable may be used only for planning,
    analysis, and thinking through problems. When writing or editing code,
