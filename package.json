@@ -7,10 +7,10 @@
     "url": "git+https://github.com/freelensapp/freelens-example-extension.git",
     "directory": "."
   },
-  "main": "out/main/index.js",
-  "renderer": "out/renderer/index.js",
+  "main": "dist/main.js",
+  "renderer": "dist/renderer.js",
   "files": [
-    "out/**/*"
+    "dist/**/*"
   ],
   "engines": {
     "node": ">= 24.0.0",
@@ -48,9 +48,9 @@
     "test:unit": "vitest run",
     "type:check": "tsc --noEmit -p tsconfig.json --composite false",
     "prebuild": "pnpm type:check",
-    "build": "electron-vite build",
-    "build:production": "VITE_PRESERVE_MODULES=false electron-vite build",
-    "build:force": "electron-vite build",
+    "build": "pnpm build:force",
+    "build:production": "pnpm build:force",
+    "build:force": "vite build && vite build --mode main",
     "bump-version": "pnpm version --no-commit-hooks --no-git-tag-version",
     "pack:dev": "pnpm bump-version prerelease && pnpm build:force && pnpm build && pnpm clean:tgz && pnpm pack && pnpm dlx shx@0.4.0 ls \"$PWD/*.tgz\"",
     "clean": "pnpm clean:out",
