@@ -12,7 +12,7 @@ Freelens application.
 - **Language**: TypeScript 7.0.2
 - **Runtime**: Freelens >= 2.0.0 (extension API v2)
 - **Toolchain**: Node.js 24.21.0 (`.nvmrc`, `mise.toml` with `mise.lock`)
-- **Package manager**: pnpm 10.x (locked)
+- **Package manager**: pnpm 12.9.1 (`packageManager`, run through corepack)
 - **License**: MIT
 
 Library and tool versions follow the Freelens stack exactly: the catalog in
@@ -23,6 +23,13 @@ pinned to one exact version. The libraries the host provides at runtime
 (`react`, `react-dom`, `mobx`, `mobx-react`) and their types are
 devDependencies only, for compiling and testing; `electron` is a devDependency
 for its types only.
+
+pnpm settings live in `pnpm-workspace.yaml`. A dependency runs its install
+scripts only when `allowBuilds` sets it to `true`; a new dependency with
+install scripts that is not listed there fails `pnpm install`, so add it with
+`true` or `false` deliberately. pnpm refuses versions younger than its
+`minimumReleaseAge` (1 day), with `@freelensapp/extensions` excluded because
+its pinned nightly is often adopted on the day it is published.
 
 ## Common Commands
 
