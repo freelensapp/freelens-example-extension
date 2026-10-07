@@ -11,14 +11,18 @@ Freelens application.
 
 - **Language**: TypeScript 7.0.2
 - **Runtime**: Freelens >= 2.0.0 (extension API v2)
-- **Toolchain**: Node.js 24.21.0 (`.nvmrc`, `mise.toml` with `mise.lock`)
+- **Toolchain**: Node.js 24.21.0, yq 4.54.1 and cosign 3.1.3 (`mise.toml` with
+  `mise.lock`; Node also in `.nvmrc`)
 - **Package manager**: pnpm 12.9.1 (`packageManager`, run through corepack)
 - **License**: MIT
 
 Library and tool versions follow the Freelens stack exactly: the catalog in
 Freelens's `pnpm-workspace.yaml` for libraries, the root `package.json` scripts
 of Freelens for tools run with `pnpm dlx` (Biome, knip, Trunk launcher), and
-Freelens's `mise.toml` and `.nvmrc` for Node. `@freelensapp/extensions` is
+Freelens's `mise.toml` and `.nvmrc` for Node and the other mise tools.
+`mise.lock` pins a checksum and a URL per tool for all eight platforms; after
+changing `mise.toml`, run `mise lock` (not only `mise install`, which re-locks
+just the current platform). `@freelensapp/extensions` is
 pinned to one exact version. The libraries the host provides at runtime
 (`react`, `react-dom`, `mobx`, `mobx-react`) and their types are
 devDependencies only, for compiling and testing; `electron` is a devDependency
