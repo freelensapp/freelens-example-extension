@@ -206,12 +206,19 @@ hands every module with a decorator to esbuild first, which lowers the
 decorators and their `accessor` fields. A decorator that reaches the host
 unlowered is a syntax error when the module is evaluated.
 
+An observable field is an `accessor` (`@observable accessor enabled = false;`),
+and the class does not call `makeObservable(this)`. `@observable` on a plain
+field type-checks and builds; the development build of mobx throws when the
+class is defined, and the production build leaves the field unobservable.
+
 ### CSS
 
 The host links the stylesheet named after the renderer entry, `renderer.css`
 next to `renderer.js`. Library mode extracts the CSS of the whole bundle into
 that one file (`build.lib.cssFileName`). A build that emits more than one CSS
-asset, or a differently named one, leaves the extension unstyled. CSS modules
+asset, or a differently named one, leaves the extension unstyled. A component
+imports its CSS module for the class names only and renders no `<style>` tag;
+the rules reach the page through `renderer.css`. CSS modules
 use `camelCaseOnly` class names. `vite-plugin-sass-dts` writes the
 `*.module.d.scss.ts` declarations during the renderer run.
 
