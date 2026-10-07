@@ -12,3 +12,8 @@ minimumReleaseAgeExclude:
   - '@freelensapp/extensions'
 
 shellEmulator: true
+
+# Fail the install, instead of printing one warning line, when a library the
+# extension shares with the host is outside the peer range of
+# @freelensapp/extensions.
+strictPeerDependencies: true
