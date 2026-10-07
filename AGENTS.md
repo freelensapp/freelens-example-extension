@@ -52,7 +52,11 @@ cover them; keep them at the same versions as `react` by hand.
 
 ```bash
 # Type checking
-pnpm type:check
+pnpm type:check                # All of the programs below, in this order
+pnpm type:check:sources        # main, renderer and common
+pnpm type:check:tests          # Tests and test support
+pnpm type:check:tooling        # Vite and Vitest configs, build plugins
+pnpm type:check:environments   # Environment tests
 
 # Linting & formatting
 pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS/SCSS, HTML (biome)
@@ -208,6 +212,104 @@ that one file (`build.lib.cssFileName`). A build that emits more than one CSS
 asset, or a differently named one, leaves the extension unstyled. CSS modules
 use `camelCaseOnly` class names. `vite-plugin-sass-dts` writes the
 `*.module.d.scss.ts` declarations during the renderer run.
+
+## TypeScript
+
+Main code runs in Node, renderer code in a browser page, and common code in
+both. Each is type-checked in a program of its own, so that an API the runtime
+does not have fails `pnpm type:check` rather than the extension:
+
+| Config                       | lib                       | types                 | Files                                                                |
+| ---------------------------- | ------------------------- | --------------------- | -------------------------------------------------------------------- |
+| `src/main/tsconfig.json`     | ES2024                    | `node`                | `src/main/`, `src/common/`                                           |
+| `src/renderer/tsconfig.json` | ES2024, DOM, DOM.Iterable | `vite/client`         | `src/renderer/`, `src/common/`                                       |
+| `src/common/tsconfig.json`   | ES2024, WebWorker         | none                  | `src/common/`                                                        |
+| `src/tsconfig.json`          | ES2024, DOM, DOM.Iterable | `node`, `vite/client` | `*.test.ts(x)` under `src/`, and `test/`                             |
+| `tsconfig.json`              | ES2024                    | `node`                | `vite.config.mjs`, `vitest.config.ts`, `svgo.config.mjs`, `build/`   |
+
+All of them extend `tsconfig.base.json`, which has the compiler options of
+Freelens's fixture extension: `strict`, `moduleResolution: Bundler`,
+`useDefineForClassFields`, `noUncheckedSideEffectImports` and `skipLibCheck`
+among them. `skipLibCheck` is required: `extension-api.d.ts` is one declaration
+for both processes and names DOM types and the `Electron` namespace, which no
+single program has. Write `types` in every config; it decides which `@types`
+packages a program sees.
+
+### Main, renderer and common
+
+The main and renderer configs both include `src/common/`. Compiled as main,
+common code fails on the DOM; compiled as renderer, it fails on Node. What
+passes both is valid in both, and that is the check that decides. Common code
+uses only what both runtimes have: `globalThis.crypto`, `TextEncoder` and
+`TextDecoder`, `URL` and `URLSearchParams`, `AbortController`,
+`structuredClone`, and the timers, with the timer handle kept opaque.
+
+`src/common/tsconfig.json` is for the editor, which gives a file to one config
+only. Its `WebWorker` lib is the closest single match and an approximation:
+`self` and `postMessage` compile there and fail in the main program.
+
+The split does not cover the API namespaces: `Main` and `Renderer` compile in
+every program, and the one the process does not have is `undefined` at runtime.
+Common code uses `Common`.
+
+### Asset imports
+
+The renderer program has `vite/client`, which declares `*?raw`, `*?inline` and
+the CSS modules and brings no Node into the program. With
+`allowArbitraryExtensions`, `import styles from "./x.module.scss"` resolves to
+the generated `x.module.d.scss.ts`, so a class name that the stylesheet lacks
+fails the check. Without that file, after `pnpm clean:dts`, the import falls
+back to the untyped declaration of `vite/client`.
+
+### Environment tests
+
+`types` and `lib` alone do not keep an environment pure. A declaration file
+with `/// <reference types="node" />` loads all of `@types/node` into any
+program that reaches it, whatever `types` says, and one with
+`/// <reference lib="dom" />` loads the DOM. `environment-tests/` proves the
+split holds:
+
+| File             | Compiled with          | Must                      |
+| ---------------- | ---------------------- | ------------------------- |
+| `node-apis.ts`   | renderer, common       | fail on every marked line |
+| `dom-apis.ts`    | main, common           | fail on every marked line |
+| `worker-apis.ts` | main                   | fail on every marked line |
+| `shared-apis.ts` | main, renderer, common | pass                      |
+
+Each line that must fail carries `// @ts-expect-error`, so a program that
+starts accepting it fails with an unused directive. The configs there extend
+the source configs and keep their `include`, so the probes are compiled
+together with the sources and every declaration the sources reach. Compiled
+alone, they would not see a declaration that a dependency of the sources brings
+in.
+
+None of the declarations reached here leaks today. If one does, the
+environment tests fail; keep the leak out rather than relax a probe. For Node
+in the renderer, point `typeRoots` of the renderer config at a directory with
+an empty `node` package, which a reference directive resolves to first. For
+the DOM in main, remove the directive from the declaration with `pnpm patch`.
+
+### Tests and tooling
+
+Tests are not in the environment programs. Vitest runs them in Node, with
+jsdom for files that ask for it, so `src/tsconfig.json` gives them the DOM and
+Node. It sits in `src/` so that an editor finds it for a test file: the
+environment config next to the test excludes it, and the editor goes on to the
+next `tsconfig.json` up the tree. Tests compile against the real
+`@freelensapp/extensions` declaration, while Vitest replaces the package with
+`test/freelens-extensions.ts` at runtime.
+
+No config declares the Vitest globals. TypeScript has no per-file globals, so
+declaring `describe` or `vi` for tests would declare them for every file in the
+program. Test and test-support files import what they use:
+
+```ts
+import { describe, expect, it, vi } from "vitest";
+```
+
+The root `tsconfig.json` checks the tooling files. It has `checkJs`, so the
+Vite config and the build plugins are type-checked too; give their function
+parameters JSDoc types.
 
 ## Code Style
 

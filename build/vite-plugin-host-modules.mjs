@@ -39,7 +39,11 @@ const publishedModuleIds = {
 const allModuleIds = new Set(Object.values(publishedModuleIds).flat());
 const hostPackages = new Set([...allModuleIds].map(packageName));
 
-/** The global name of a module id (C3): strip the scope, split on `-`, `/` and `.`, upper-case each segment. */
+/**
+ * The global name of a module id (C3): strip the scope, split on `-`, `/` and `.`, upper-case each segment.
+ *
+ * @param {string} moduleId
+ */
 function globalName(moduleId) {
   return moduleId
     .replace(/^@[^/]+\//, "")
@@ -48,6 +52,7 @@ function globalName(moduleId) {
     .join("");
 }
 
+/** @param {string} moduleId */
 function packageName(moduleId) {
   const segments = moduleId.split("/");
   return moduleId.startsWith("@") ? segments.slice(0, 2).join("/") : segments[0];
@@ -58,7 +63,12 @@ const identifier = /^[A-Za-z_$][\w$]*$/;
 /** CommonJS interop members, not exports of the library. */
 const skippedNames = new Set(["__esModule", "default"]);
 
-/** The names to export: the members of the installed copy that are identifiers. */
+/**
+ * The names to export: the members of the installed copy that are identifiers.
+ *
+ * @param {NodeJS.Require} require
+ * @param {string} moduleId
+ */
 function exportNames(require, moduleId) {
   let library;
   try {
@@ -79,6 +89,7 @@ function exportNames(require, moduleId) {
 export function hostModules(processName) {
   const published = new Set(publishedModuleIds[processName]);
   const virtualPrefix = "\0freelens-host:";
+  /** @type {NodeJS.Require} */
   let require;
 
   return {

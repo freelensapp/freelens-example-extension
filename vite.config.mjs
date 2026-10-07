@@ -80,7 +80,7 @@ export default defineConfig(({ mode }) => {
       : {
           // Main runs in Node: pick the Node builds of bundled packages, not
           // their browser builds.
-          resolve: { conditions: defaultServerConditions, mainFields: defaultServerMainFields },
+          resolve: { conditions: [...defaultServerConditions], mainFields: [...defaultServerMainFields] },
         }),
     build: {
       target: "esnext",
