@@ -65,18 +65,6 @@ export default class ExampleRenderer extends Renderer.LensExtension {
     {
       id: "example",
       components: {
-        Page: () => <ExamplesPageV1alpha1 extension={this} />,
-      },
-    },
-    {
-      id: "example",
-      components: {
-        Page: () => <ExamplesPageV1alpha2 extension={this} />,
-      },
-    },
-    {
-      id: "example",
-      components: {
         Page: createAvailableVersionPage("Examples", [
           { kubeObjectClass: ExampleV1alpha2, PageComponent: ExamplesPageV1alpha2, version: "v1alpha2" },
           { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
