@@ -3,7 +3,6 @@ import * as MobxReact from "mobx-react";
 import { Example, type ExampleApi } from "../api/example/example-v1alpha2";
 import { withErrorPage } from "../components/error-page";
 import styles from "./examples-page.module.scss";
-import stylesInline from "./examples-page.module.scss?inline";
 
 const { observer } = MobxReact;
 
@@ -40,25 +39,22 @@ export const ExamplesPage = observer((props: ExamplesPageProps) =>
     const store = KubeObject.getStore<KubeObject>();
 
     return (
-      <>
-        <style>{stylesInline}</style>
-        <KubeObjectListLayout<KubeObject, KubeObjectApi>
-          tableId={`${KubeObject.crd.plural}Table`}
-          className={styles.page}
-          store={store}
-          sortingCallbacks={sortingCallbacks}
-          searchFilters={[(object: KubeObject) => object.getSearchFields()]}
-          renderHeaderTitle={KubeObject.crd.title}
-          renderTableHeader={renderTableHeader}
-          renderTableContents={(object: KubeObject) => [
-            <WithTooltip>{object.getName()}</WithTooltip>,
-            <LinkToNamespace namespace={object.getNs()} />,
-            <BadgeBoolean value={!KubeObject.getSuspended(object)} />,
-            <WithTooltip>{KubeObject.getTitle(object) ?? "N/A"}</WithTooltip>,
-            <KubeObjectAge object={object} key="age" />,
-          ]}
-        />
-      </>
+      <KubeObjectListLayout<KubeObject, KubeObjectApi>
+        tableId={`${KubeObject.crd.plural}Table`}
+        className={styles.page}
+        store={store}
+        sortingCallbacks={sortingCallbacks}
+        searchFilters={[(object: KubeObject) => object.getSearchFields()]}
+        renderHeaderTitle={KubeObject.crd.title}
+        renderTableHeader={renderTableHeader}
+        renderTableContents={(object: KubeObject) => [
+          <WithTooltip>{object.getName()}</WithTooltip>,
+          <LinkToNamespace namespace={object.getNs()} />,
+          <BadgeBoolean value={!KubeObject.getSuspended(object)} />,
+          <WithTooltip>{KubeObject.getTitle(object) ?? "N/A"}</WithTooltip>,
+          <KubeObjectAge object={object} key="age" />,
+        ]}
+      />
     );
   }),
 );

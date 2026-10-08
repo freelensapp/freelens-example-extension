@@ -158,6 +158,10 @@ Each CRD file exports three classes: the KubeObject, the KubeApi, and the KubeOb
 - Detail views use the `observer` wrapper from `../../observer` (re-exports MobX `observer`).
 - SCSS modules generate TypeScript type files (`*.module.d.scss.ts`) via `vite-plugin-sass-dts`. These are auto-generated and should be cleaned with `pnpm clean:dts` when SCSS changes.
 - Common detail view styles are in `src/renderer/details/gateway-api/common.module.scss`.
+- Pages, details and menu items import their CSS module for the class names only, with no `?inline` import and no
+  `<style>` tag; the rules reach the page through `renderer.css` (see "CSS").
+- The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` type their props with
+  the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
 
 ## Build
 

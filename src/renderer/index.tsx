@@ -44,7 +44,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       apiVersions: ExampleV1alpha1.crd.apiVersions,
       priority: 10,
       components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<any>) => (
+        Details: (props: Renderer.Component.KubeObjectDetailsProps<ExampleV1alpha1>) => (
           <ExampleDetailsV1alpha1 {...props} extension={this} />
         ),
       },
@@ -54,7 +54,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       apiVersions: ExampleV1alpha2.crd.apiVersions,
       priority: 10,
       components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<any>) => (
+        Details: (props: Renderer.Component.KubeObjectDetailsProps<ExampleV1alpha2>) => (
           <ExampleDetailsV1alpha2 {...props} extension={this} />
         ),
       },
