@@ -20,6 +20,15 @@ Library and tool versions follow the Freelens stack exactly: the catalog in
 Freelens's `pnpm-workspace.yaml` for libraries, the root `package.json` scripts
 of Freelens for tools run with `pnpm dlx` (Biome, knip, Trunk launcher), and
 Freelens's `mise.toml` and `.nvmrc` for Node and the other mise tools.
+Renovate keeps them there: custom datasources in `.renovaterc.json` read the
+versions from the same Freelens files on `main`, so an update arrives only once
+Freelens has adopted it, at that version, in one `Freelens` group PR together
+with the `@freelensapp/extensions` nightly. A dependency added to
+`package.json` follows the Freelens catalog unless the catalog rule excludes
+it; one that Freelens does not have must be excluded there, or its lookup fails
+on the Dependency Dashboard. What Freelens does not define (GitHub Actions, the
+tool versions in the workflows, `vite-plugin-sass-dts`, `shx`) Renovate updates
+as usual.
 `mise.lock` pins a checksum and a URL per tool for all eight platforms; after
 changing `mise.toml`, run `mise lock` (not only `mise install`, which re-locks
 just the current platform). `mise.lock` is lockfile revision 3
