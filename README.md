@@ -172,8 +172,9 @@ It rebuilds the extension whenever a source file changes, and Freelens
 reloads the extension after each rebuild, without a restart and without
 packing. Stop it with `ctrl`+`C`.
 
-`pnpm dev` does not type-check; run `pnpm type:check` for that. A change to
-`main` or `renderer` in `package.json` needs Freelens restarted once.
+Neither `pnpm build` nor `pnpm dev` type-checks; run `pnpm type:check` for
+that. A change to `main` or `renderer` in `package.json` needs Freelens
+restarted once.
 
 ### Check the code
 

@@ -91,9 +91,7 @@ pnpm knip:check           # Unused and unlisted dependencies (knip)
 pnpm test:unit            # vitest
 
 # Build
-pnpm build                # Full build (type-check, then both Vite runs)
-pnpm build:force          # Both Vite runs, without the type check
-pnpm build:production     # Same as build:force
+pnpm build                # Both Vite runs, without the type check
 pnpm dev                  # Both Vite runs in watch mode, for a directory install
 
 # Pack for testing
@@ -248,8 +246,8 @@ mechanism; this is the list to check a change against.
   and it watches only the entries it started with, so a manifest change needs
   Freelens restarted.
 
-`pnpm build` runs `pnpm type:check` first; `pnpm build:force` and `pnpm dev`
-do not, so a Node global in renderer code passes them.
+Neither `pnpm build` nor `pnpm dev` runs the type check, so a Node global in
+renderer code passes them; `pnpm type:check` and `type-check.yaml` catch it.
 
 ## Build
 
@@ -497,7 +495,7 @@ that only the production pass needs is reported as redundant by the other.
 | Workflow                 | Runs                                                                          |
 | ------------------------ | ----------------------------------------------------------------------------- |
 | `type-check.yaml`        | `pnpm type:check`                                                             |
-| `check.yaml`             | `pnpm build:production`, `pnpm lint:check`, `pnpm knip:check`                 |
+| `check.yaml`             | `pnpm build`, `pnpm lint:check`, `pnpm knip:check`                            |
 | `unit-tests.yaml`        | `pnpm test:unit`                                                              |
 | `trunk-check.yaml`       | `trunk check --all`                                                           |
 | `integration-tests.yaml` | the integration tests in `integration/`, against a Freelens build             |
