@@ -210,6 +210,17 @@ and a "not available" message when the cluster serves neither.
 - The host renders a cluster page with `params` only. A page that needs the extension gets it from the registration
   (`Page: () => <ExamplesPage extension={this} />`), with the page component created once, outside the registration.
   The type check does not catch a missing prop there, because `PageComponents.Page` is `ComponentType<any>`.
+- When porting another extension from v1, check every `clusterPages` and `globalPages` registration. These get
+  `undefined` for the props they expect:
+  - a component that requires props, passed as the page itself: `Page: createAvailableVersionPage(...)`, or
+    `Page: MyPage` where `MyPage` takes `extension`;
+  - a wrapper that declares the prop instead of passing it: `Page: (props: { extension: ... }) => <MyPage {...props} />`.
+
+  Pass what the page needs from the registration, as above. A page that reads a named parameter takes
+  `Common.Types.PageComponentProps` and reads `params.<name>.get()`, rather than a props type that names its
+  parameters (`{ params?: { query: PageParam } }`): the host knows the names only from the registration's `params`,
+  at runtime. The same holds for the other registered components: `appPreferences` `Input` and `Hint` get no props,
+  and a `kubeObjectMenuItems` `MenuItem` gets `object` and `toolbar`.
 
 ## Rules That Fail Silently
 
