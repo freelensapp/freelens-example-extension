@@ -29,6 +29,9 @@
 
 /.nyc_output/
 
+# Snapshots, screenshots and console logs written by the Playwright MCP server.
+/.playwright-mcp/
+
 *.DS_Store
 /.idea
 /.vscode
