@@ -6,8 +6,11 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Project Overview
 
-This repository serves as an example how to build and publish extensions for
-Freelens application.
+This repository is the reference template for building, type-checking, testing
+and releasing a Freelens extension. The Freelens extension docs
+(`docs/extensions/` in freelensapp/freelens) define the API contract and point
+here for everything around it, so the build, type-check and test patterns in
+this file are the ones other extensions copy, and each comes with its reason.
 
 - **Language**: TypeScript 7.0.2
 - **Runtime**: Freelens >= 2.0.0 (extension API v2)
@@ -58,8 +61,12 @@ these libraries from its catalog, which defines the ranges; an extension
 declares its own copies, and these peers are the only place where they are
 compared with the versions the host runs. The types are peers as well, so the
 package's declaration compiles against the extension's own `@types/react` and
-`@types/react-dom`, one copy of each, and the extension has to declare them:
-the package does not install them for it.
+`@types/react-dom`, one copy of each, and the package does not install them for
+it. An extension with renderer code declares both: the declaration imports its
+React types from `react` and `react-dom`, and the renderer's JSX and component
+props are checked against them. A main-only extension needs neither; its code
+reaches no React type, and `skipLibCheck` leaves the declaration's own imports
+unchecked.
 
 ## Common Commands
 
@@ -102,16 +109,24 @@ pnpm clean:all            # Clean everything (dist, dts, node_modules, tgz)
 
 ```text
 src/
-  main/index.ts            # Extension entry point (main process, ESM)
-  renderer/index.tsx       # Extension entry point (renderer process, ESM)
-  renderer/api/gateway-api/ # K8s object model classes (one file per CRD)
-  renderer/details/gateway-api/ # Detail view components for CRDs
-  renderer/pages/gateway-api/  # Cluster page components
-  renderer/components/      # Shared components
-  renderer/icons/           # SVG icons
-  renderer/observer.ts      # MobX observer helper
-  renderer/utils.ts         # Utility functions (e.g., createHash)
-  common/utils.ts           # Common utilities (e.g., maybe)
+  main/index.ts                  # Main entry (Main.LensExtension): loads the preferences store
+  renderer/index.tsx             # Renderer entry (Renderer.LensExtension): every registration
+  renderer/api/example/          # Example model per API version (v1alpha1, v1alpha2), with its tests
+  renderer/api/types.ts          # Types shared by the models
+  renderer/pages/                # List page per API version, and their CSS module
+  renderer/details/              # Details panel per API version
+  renderer/menus/                # Suspend/Resume menu item per API version
+  renderer/components/           # createAvailableVersionPage, withErrorPage
+  renderer/preferences/          # The preference input and hint
+  renderer/icons/                # SVG icons, imported with ?raw
+  renderer/vars.scss             # SCSS variables
+  common/store/                  # ExamplePreferencesStore, loaded by main and renderer
+  common/utils.ts                # maybe()
+test/freelens-extensions.ts      # Runtime stub of @freelensapp/extensions for Vitest
+environment-tests/               # Probes for the per-environment programs
+build/                           # Vite plugins: host modules, standard decorators
+integration/__tests__/           # Integration test, run inside a Freelens checkout
+examples/                        # CRDs and test objects per API version
 ```
 
 Build output goes to `dist/`: `main.js`, `renderer.js` and `renderer.css`, with
@@ -119,53 +134,122 @@ source maps. `main` and `renderer` in `package.json` point at the two entries.
 
 ## CRD KubeObject Pattern
 
-K8s object classes MUST use `static readonly` properties for metadata. **Instance methods do NOT work and MUST NOT be used.** The Freelens host reads properties from the class constructor statically — instance methods are not available at runtime because the host creates plain object copies of the K8s resource data, not instances of the extension's class. This means:
+A model is a subclass of `Renderer.K8sApi.LensExtensionKubeObject`, one file
+per API version: `src/renderer/api/example/example-v1alpha1.ts` and
+`example-v1alpha2.ts`, each exporting a class named `Example`.
 
-- **Allowed**: `object.spec?.someField`, `object.status?.conditions` — direct property access on typed `spec`/`status` interfaces
-- **Allowed**: helper functions like `hasTrueCondition(conditions, "Accepted")` from `types.ts`
-- **Forbidden**: `object.someMethod()` — instance methods will never exist at runtime
-- **Forbidden**: `typeof (object as any).someMethod === "function" ? ...` — anti-pattern that always falls through to the fallback path
-- **Forbidden**: `as any` — use the existing typed `spec`/`status` interfaces directly; all CRD models already define proper `Spec`/`Status` interfaces
+The host reads the model's metadata from the class, through `static readonly`
+properties. The objects it hands to the extension, in a list, a details panel
+or a menu item, come from the host's store for the resource: they are instances
+of the host's `KubeObject`, not of the extension's subclass. The methods of
+`KubeObject` itself are there (`getName()`, `getNs()`,
+`getCreationTimestamp()`, `getSearchFields()`); a method the subclass defines
+is not, and calling it throws. So:
 
-Always access `spec` and `status` properties directly via their typed interfaces. Do not define instance methods on KubeObject subclasses — they will not be callable at runtime.
+- **Metadata**: `static readonly` `kind`, `namespaced`, `apiBase` and `crd`.
+- **Per-object logic**: a `static` method that takes the object, such as
+  `Example.getSuspended(object)`.
+- **Fields**: read `object.spec` and `object.status` through the model's typed
+  `ExampleSpec` and `ExampleStatus`.
+- **Forbidden**: instance methods on the subclass; a fallback such as
+  `typeof (object as any).getSuspended === "function" ? ...`, which always
+  takes the fallback; `as any`.
 
 ```typescript
-export class Gateway extends Renderer.K8sApi.LensExtensionKubeObject<
+export class Example extends Renderer.K8sApi.LensExtensionKubeObject<
   Renderer.K8sApi.KubeObjectMetadata,
-  GatewayStatus,
-  GatewaySpec
+  ExampleStatus,
+  ExampleSpec
 > {
-  static readonly kind = "Gateway";
+  static readonly kind = "Example";
   static readonly namespaced = true;
-  static readonly apiBase = "/apis/gateway.networking.k8s.io/v1/gateways";
-  static readonly crd: GatewayKubeObjectCRD = {
-    apiVersions: ["gateway.networking.k8s.io/v1"],
-    plural: "gateways",
-    singular: "gateway",
-    shortNames: ["gtw"],
-    title: "Gateways",
+  static readonly apiBase = "/apis/example.freelens.app/v1alpha2/examples";
+
+  static readonly crd: ExampleKubeObjectCRD = {
+    apiVersions: ["example.freelens.app/v1alpha2"],
+    plural: "examples",
+    singular: "example",
+    shortNames: ["ex"],
+    title: "Examples",
   };
+
+  static getSuspended(object: Example): boolean {
+    return object.spec.suspended ?? false;
+  }
 }
 
-// Also export Api and Store classes (always needed):
-export class GatewayApi extends Renderer.K8sApi.KubeApi<Gateway> {}
-export class GatewayStore extends Renderer.K8sApi.KubeObjectStore<Gateway, GatewayApi> {}
+export class ExampleApi extends Renderer.K8sApi.KubeApi<Example> {}
+export class ExampleStore extends Renderer.K8sApi.KubeObjectStore<Example, ExampleApi> {}
 ```
 
-Each CRD file exports three classes: the KubeObject, the KubeApi, and the KubeObjectStore. They are registered in `src/renderer/index.tsx` via `kubeObjectDetailItems`, `clusterPages`, and `clusterPageMenus`.
+The file also exports a `KubeApi` and a `KubeObjectStore` subclass. The list
+page uses the `KubeApi` type for `KubeObjectListLayout`; neither is
+instantiated, because the store comes from the host, through
+`Example.getStore()`.
+
+`src/renderer/index.tsx` registers each version's details panel
+(`kubeObjectDetailItems`) and menu item (`kubeObjectMenuItems`) by `kind` and
+`crd.apiVersions`, and one "Examples" page (`clusterPages`, `clusterPageMenus`).
+That page is made by `createAvailableVersionPage` from the list pages of both
+versions, newest first: it renders the first one whose store the host has,
+and a "not available" message when the cluster serves neither.
 
 ## Renderer Components
 
-- Detail views use the `observer` wrapper from `../../observer` (re-exports MobX `observer`).
-- SCSS modules generate TypeScript type files (`*.module.d.scss.ts`) via `vite-plugin-sass-dts`. These are auto-generated and should be cleaned with `pnpm clean:dts` when SCSS changes.
-- Common detail view styles are in `src/renderer/details/gateway-api/common.module.scss`.
+- Pages and details panels are `observer` components from `mobx-react`, which the build maps to the host's copy.
+- Every page, details panel and menu item renders through `withErrorPage(props, () => ...)` from
+  `src/renderer/components/error-page.tsx`. It catches what the render throws, logs it with `extension.name` and renders
+  the error instead, so its props need `extension`; each registration passes `extension={this}`.
 - Pages, details and menu items import their CSS module for the class names only, with no `?inline` import and no
-  `<style>` tag; the rules reach the page through `renderer.css` (see "CSS").
+  `<style>` tag; the rules reach the page through `renderer.css` (see "CSS"). SCSS variables are in
+  `src/renderer/vars.scss`, used with `@use "../vars"`.
+- SCSS modules get TypeScript declarations (`*.module.d.scss.ts`) from `vite-plugin-sass-dts`, written during the
+  renderer build. They are committed, because `pnpm type:check` runs before the build, and in CI without one; commit
+  the regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
+- Icons are SVG files imported with `?raw` and rendered by `Renderer.Component.Icon` through its `svg` prop.
 - The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` type their props with
   the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
 - The host renders a cluster page with `params` only. A page that needs the extension gets it from the registration
   (`Page: () => <ExamplesPage extension={this} />`), with the page component created once, outside the registration.
   The type check does not catch a missing prop there, because `PageComponents.Page` is `ComponentType<any>`.
+
+## Rules That Fail Silently
+
+Each of these compiles when it is broken, and breaks the extension at runtime
+or not visibly at all. The sections named in parentheses explain the
+mechanism; this is the list to check a change against.
+
+- **The host's React and mobx, one copy each.** Import `react`, `react-dom`,
+  `mobx` and `mobx-react` by their bare module ids. A second React throws
+  `invalid hook call`; a second mobx throws nothing, and the host never reacts
+  to its observables. The build fails on the ways a second copy gets in
+  ("Modules provided by the host").
+- **Standard decorators.** An observable field is `@observable accessor`, and
+  the class does not call `makeObservable(this)`. Without `accessor` the
+  production build of mobx leaves the field unobservable; a unit test that
+  imports the class fails ("Decorators").
+- **No Node or Electron in renderer and common code.** They are `undefined` in
+  the renderer. The build fails on an import, `pnpm type:check` on a global
+  ("Process-specific settings").
+- **One CSS asset, `dist/renderer.css`.** Any other name, or a second asset,
+  leaves the extension unstyled. Nothing checks it; look at `dist/` after a
+  change to the CSS setup ("CSS").
+- **One tsconfig per environment.** Each program has only its runtime's `lib`
+  and `types`, and no declaration may load Node into the renderer or the DOM
+  into main; otherwise a wrong API type-checks and is `undefined` at runtime.
+  The environment tests fail on a leak ("TypeScript").
+- **No instance method on a KubeObject subclass.** The objects from the host
+  do not have it, and the call throws. Nothing checks it
+  ("CRD KubeObject Pattern").
+- **A cluster page gets the extension from its registration.** The host passes
+  `params` only. Nothing checks it ("Renderer Components").
+- **An ESM `main`, and the entries in `package.json` unchanged while
+  `pnpm dev` runs.** The host refuses to reload a CommonJS main and logs why,
+  and it watches only the entries it started with, so a manifest change needs
+  Freelens restarted.
+
+`pnpm build` runs `pnpm type:check` first; `pnpm build:force` and `pnpm dev`
+do not, so a Node global in renderer code passes them.
 
 ## Build
 
@@ -183,7 +267,8 @@ would delete `dist/main.js`, and the host would have no main entry to reload.
 ### Modules provided by the host
 
 The host publishes its singletons on `globalThis.FreelensExtensionApi`, and
-each process publishes only the ones it has:
+each process publishes only the ones it has. This is contract C3 of the
+Freelens extension API (`docs/extensions/api.md`):
 
 | Module id           | Global            | Published in |
 | ------------------- | ----------------- | ------------ |
@@ -319,8 +404,8 @@ together with the sources and every declaration the sources reach. Compiled
 alone, they would not see a declaration that a dependency of the sources brings
 in.
 
-None of the declarations reached here leaks today. If one does, the
-environment tests fail; keep the leak out rather than relax a probe. For Node
+When a declaration leaks, the environment tests fail; keep the leak out rather
+than relax a probe. For Node
 in the renderer, point `typeRoots` of the renderer config at a directory with
 an empty `node` package, which a reference directive resolves to first. For
 the DOM in main, remove the directive from the declaration with `pnpm patch`.
@@ -349,8 +434,18 @@ outside `src/**/*.test.*`, `test/` and `integration/`. `globals: true` stays on 
 `vitest.config.ts` at runtime only, because React Testing Library registers its
 automatic cleanup only when `afterEach` is a global.
 
-The stub in `test/freelens-extensions.ts` covers only what the tests use, at
-runtime only. Vitest runs the development build of mobx, so a test that imports
+`@freelensapp/extensions` is stubbed because the real package cannot run in a
+test: it is a shim that reads `Common`, `Main` and `Renderer` off
+`globalThis.FreelensExtensionApi`, which only the host sets, and it ships no
+mocks. The `alias` in `vitest.config.ts` points the import at
+`test/freelens-extensions.ts`, for the tests and for the extension code they
+import. The stub covers only what the tests use, at runtime only; the type
+check still uses the real declaration. So a test that reaches a member the stub
+lacks compiles and fails on `undefined`: add the member to the stub, as small as
+the test needs. The other host modules are not stubbed: `react`, `mobx` and
+`mobx-react` resolve to the devDependencies, the host's versions.
+
+Vitest runs the development build of mobx, so a test that imports
 a class with `@observable` on a field without `accessor` fails when the class
 is defined; `src/common/store/preferences-store.test.ts` relies on that.
 
@@ -408,6 +503,12 @@ that only the production pass needs is reported as redundant by the other.
 | `integration-tests.yaml` | the integration tests in `integration/`, against a Freelens build             |
 | `mise-lock-check.yaml`   | on a change to `mise.lock`: no checksum changed for an unchanged tool version |
 
+The type check has a workflow of its own, on pull requests and on pushes to
+`main`, as in Freelens. It runs every program, tests, tooling and environment
+tests included, which no build reaches, and a type error shows as its own
+failed check rather than as a failed build. `check.yaml` builds without the
+type check for the same reason, so it does not run twice.
+
 The integration tests run inside a Freelens checkout: the workflow builds the
 extension, packs it with a `.tgz.sha256` checksum next to the tarball, as the
 release publishes it, checks out and packages Freelens, copies
@@ -460,8 +561,9 @@ Code in `src/common/` is shared between both processes.
 ### Changes Not Appearing
 
 1. Check that files are not in ignored output directories (`dist/`, `node_modules/`)
-2. Full clean and rebuild: `pnpm clean:all && pnpm build`
-3. Reinstall the extension in Freelens (or restart the app in dev mode)
+2. Full clean and rebuild: `pnpm clean:all && pnpm install && pnpm build`
+3. With a directory install and `pnpm dev` running, look for a refused reload in the Freelens log, and restart
+   Freelens after a change to `main` or `renderer` in `package.json`; reinstall an extension installed from a tarball
 
 ### Build Failures
 
@@ -486,7 +588,7 @@ Code in `src/common/` is shared between both processes.
 4. **Run validation before committing:** `pnpm lint:fix && pnpm type:check && pnpm test:unit`
 5. **For TypeScript/TSX, JS, JSON, CSS, HTML files:** run `pnpm biome:fix` (or `biome check` directly if `biome` is installed locally)
 6. **For Markdown, YAML, SCSS and other formats:** run `pnpm trunk:fix` (or `trunk check` directly if `trunk` is installed locally)
-7. **Full build** when in doubt about cached state: `pnpm clean:all && pnpm build`
+7. **Full build** when in doubt about cached state: `pnpm clean:all && pnpm install && pnpm build`
 8. **Do not use Anthropic Fable for coding tasks** — Fable may be used only for planning,
    analysis, and thinking through problems. When writing or editing code,
    use standard editing tools instead.
