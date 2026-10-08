@@ -39,16 +39,18 @@ its pinned nightly is often adopted on the day it is published.
 
 `strictPeerDependencies: true` makes `pnpm install` fail when the extension's
 own copy of a shared library is outside the peer range that
-`@freelensapp/extensions` declares for it: `react`, `mobx`, `mobx-react`,
-`monaco-editor` and `electron`. These peers are optional, so they are checked
-only when the extension declares the library, which it does for every one it
-imports or compiles against. Without the setting pnpm reports a mismatch as one
-warning line and installs anyway. Freelens does not set it, because its own
-tree takes these libraries from its catalog, which defines the ranges; an
-extension declares its own copies, and these peers are the only place where
-they are compared with the versions the host runs. `react-dom`, `@types/react`
-and `@types/react-dom` are not peers of the package, so the check does not
-cover them; keep them at the same versions as `react` by hand.
+`@freelensapp/extensions` declares for it: `react`, `react-dom`,
+`@types/react`, `@types/react-dom`, `mobx`, `mobx-react`, `monaco-editor` and
+`electron`. These peers are optional, so they are checked only when the
+extension declares the library, which it does for every one it imports or
+compiles against. Without the setting pnpm reports a mismatch as one warning
+line and installs anyway. Freelens does not set it, because its own tree takes
+these libraries from its catalog, which defines the ranges; an extension
+declares its own copies, and these peers are the only place where they are
+compared with the versions the host runs. The types are peers as well, so the
+package's declaration compiles against the extension's own `@types/react` and
+`@types/react-dom`, one copy of each, and the extension has to declare them:
+the package does not install them for it.
 
 ## Common Commands
 
