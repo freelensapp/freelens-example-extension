@@ -87,6 +87,7 @@ pnpm test:unit            # vitest
 pnpm build                # Full build (type-check, then both Vite runs)
 pnpm build:force          # Both Vite runs, without the type check
 pnpm build:production     # Same as build:force
+pnpm dev                  # Both Vite runs in watch mode, for a directory install
 
 # Pack for testing
 pnpm pack:dev             # Bump prerelease version, build, and create .tgz for install in Freelens app
@@ -172,6 +173,12 @@ Each CRD file exports three classes: the KubeObject, the KubeApi, and the KubeOb
 `vite build` builds the renderer and empties `dist/`, and `vite build --mode
 main` builds main next to it. The two runs share no chunk; each bundle carries
 its own copy of the `src/common/` code it imports. Nothing is minified.
+
+`pnpm dev` runs the same two builds in watch mode, side by side, for a
+directory install: the host reloads the extension when either entry is
+rewritten. Its renderer run passes `--no-emptyOutDir`. In watch mode Vite
+empties the output directory again before every rebuild, so a renderer rebuild
+would delete `dist/main.js`, and the host would have no main entry to reload.
 
 ### Modules provided by the host
 

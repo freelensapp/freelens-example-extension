@@ -20,6 +20,8 @@ const entryPoints = {
   renderer: {
     entry: "src/renderer/index.tsx",
     // First of the two runs in `build`, so it clears the output directory.
+    // `dev` turns this off: in watch mode Vite empties the directory again on
+    // every rebuild, which would delete the main entry.
     emptyOutDir: true,
     // Renderer code gets no guarantee of Node or Electron, so nothing is left
     // for the runtime to resolve.
