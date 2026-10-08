@@ -1,12 +1,13 @@
-// Minimal stub of the host-provided `@freelensapp/extensions` module.
+// Minimal stub of `@freelensapp/extensions` for unit tests.
 //
-// At runtime Freelens injects this module as the `global.LensExtensions`
-// global, so it is never bundled (see `globalExternals` in
-// `electron.vite.config.js`) and cannot be imported in a plain Node/vitest
-// process - the real package pulls in Electron. Unit tests alias the import to
-// this file instead (see the `alias` option in `vitest.config.ts`).
+// The published package is a shim that reads `Common`, `Main` and `Renderer`
+// off `globalThis.FreelensExtensionApi`, which the Freelens host sets before it
+// loads an extension. A Vitest process has no host, so importing the real
+// package throws. `vitest.config.ts` aliases the import to this file instead.
+// The package ships no mocks of its own to use in its place.
 //
-// Only the surface actually exercised by the tests is stubbed here. Extend it
+// Only the surface the tests exercise is stubbed here, and only at runtime: the
+// tests are type-checked against the real declaration of the package. Extend it
 // as your tests need more of the host API.
 import { vi } from "vitest";
 
@@ -20,6 +21,13 @@ class LensExtensionKubeObject {
   constructor(data: Record<string, unknown> = {}) {
     Object.assign(this, data);
   }
+}
+
+// The host's store loads the saved model with `fromStore()` and saves it
+// whenever `toJSON()` changes, through a `reaction`. The stub keeps nothing; a
+// test that needs that behaviour sets up the reaction itself.
+class ExtensionStore<M extends object> {
+  constructor(_params: { configName: string; defaults: M }) {}
 }
 
 export const Renderer = {
@@ -36,5 +44,8 @@ export const Common = {
     info: vi.fn(),
     warn: vi.fn(),
     error: vi.fn(),
+  },
+  Store: {
+    ExtensionStore,
   },
 };
