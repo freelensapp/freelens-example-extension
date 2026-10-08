@@ -202,8 +202,8 @@ and a "not available" message when the cluster serves neither.
   `<style>` tag; the rules reach the page through `renderer.css` (see "CSS"). SCSS variables are in
   `src/renderer/vars.scss`, used with `@use "../vars"`.
 - SCSS modules get TypeScript declarations (`*.module.d.scss.ts`) from `vite-plugin-sass-dts`, written during the
-  renderer build. They are committed, because `pnpm type:check` runs before the build, and in CI without one; commit
-  the regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
+  renderer build. They are committed, because `pnpm type:check` and `type-check.yaml` run without a build; commit the
+  regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
 - Icons are SVG files imported with `?raw` and rendered by `Renderer.Component.Icon` through its `svg` prop.
 - The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` type their props with
   the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
