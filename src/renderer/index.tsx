@@ -23,6 +23,11 @@ import { ExamplesPage as ExamplesPageV1alpha1 } from "./pages/examples-page-v1al
 import { ExamplesPage as ExamplesPageV1alpha2 } from "./pages/examples-page-v1alpha2";
 import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences/example-preference";
 
+const ExamplesPage = createAvailableVersionPage("Examples", [
+  { kubeObjectClass: ExampleV1alpha2, PageComponent: ExamplesPageV1alpha2, version: "v1alpha2" },
+  { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
+]);
+
 export default class ExampleRenderer extends Renderer.LensExtension {
   async onActivate() {
     ExamplePreferencesStore.getInstanceOrCreate().loadExtension(this);
@@ -65,10 +70,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
     {
       id: "example",
       components: {
-        Page: createAvailableVersionPage("Examples", [
-          { kubeObjectClass: ExampleV1alpha2, PageComponent: ExamplesPageV1alpha2, version: "v1alpha2" },
-          { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
-        ]),
+        Page: () => <ExamplesPage extension={this} />,
       },
     },
   ];

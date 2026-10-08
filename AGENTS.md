@@ -162,6 +162,9 @@ Each CRD file exports three classes: the KubeObject, the KubeApi, and the KubeOb
   `<style>` tag; the rules reach the page through `renderer.css` (see "CSS").
 - The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` type their props with
   the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
+- The host renders a cluster page with `params` only. A page that needs the extension gets it from the registration
+  (`Page: () => <ExamplesPage extension={this} />`), with the page component created once, outside the registration.
+  The type check does not catch a missing prop there, because `PageComponents.Page` is `ComponentType<any>`.
 
 ## Build
 
