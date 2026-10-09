@@ -37,6 +37,27 @@ for a custom resource, `Example`, and a setting on the preferences page:
 - **A persisted preference.** The "Example checkbox" setting is kept across
   restarts and shown in the details panel.
 
+## Agent skills
+
+Two skills in the [Agent Skills](https://agentskills.io/specification)
+format guide a coding agent, such as Claude Code, Codex, GitHub Copilot,
+Cursor or Gemini CLI, through an extension in its own repository:
+
+- `create-freelens-extension` starts a new Freelens extension from a copy of
+  this repository.
+- `port-freelens-extension-to-v2` ports an extension written for the v1
+  extension API to v2.
+
+Install both into the extension's repository, or one of them with `--skill`:
+
+```sh
+npx skills add freelensapp/freelens-example-extension
+npx skills add freelensapp/freelens-example-extension --skill port-freelens-extension-to-v2
+```
+
+or copy its directory from [`skills/`](skills) to where the agent reads skills
+from.
+
 ## Requirements
 
 - Freelens >= 2.0.0

@@ -125,6 +125,7 @@ environment-tests/               # Probes for the per-environment programs
 build/                           # Vite plugins: host modules, standard decorators
 integration/__tests__/           # Integration test, run inside a Freelens checkout
 examples/                        # CRDs and test objects per API version
+skills/                          # Agent skills for other repositories (see "Agent Skills")
 ```
 
 Build output goes to `dist/`: `main.js`, `renderer.js` and `renderer.css`, with
@@ -528,6 +529,40 @@ release publishes it, checks out and packages Freelens, copies
 there under Freelens's Vitest, with its helpers. The test installs the
 tarball from the extensions page and fails on any error logged by either
 process.
+
+## Agent Skills
+
+`skills/` holds two skills in the Agent Skills format
+(<https://agentskills.io/specification>), which extension authors install into
+their own repositories with `npx skills add` or by copying the directory. They
+are for work on other repositories, not on this one, so they are not in
+`.claude/skills/`.
+
+| Skill                           | Does                                                                |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `create-freelens-extension`     | starts a new extension from a copy of this repository               |
+| `port-freelens-extension-to-v2` | ports a v1 extension to v2, with #326 as the plan and #327 and #336 |
+
+Each `SKILL.md` carries the workflow and links to the documents it relies on:
+`api.md`, `migrating-from-v1.md` and `binaries.md` of Freelens, this file,
+`README.md`, the source tree, and the issues and pull request above. It does
+not copy them, so nothing drifts. What a skill does depend on is the names:
+
+- They cite sections of this file and of `README.md` by their headings, and
+  files of this repository by their paths. Renaming such a section, or moving
+  or removing such a file, updates the skill in the same commit.
+- `create-freelens-extension` puts every tracked file into one of its groups
+  (keep, adapt, remove, rewrite). A new tracked file goes into one of them in
+  the commit that adds it.
+- The links point at `main` of both repositories. Once Freelens 2.0.0 is
+  released, they move to the `v2.0.0` tag of freelensapp/freelens and to a
+  release tag of this repository.
+
+The frontmatter follows the specification: `name` equal to the directory name,
+a `description` of at most 1024 characters that says what the skill does and
+when to use it, `license: MIT`, and `compatibility` naming the network access
+the links need. Keep each `SKILL.md` well under 500 lines, and add a
+`references/` file only for content that exists nowhere else.
 
 ## Code Style
 
