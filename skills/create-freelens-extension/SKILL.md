@@ -59,7 +59,8 @@ The tooling every extension shares. Its versions follow Freelens, and
 the same kind.
 
 - Build: `vite.config.mjs`, `build/vite-plugin-host-modules.mjs`,
-  `build/vite-plugin-standard-decorators.mjs`, `svgo.config.mjs`.
+  `build/vite-plugin-standard-decorators.mjs`,
+  `build/vite-plugin-css-module-declarations.mjs`, `svgo.config.mjs`.
 - TypeScript, one program per environment: `tsconfig.base.json`,
   `tsconfig.json`, `src/tsconfig.json`, `src/main/tsconfig.json`,
   `src/renderer/tsconfig.json`, `src/common/tsconfig.json`.
@@ -76,8 +77,9 @@ the same kind.
 - Toolchain and dependencies: `mise.toml`, `mise.lock`, `.nvmrc`,
   `pnpm-workspace.yaml`, `pnpm-lock.yaml` (`pnpm install` updates it after the
   `package.json` changes), `.renovaterc.json` (needs the Renovate app on the
-  repository; a dependency that the Freelens catalog does not have is excluded
-  in its catalog rule, as `vite-plugin-sass-dts` is).
+  repository; a dependency that the Freelens catalog does not have must be
+  excluded with `!` in its catalog rule, or its lookup fails on the Dependency
+  Dashboard).
 - Agent configuration: `CLAUDE.md`, `.claude/settings.json`.
 - Shared components and helpers: `src/renderer/components/error-page.tsx`,
   `src/renderer/components/error-page.module.scss`,

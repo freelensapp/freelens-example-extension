@@ -62,7 +62,7 @@
       ],
       "matchManagers": ["npm"],
       "matchDepTypes": ["dependencies", "devDependencies"],
-      "matchPackageNames": ["!@freelensapp/**", "!vite-plugin-sass-dts"],
+      "matchPackageNames": ["!@freelensapp/**"],
       "overrideDatasource": "custom.freelens-catalog",
       "rangeStrategy": "replace",
       "minimumReleaseAge": "0 days",

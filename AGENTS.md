@@ -30,8 +30,7 @@ with the `@freelensapp/extensions` nightly. A dependency added to
 `package.json` follows the Freelens catalog unless the catalog rule excludes
 it; one that Freelens does not have must be excluded there, or its lookup fails
 on the Dependency Dashboard. What Freelens does not define (GitHub Actions, the
-tool versions in the workflows, `vite-plugin-sass-dts`, `shx`) Renovate updates
-as usual.
+tool versions in the workflows, `shx`) Renovate updates as usual.
 `mise.lock` pins a checksum and a URL per tool for all eight platforms; after
 changing `mise.toml`, run `mise lock` (not only `mise install`, which re-locks
 just the current platform). `mise.lock` is lockfile revision 3
@@ -122,7 +121,7 @@ src/
   common/utils.ts                # maybe()
 test/freelens-extensions.ts      # Runtime stub of @freelensapp/extensions for Vitest
 environment-tests/               # Probes for the per-environment programs
-build/                           # Vite plugins: host modules, standard decorators
+build/                           # Vite plugins: host modules, standard decorators, CSS module declarations
 integration/__tests__/           # Integration test, run inside a Freelens checkout
 examples/                        # CRDs and test objects per API version
 skills/                          # Agent skills for other repositories (see "Agent Skills")
@@ -202,9 +201,9 @@ and a "not available" message when the cluster serves neither.
 - Pages, details and menu items import their CSS module for the class names only, with no `?inline` import and no
   `<style>` tag; the rules reach the page through `renderer.css` (see "CSS"). SCSS variables are in
   `src/renderer/vars.scss`, used with `@use "../vars"`.
-- SCSS modules get TypeScript declarations (`*.module.d.scss.ts`) from `vite-plugin-sass-dts`, written during the
-  renderer build. They are committed, because `pnpm type:check` and `type-check.yaml` run without a build; commit the
-  regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
+- SCSS modules get TypeScript declarations (`*.module.d.scss.ts`), written during the renderer build (see
+  "CSS module declarations"). They are committed, because `pnpm type:check` and `type-check.yaml` run without a build;
+  commit the regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
 - Icons are SVG files imported with `?raw` and rendered by `Renderer.Component.Icon` through its `svg` prop.
 - The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` type their props with
   the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
@@ -344,8 +343,28 @@ that one file (`build.lib.cssFileName`). A build that emits more than one CSS
 asset, or a differently named one, leaves the extension unstyled. A component
 imports its CSS module for the class names only and renders no `<style>` tag;
 the rules reach the page through `renderer.css`. CSS modules
-use `camelCaseOnly` class names. `vite-plugin-sass-dts` writes the
-`*.module.d.scss.ts` declarations during the renderer run.
+use `camelCaseOnly` class names.
+
+### CSS module declarations
+
+`build/vite-plugin-css-module-declarations.mjs` writes `x.module.d.scss.ts`
+next to every `x.module.scss` the renderer build imports, in `vite build` and
+in watch mode. It takes the class names from Vite's own `preprocessCSS`, with
+the build's resolved config, so they are the names the bundle exports, after
+`localsConvention`; a class inside `:global(...)` is not one of them.
+
+The plugin is written so that a build cannot leave a committed declaration
+empty or partial, whether it fails, is interrupted or is killed:
+
+- it awaits its work in `transform`, so the build does not end while a write is
+  pending;
+- it writes a declaration only when the content changed, so a build that
+  changes no stylesheet touches no file;
+- it writes to a temporary `*.tmp` file next to the declaration and renames it
+  over the declaration, which replaces it whole or not at all.
+
+The plugin has no options and no dependency other than Vite, and it refers to
+no path of this repository, so other extensions copy it unchanged.
 
 ## TypeScript
 
