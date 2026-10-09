@@ -72,7 +72,7 @@ unchecked.
 ```bash
 # Type checking
 pnpm type:check                # All of the programs below, in this order
-pnpm type:check:sources        # main, renderer and common
+pnpm type:check:sources        # main and renderer, each with src/common/
 pnpm type:check:tests          # Tests and test support
 pnpm type:check:tooling        # Vite and Vitest configs, build plugins
 pnpm type:check:environments   # Environment tests
@@ -399,6 +399,16 @@ uses only what both runtimes have: `globalThis.crypto`, `TextEncoder` and
 `src/common/tsconfig.json` is for the editor, which gives a file to one config
 only. Its `WebWorker` lib is the closest single match and an approximation:
 `self` and `postMessage` compile there and fail in the main program.
+
+The common program is not compiled on its own. `environment-tests/tsconfig.json`
+extends `src/common/tsconfig.json` and keeps its `include`, so
+`tsc -p environment-tests`, in `pnpm type:check:environments`, compiles
+`src/common/` with the common settings, together with the probes. A program of
+`src/common/` alone has no input when the directory has no source file, and
+`tsc` stops on that (TS18003); the environment tests always have their probes,
+so `pnpm type:check` passes with an empty `src/common/`. Keep
+`src/common/tsconfig.json` even then: the editor uses it, and the environment
+tests extend it.
 
 The split does not cover the API namespaces: `Main` and `Renderer` compile in
 every program, and the one the process does not have is `undefined` at runtime.
