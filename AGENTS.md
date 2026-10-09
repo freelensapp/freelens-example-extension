@@ -191,6 +191,16 @@ That page is made by `createAvailableVersionPage` from the list pages of both
 versions, newest first: it renders the first one whose store the host has,
 and a "not available" message when the cluster serves neither.
 
+The page it returns is an `observer`. `getStore()` reads the host's API
+registry, which is observable, and the host registers a CRD's APIs only after
+the cluster frame has loaded the CRDs. Freelens restores the last page when a
+cluster is opened, so the page often renders before that; as an `observer` it
+renders again when the version is served, and otherwise it keeps showing "not
+available" until the user navigates away and back. Any component that chooses
+a version through `getStore()` is an `observer` for the same reason.
+`src/renderer/components/available-version.test.tsx` checks it: its spy on
+`getStore` reads an observable, and the page follows when the test sets it.
+
 ## Renderer Components
 
 - Pages and details panels are `observer` components from `mobx-react`, which the build maps to the host's copy.
@@ -250,6 +260,12 @@ mechanism; this is the list to check a change against.
   The environment tests fail on a leak ("TypeScript").
 - **No instance method on a KubeObject subclass.** The objects from the host
   do not have it, and the call throws. Nothing checks it
+  ("CRD KubeObject Pattern").
+- **A component that chooses the version through `getStore()` is an
+  `observer`.** The host registers a CRD's APIs after the cluster frame has
+  loaded the CRDs; a component that is not an `observer` and rendered before
+  then shows the kind as not installed until the user navigates away and back.
+  Only a test whose `getStore` reads an observable shows it
   ("CRD KubeObject Pattern").
 - **A cluster page gets the extension from its registration.** The host passes
   `params` only. The type check rejects a page that requires another prop, but
