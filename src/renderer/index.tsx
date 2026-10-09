@@ -11,17 +11,16 @@ import { createAvailableVersionPage } from "./components/available-version";
 import { ExampleDetails as ExampleDetailsV1alpha1 } from "./details/example-details-v1alpha1";
 import { ExampleDetails as ExampleDetailsV1alpha2 } from "./details/example-details-v1alpha2";
 import { ExampleIcon } from "./icons";
-import {
-  ExampleActiveToggleMenuItem as ExampleActiveToggleMenuItem_v1alpha1,
-  type ExampleActiveToggleMenuItemProps as ExampleActiveToggleMenuItemProps_v1alpha1,
-} from "./menus/example-active-toggle-menu-item-v1alpha1";
-import {
-  ExampleActiveToggleMenuItem as ExampleActiveToggleMenuItem_v1alpha2,
-  type ExampleActiveToggleMenuItemProps as ExampleActiveToggleMenuItemProps_v1alpha2,
-} from "./menus/example-active-toggle-menu-item-v1alpha2";
+import { ExampleActiveToggleMenuItem as ExampleActiveToggleMenuItem_v1alpha1 } from "./menus/example-active-toggle-menu-item-v1alpha1";
+import { ExampleActiveToggleMenuItem as ExampleActiveToggleMenuItem_v1alpha2 } from "./menus/example-active-toggle-menu-item-v1alpha2";
 import { ExamplesPage as ExamplesPageV1alpha1 } from "./pages/examples-page-v1alpha1";
 import { ExamplesPage as ExamplesPageV1alpha2 } from "./pages/examples-page-v1alpha2";
 import { ExamplePreferenceHint, ExamplePreferenceInput } from "./preferences/example-preference";
+
+const ExamplesPage = createAvailableVersionPage("Examples", [
+  { kubeObjectClass: ExampleV1alpha2, PageComponent: ExamplesPageV1alpha2, version: "v1alpha2" },
+  { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
+]);
 
 export default class ExampleRenderer extends Renderer.LensExtension {
   async onActivate() {
@@ -44,7 +43,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       apiVersions: ExampleV1alpha1.crd.apiVersions,
       priority: 10,
       components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<any>) => (
+        Details: (props: Renderer.Component.KubeObjectDetailsProps<ExampleV1alpha1>) => (
           <ExampleDetailsV1alpha1 {...props} extension={this} />
         ),
       },
@@ -54,7 +53,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       apiVersions: ExampleV1alpha2.crd.apiVersions,
       priority: 10,
       components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<any>) => (
+        Details: (props: Renderer.Component.KubeObjectDetailsProps<ExampleV1alpha2>) => (
           <ExampleDetailsV1alpha2 {...props} extension={this} />
         ),
       },
@@ -65,22 +64,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
     {
       id: "example",
       components: {
-        Page: () => <ExamplesPageV1alpha1 extension={this} />,
-      },
-    },
-    {
-      id: "example",
-      components: {
-        Page: () => <ExamplesPageV1alpha2 extension={this} />,
-      },
-    },
-    {
-      id: "example",
-      components: {
-        Page: createAvailableVersionPage("Examples", [
-          { kubeObjectClass: ExampleV1alpha2, PageComponent: ExamplesPageV1alpha2, version: "v1alpha2" },
-          { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
-        ]),
+        Page: () => <ExamplesPage extension={this} />,
       },
     },
   ];
@@ -101,7 +85,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       kind: ExampleV1alpha1.kind,
       apiVersions: ExampleV1alpha1.crd.apiVersions,
       components: {
-        MenuItem: (props: ExampleActiveToggleMenuItemProps_v1alpha1) => (
+        MenuItem: (props: Renderer.Component.KubeObjectMenuProps<ExampleV1alpha1>) => (
           <ExampleActiveToggleMenuItem_v1alpha1 {...props} extension={this} />
         ),
       },
@@ -110,7 +94,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
       kind: ExampleV1alpha2.kind,
       apiVersions: ExampleV1alpha2.crd.apiVersions,
       components: {
-        MenuItem: (props: ExampleActiveToggleMenuItemProps_v1alpha2) => (
+        MenuItem: (props: Renderer.Component.KubeObjectMenuProps<ExampleV1alpha2>) => (
           <ExampleActiveToggleMenuItem_v1alpha2 {...props} extension={this} />
         ),
       },

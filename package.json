@@ -51,10 +51,10 @@
     "type:check:tests": "tsc -p src/tsconfig.json",
     "type:check:tooling": "tsc -p tsconfig.json",
     "type:check:environments": "tsc -p environment-tests/tsconfig.main.json && tsc -p environment-tests/tsconfig.renderer.json && tsc -p environment-tests",
-    "prebuild": "pnpm type:check",
-    "build": "pnpm build:force",
-    "build:production": "pnpm build:force",
-    "build:force": "vite build && vite build --mode main",
+    "build": "vite build && vite build --mode main",
+    "dev": "pnpm \"/^dev:(renderer|main)\\$/\"",
+    "dev:main": "vite build --watch --mode main",
+    "dev:renderer": "vite build --watch --no-emptyOutDir",
     "bump-version": "pnpm version --no-commit-hooks --no-git-checks --no-git-tag-version",
     "pack:dev": "pnpm bump-version prerelease && pnpm build && pnpm clean:tgz && pnpm pack && pnpm dlx shx@0.4.0 ls \"$PWD/*.tgz\"",
     "clean": "pnpm clean:dist",
@@ -66,7 +66,7 @@
     "postupdate": "pnpm biome:migrate"
   },
   "devDependencies": {
-    "@freelensapp/extensions": "2.0.0-0-nightly-2026-10-08",
+    "@freelensapp/extensions": "2.0.0-0-nightly-2026-10-09",
     "@testing-library/dom": "10.4.2",
     "@testing-library/react": "16.3.3",
     "@types/node": "24.19.1",

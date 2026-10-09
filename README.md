@@ -13,50 +13,34 @@
 
 ## Overview
 
-This repository serves as an example and template for building and publishing
-extensions for the [Freelens](https://freelens.app) application.
+This repository is the reference template for building, type-checking,
+testing and releasing an extension for the [Freelens](https://freelens.app)
+application. The
+[Freelens extension documentation](https://github.com/freelensapp/freelens/tree/main/docs/extensions)
+describes the extension API and points here for everything around it. Start a
+new extension from a copy of this repository.
 
-It demonstrates how to add support for custom Kubernetes resources by
-implementing cluster pages, list views, and detail panels for Custom Resource
-Definitions (CRDs). Each resource is accessible from the Freelens sidebar,
-with status conditions, spec fields, and related objects displayed in the
-detail view.
+The extension adds a cluster page, a details panel and a context menu item
+for a custom resource, `Example`, and a setting on the preferences page:
 
-Notable patterns demonstrated in this repository:
-
-- **Multiple API versions of the same CRD** -- the `Example` resource is
-  implemented for both `v1alpha1` and `v1alpha2`, each with separate typed
-  interfaces, detail views, list pages, and context menu items. The
-  v1alpha1 to v1alpha2 migration also illustrates a field rename with
-  inverted semantics (`active` to `suspended`).
-
-- **Auto-detection of the available API version** -- the
-  `createAvailableVersionPage` helper tries each registered version in
-  priority order at runtime, renders the page for the first version whose
-  store is available in the cluster, and shows a friendly message if the
-  CRD is not installed.
-
-- **Static methods instead of instance methods** -- Freelens creates plain
-  object copies of Kubernetes resources rather than class instances, so all
-  per-object logic is implemented as `static` methods on the KubeObject
-  subclass (e.g. `Example.getActive(object)`).
-
-- **Error boundary with `withErrorPage`** -- every component render is
-  wrapped in a `withErrorPage(props, fn)` helper that catches errors, logs
-  them, and renders a graceful error UI instead of crashing the panel.
-
-- **Persisted preferences with MobX** -- `ExamplePreferencesStore` shows
-  how to persist extension settings across restarts using
-  `Common.Store.ExtensionStore` with MobX `@observable` fields.
-
-Visit the wiki page about [creating
-extensions](https://github.com/freelensapp/freelens/wiki/Creating-extensions)
-for more information.
+- **Two API versions of one CRD.** `Example` is implemented for `v1alpha1`
+  and `v1alpha2`, each with its own model, list page, details and menu item.
+  `v1alpha2` renames `spec.active` to `spec.suspended`, with the meaning
+  inverted.
+- **The served API version picked at runtime.** The "Examples" page shows the
+  newest version the cluster serves, or a message when the CRDs are not
+  installed.
+- **Static helpers on the model.** Per-object logic is a `static` method that
+  takes the object, such as `Example.getSuspended(object)`.
+- **An error boundary.** Each page, details panel and menu item renders an
+  error message instead of breaking the view when it throws.
+- **A persisted preference.** The "Example checkbox" setting is kept across
+  restarts and shown in the details panel.
 
 ## Requirements
 
+- Freelens >= 2.0.0
 - Kubernetes >= 1.24
-- Freelens >= 1.8.0
 
 ## Supported APIs
 
@@ -71,7 +55,7 @@ for more information.
 
 <!-- markdownlint-enable MD013 -->
 
-To install Custom Resource Definitions for this example run:
+To install the Custom Resource Definitions for this example, run:
 
 ```sh
 kubectl apply -k examples/v1alpha1/crds
@@ -88,24 +72,47 @@ kubectl apply -k examples/v1alpha1/test
 
 ## Install
 
-To install, open Freelens and go to Extensions (`ctrl`+`shift`+`E` or
-`cmd`+`shift`+`E`), then search for and install
-`@freelensapp/example-extension`.
+Open Freelens and go to Extensions (`ctrl`+`shift`+`E` or
+`cmd`+`shift`+`E`). The field at the top takes a package name, the URL of a
+tarball, or the path to a tarball or a directory.
+
+### From the registry
+
+Enter `@freelensapp/example-extension` and press Install.
 
 Alternatively, open the following URL in the browser to install directly:
 
 [freelens://app/extensions/install/%40freelensapp%2Fexample-extension](freelens://app/extensions/install/%40freelensapp%2Fexample-extension)
 
-## Build from the source
+### From a release tarball
 
-You can build the extension from this repository.
+Each [release](https://github.com/freelensapp/freelens-example-extension/releases)
+has the extension as `freelensapp-example-extension-<version>.tgz`, with its
+checksum in `freelensapp-example-extension-<version>.tgz.sha256`. Use a
+release whose major version matches your Freelens version.
+
+- Enter the URL of the `.tgz` asset and press Install. Freelens downloads the
+  `.tgz.sha256` next to it and checks the tarball against it.
+- Or download both files into one directory and enter the path to the `.tgz`,
+  or drop the `.tgz` on the Freelens window. Freelens checks it against the
+  `.tgz.sha256` next to it.
+
+### From a directory
+
+Build the extension (see below), then enter the path to your checkout, the
+directory with `package.json`, and press Install. Freelens runs the extension
+from that directory, from the files in `dist/`, and lists it as unverified.
+This is how you work on the extension: see
+[Development loop](#development-loop).
+
+## Build from the source
 
 ### Prerequisites
 
 Use [NVM](https://github.com/nvm-sh/nvm),
 [mise-en-place](https://mise.jdx.dev/), or
 [windows-nvm](https://github.com/coreybutler/nvm-windows) to install the
-required Node.js version.
+Node.js version in `.nvmrc`.
 
 From the root of this repository:
 
@@ -115,8 +122,8 @@ nvm install
 mise install
 # or
 winget install CoreyButler.NVMforWindows
-nvm install 24.15.0
-nvm use 24.15.0
+nvm install "$(cat .nvmrc)"
+nvm use "$(cat .nvmrc)"
 ```
 
 Install pnpm:
@@ -132,40 +139,56 @@ winget install pnpm.pnpm
 ### Build extension
 
 ```sh
-pnpm i
+pnpm install
 pnpm build
+```
+
+The extension is built into `dist/`. To pack it into a tarball:
+
+```sh
 pnpm pack
 ```
 
-One script to build and pack the extension for testing:
+One script to bump the prerelease version, build and pack the extension for
+testing:
 
 ```sh
 pnpm pack:dev
 ```
 
-### Install built extension
+The tarball is placed in the current directory. Install it as described in
+[From a release tarball](#from-a-release-tarball).
 
-The tarball will be placed in the current directory. In Freelens, navigate
-to the Extensions page and provide the path to the tarball, or drag and
-drop the `.tgz` file into the Freelens window.
+### Development loop
 
-### Check code statically
+Install the extension from your checkout once, as described in
+[From a directory](#from-a-directory), then run:
 
 ```sh
-pnpm lint:check
+pnpm dev
 ```
 
-or
+It rebuilds the extension whenever a source file changes, and Freelens
+reloads the extension after each rebuild, without a restart and without
+packing. Stop it with `ctrl`+`C`.
+
+Neither `pnpm build` nor `pnpm dev` type-checks; run `pnpm type:check` for
+that. A change to `main` or `renderer` in `package.json` needs Freelens
+restarted once.
+
+### Check the code
+
+```sh
+pnpm type:check
+pnpm test:unit
+pnpm lint:check
+pnpm knip:check
+```
+
+and, for the formats that Biome does not cover:
 
 ```sh
 pnpm trunk:check
-```
-
-and
-
-```sh
-pnpm build
-pnpm knip:check
 ```
 
 ### Testing the extension with unpublished Freelens
