@@ -76,8 +76,8 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    issue names, and set `"type": "module"` ("`package.json` for an
    extension").
 2. **Toolchain and build.** Align them with the template: take the files that
-   [create-freelens-extension](../create-freelens-extension/SKILL.md) lists
-   under "Keep as is", the dependency versions of the template's
+   [`create-freelens-extension`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/skills/create-freelens-extension/SKILL.md)
+   lists under "Keep as is", the dependency versions of the template's
    `package.json`, and its scripts. Move the code into `src/main/`,
    `src/renderer/` and `src/common/`, one TypeScript program each ("Source
    layout: one tsconfig per runtime environment" in `migrating-from-v1.md`,
