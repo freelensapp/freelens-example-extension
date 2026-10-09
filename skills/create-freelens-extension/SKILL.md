@@ -222,7 +222,10 @@ pnpm trunk:check
 ```
 
 All of them pass. `dist/` then has `main.js`, `renderer.js` and one
-stylesheet, `renderer.css`, with their source maps.
+stylesheet, `renderer.css`, with their source maps. `pnpm knip:check` fails on
+a file nothing imports, such as a leftover module or barrel, or the
+`available-version.*` files when no page uses them: remove the file rather than
+ignore it in `knip.jsonc`.
 
 Then run the extension in Freelens, as "From a directory" and "Development
 loop" in the template's `README.md` describe: install the checkout's directory
