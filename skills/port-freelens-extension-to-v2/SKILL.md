@@ -101,7 +101,17 @@ Check the port against:
 - "Rules That Fail Silently" in `AGENTS.md`: a second copy of React or mobx,
   `@observable` without `accessor`, Node or Electron in renderer code, a CSS
   asset other than `dist/renderer.css`, an instance method on a KubeObject
-  subclass, a cluster page that expects more than `params`, a CommonJS `main`.
+  subclass, a cluster page that expects more than `params`, a version choice
+  through `getStore()` in a component that is not an `observer`, a CommonJS
+  `main`.
+- The extension's own version choice. An extension that already has a copy of
+  `createAvailableVersionPage`, or another component that picks the served API
+  version through `getStore()`, keeps it from before the port, and it is
+  usually a plain function component. Make it an `observer`, or replace the
+  copy with the template's `src/renderer/components/available-version.tsx`
+  and its test: otherwise a page that renders before the cluster frame has
+  loaded the CRDs, as a page Freelens restores when a cluster is opened does,
+  shows the kind as not installed ("CRD KubeObject Pattern" in `AGENTS.md`).
 - The porting hint in "Renderer Components" in `AGENTS.md`: the `clusterPages`
   and `globalPages` registrations that compiled under v1 and get `undefined`
   props on v2, and how to pass the extension from the registration instead.

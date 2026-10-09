@@ -21,6 +21,13 @@ class LensExtensionKubeObject {
   constructor(data: Record<string, unknown> = {}) {
     Object.assign(this, data);
   }
+
+  // The host returns the store it registered for one of the class's
+  // `crd.apiVersions`, and throws when there is none. Without a host there is
+  // never one; a test that needs a store spies on `getStore` of its class.
+  static getStore(): never {
+    throw new Error(`Store for ${this.name} is not registered. Extension won't work correctly.`);
+  }
 }
 
 // The host's store loads the saved model with `fromStore()` and saves it

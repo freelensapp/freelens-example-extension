@@ -87,9 +87,10 @@ the same kind.
   `src/renderer/components/error-page.test.tsx`,
   `src/renderer/components/available-version.tsx`,
   `src/renderer/components/available-version.module.scss`,
-  `src/renderer/components/available-version.module.d.scss.ts`
+  `src/renderer/components/available-version.module.d.scss.ts`,
+  `src/renderer/components/available-version.test.tsx`
   (`createAvailableVersionPage`, for a CRD served in more than one API
-  version; remove the three files if no page needs them),
+  version; remove the four files if no page needs them),
   `src/renderer/vars.scss`.
 - Workflows that apply to any extension and need no secret:
   `.github/workflows/type-check.yaml`, `.github/workflows/check.yaml`,
