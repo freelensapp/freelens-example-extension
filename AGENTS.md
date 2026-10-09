@@ -554,6 +554,11 @@ not copy them, so nothing drifts. What a skill does depend on is the names:
 - `create-freelens-extension` puts every tracked file into one of its groups
   (keep, adapt, remove, rewrite). A new tracked file goes into one of them in
   the commit that adds it.
+- They cite sections of Freelens's `docs/extensions/` by their headings and
+  contracts by their numbers. The "Extension API" section of Freelens's
+  `AGENTS.md` lists those citations, so that a rename there updates the skill.
+  A skill that cites a section the list does not have needs the list extended
+  in freelensapp/freelens.
 - The links point at `main` of both repositories. Once Freelens 2.0.0 is
   released, they move to the `v2.0.0` tag of freelensapp/freelens and to a
   release tag of this repository.
