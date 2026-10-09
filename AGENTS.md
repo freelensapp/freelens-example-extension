@@ -537,6 +537,11 @@ path outside the repository root, so every file fails. The Biome commands in
 `.gitignore` itself before it picks the targets; `biome.jsonc` keeps the
 setting on for `pnpm biome` and editors.
 
+Renovate updates Biome, in the `biome` script and in `.trunk/trunk.yaml`, but
+cannot run `biome migrate`. `biome-migrate.yaml` runs it on the Renovate
+branch and commits the migrated `biome.jsonc` there, so that the update and its
+migration are one pull request.
+
 Biome does not read SCSS; Trunk formats it with Prettier.
 
 ### Knip
