@@ -530,6 +530,13 @@ and there a path anchored at the repository root matches no file, so the
 override silently does nothing. A plain `biome check` matches both forms, so
 only `trunk check` shows the difference.
 
+In that sandbox, Biome also cannot apply `vcs.useIgnoreFile`: since 2.5.15 it
+matches every target against the repository's `.gitignore` and panics on a
+path outside the repository root, so every file fails. The Biome commands in
+`.trunk/trunk.yaml` pass `--vcs-use-ignore-file=false`, because Trunk applies
+`.gitignore` itself before it picks the targets; `biome.jsonc` keeps the
+setting on for `pnpm biome` and editors.
+
 Biome does not read SCSS; Trunk formats it with Prettier.
 
 ### Knip
