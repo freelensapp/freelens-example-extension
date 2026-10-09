@@ -159,10 +159,12 @@ resources, one file per API version.
 - `LICENSE`: the copyright holder and years, or another license, matching
   `license` in `package.json`.
 - `AGENTS.md`: keep the generic sections as they are: "Common Commands",
-  "Rules That Fail Silently", "Build", "TypeScript", "Lint and CI", "Code
-  Style", "Security", "Electron Multi-Process", "Troubleshooting" and "Best
-  Practices". Rewrite the ones about this repository: "Project Overview" (its
-  toolchain and dependency paragraphs stay), "Architecture", and "CRD
+  "Rules That Fail Silently", "Build", "TypeScript", "Lint and CI",
+  "Checking the Extension in Freelens Dev" (with the example page URL of the
+  new extension), "Code Style", "Security", "Electron Multi-Process",
+  "Troubleshooting" and "Best Practices". Rewrite the ones about this
+  repository: "Project Overview" (its toolchain and dependency paragraphs
+  stay), "Architecture", and "CRD
   KubeObject Pattern" and "Renderer Components" with the new extension's
   classes and files in place of `Example`. Keep "GitHub Actions (Claude Code
   Action) Rules" only with the Claude workflows below, with
@@ -228,6 +230,8 @@ loop" in the template's `README.md` describe: install the checkout's directory
 from the Extensions page and run `pnpm dev`. Open every page, details panel,
 menu item and preference the extension registers, and check that neither the
 renderer's DevTools console nor the terminal running Freelens shows an error.
+To run these checks through an agent attached to Freelens dev, follow
+"Checking the Extension in Freelens Dev" in the template's `AGENTS.md`.
 
 A gap or an error in the Freelens documents or in `@freelensapp/extensions` is
 reported to [freelensapp/freelens](https://github.com/freelensapp/freelens/issues),

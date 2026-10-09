@@ -146,3 +146,5 @@ the terminal running Freelens shows an error. Make one change through mobx,
 such as a preference, and check that the UI follows it: that proves the
 extension uses the host's mobx. Then tick the functional checks of the
 migration issue and of each feature issue.
+To run these checks through an agent attached to Freelens dev, follow
+"Checking the Extension in Freelens Dev" in the template's `AGENTS.md`.
