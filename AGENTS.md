@@ -209,18 +209,20 @@ and a "not available" message when the cluster serves neither.
   the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
 - The host renders a cluster page with `params` only. A page that needs the extension gets it from the registration
   (`Page: () => <ExamplesPage extension={this} />`), with the page component created once, outside the registration.
-  The type check does not catch a missing prop there, because `PageComponents.Page` is `ComponentType<any>`.
-- When porting another extension from v1, check every `clusterPages` and `globalPages` registration. These get
-  `undefined` for the props they expect:
+  `PageComponents.Page` is typed with the props the host passes, `Common.Types.PageComponentProps`, so the type check
+  rejects a page that requires another prop. It does not reject one that declares another prop as optional next to
+  `params`; that prop is `undefined`.
+- When porting another extension from v1, expect the type check to reject `clusterPages` and `globalPages`
+  registrations that compiled under v1 and get `undefined` at runtime:
   - a component that requires props, passed as the page itself: `Page: createAvailableVersionPage(...)`, or
     `Page: MyPage` where `MyPage` takes `extension`;
-  - a wrapper that declares the prop instead of passing it: `Page: (props: { extension: ... }) => <MyPage {...props} />`.
+  - a wrapper that declares the prop instead of passing it: `Page: (props: { extension: ... }) => <MyPage {...props} />`;
+  - a page whose props type names its parameters (`{ params?: { query: PageParam } }`).
 
-  Pass what the page needs from the registration, as above. A page that reads a named parameter takes
-  `Common.Types.PageComponentProps` and reads `params.<name>.get()`, rather than a props type that names its
-  parameters (`{ params?: { query: PageParam } }`): the host knows the names only from the registration's `params`,
-  at runtime. The same holds for the other registered components: `appPreferences` `Input` and `Hint` get no props,
-  and a `kubeObjectMenuItems` `MenuItem` gets `object` and `toolbar`.
+  Pass what the page needs from the registration, as above, rather than loosening the props type. A page that reads a
+  named parameter takes `Common.Types.PageComponentProps` and reads `params.<name>.get()`: the host knows the names
+  only from the registration's `params`, at runtime. The other registered components are typed the same way:
+  `appPreferences` `Input` and `Hint` get no props, and a `kubeObjectMenuItems` `MenuItem` gets `object` and `toolbar`.
 
 ## Rules That Fail Silently
 
@@ -251,7 +253,8 @@ mechanism; this is the list to check a change against.
   do not have it, and the call throws. Nothing checks it
   ("CRD KubeObject Pattern").
 - **A cluster page gets the extension from its registration.** The host passes
-  `params` only. Nothing checks it ("Renderer Components").
+  `params` only. The type check rejects a page that requires another prop, but
+  not one that declares it optional ("Renderer Components").
 - **An ESM `main`, and the entries in `package.json` unchanged while
   `pnpm dev` runs.** The host refuses to reload a CommonJS main and logs why,
   and it watches only the entries it started with, so a manifest change needs
