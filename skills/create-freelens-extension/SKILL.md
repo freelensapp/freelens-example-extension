@@ -81,7 +81,7 @@ the same kind.
   excluded with `!` in its catalog rule, or its lookup fails on the Dependency
   Dashboard).
 - Agent configuration: `CLAUDE.md`, `.claude/settings.json`.
-- Shared components and helpers: `src/renderer/components/error-page.tsx`,
+- Shared components and styles: `src/renderer/components/error-page.tsx`,
   `src/renderer/components/error-page.module.scss`,
   `src/renderer/components/error-page.module.d.scss.ts`,
   `src/renderer/components/error-page.test.tsx`,
@@ -90,8 +90,7 @@ the same kind.
   `src/renderer/components/available-version.module.d.scss.ts`
   (`createAvailableVersionPage`, for a CRD served in more than one API
   version; remove the three files if no page needs them),
-  `src/renderer/vars.scss`, `src/common/utils.ts`, `src/common/utils.test.ts`
-  (remove the last two if nothing uses `maybe()`).
+  `src/renderer/vars.scss`.
 - Workflows that apply to any extension and need no secret:
   `.github/workflows/type-check.yaml`, `.github/workflows/check.yaml`,
   `.github/workflows/unit-tests.yaml`, `.github/workflows/trunk-check.yaml`,

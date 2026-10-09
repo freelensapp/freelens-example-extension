@@ -118,7 +118,6 @@ src/
   renderer/icons/                # SVG icons, imported with ?raw
   renderer/vars.scss             # SCSS variables
   common/store/                  # ExamplePreferencesStore, loaded by main and renderer
-  common/utils.ts                # maybe()
 test/freelens-extensions.ts      # Runtime stub of @freelensapp/extensions for Vitest
 environment-tests/               # Probes for the per-environment programs
 build/                           # Vite plugins: host modules, standard decorators, CSS module declarations
