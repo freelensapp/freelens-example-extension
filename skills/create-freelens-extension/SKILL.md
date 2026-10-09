@@ -82,9 +82,14 @@ the same kind.
 - Shared components and helpers: `src/renderer/components/error-page.tsx`,
   `src/renderer/components/error-page.module.scss`,
   `src/renderer/components/error-page.module.d.scss.ts`,
-  `src/renderer/components/error-page.test.tsx`, `src/renderer/vars.scss`,
-  `src/common/utils.ts`, `src/common/utils.test.ts` (remove the last two if
-  nothing uses `maybe()`).
+  `src/renderer/components/error-page.test.tsx`,
+  `src/renderer/components/available-version.tsx`,
+  `src/renderer/components/available-version.module.scss`,
+  `src/renderer/components/available-version.module.d.scss.ts`
+  (`createAvailableVersionPage`, for a CRD served in more than one API
+  version; remove the three files if no page needs them),
+  `src/renderer/vars.scss`, `src/common/utils.ts`, `src/common/utils.test.ts`
+  (remove the last two if nothing uses `maybe()`).
 - Workflows that apply to any extension and need no secret:
   `.github/workflows/type-check.yaml`, `.github/workflows/check.yaml`,
   `.github/workflows/unit-tests.yaml`, `.github/workflows/trunk-check.yaml`,
@@ -98,12 +103,6 @@ the same kind.
 - `src/renderer/index.tsx`: the `Renderer.LensExtension` with every
   registration. Replace the `Example` registrations with the extension's own,
   keeping `extension={this}` on each component.
-- `src/renderer/components/available-version.tsx`,
-  `src/renderer/components/available-version.module.scss`,
-  `src/renderer/components/available-version.module.d.scss.ts`:
-  `createAvailableVersionPage`, for a CRD served in more than one API version.
-  Its log messages name `@freelensapp/example-extension`; use the new package
-  name. Remove the three files if no page needs them.
 - `src/renderer/api/types.ts`: `ExampleKubeObjectCRD`, the CRD metadata with a
   page title. Rename it, or remove it with the last CRD model.
 - `src/common/store/index.ts`, `src/common/store/preferences-store.ts`,
