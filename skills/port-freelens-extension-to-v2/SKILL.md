@@ -75,10 +75,15 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    `@freelensapp/extensions` version that "Source of truth" in the migration
    issue names, and set `"type": "module"` ("`package.json` for an
    extension").
-2. **Toolchain and build.** Align them with the template: take the files that
+2. **Toolchain and build.** Align them with the template as it is on its
+   current `main`: take the files that
    [`create-freelens-extension`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/skills/create-freelens-extension/SKILL.md)
    lists under "Keep as is", the dependency versions of the template's
-   `package.json`, and its scripts. Move the code into `src/main/`,
+   `package.json`, and its scripts. Where a version there is ahead of the one
+   "Stack alignment" in the migration issue pins, keep the file and set the
+   pinned version, and say so in the PR. Never take the files from an older
+   commit of the template to match the pin: that also drops the template's
+   changes that do not depend on it. Move the code into `src/main/`,
    `src/renderer/` and `src/common/`, one TypeScript program each ("Source
    layout: one tsconfig per runtime environment" in `migrating-from-v1.md`,
    "Build" and "TypeScript" in `AGENTS.md`). Remove whatever only the v1 build
