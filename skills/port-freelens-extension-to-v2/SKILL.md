@@ -99,7 +99,15 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    only)", stylesheets "Styling and CSS", and Node or Electron in renderer code
    "Node and Electron in the renderer".
 4. **Features.** One feature issue at a time, after "CRD KubeObject Pattern"
-   and "Renderer Components" in `AGENTS.md`.
+   and "Renderer Components" in `AGENTS.md`. With the registrations of a custom
+   resource that the extension presents with a sidebar entry and pages of its
+   own, list its model classes, of every API version it has, in
+   `customResources` of the `Renderer.LensExtension`; leave out a model that
+   it only decorates with details or menu items. v1 had no such field, so the
+   type check never asks for it, and without it the resource is listed twice
+   in the cluster sidebar: under the extension's entry and again in the
+   Custom Resources tree ("Checklist" and "Registering things: declarative
+   fields" in `migrating-from-v1.md`).
 5. **Functional check in Freelens**, as in "Verify" below.
 
 ## 3. What compiles and fails at runtime
