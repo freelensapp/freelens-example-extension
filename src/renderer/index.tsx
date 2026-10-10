@@ -80,6 +80,8 @@ export default class ExampleRenderer extends Renderer.LensExtension {
     },
   ];
 
+  customResources = [ExampleV1alpha1, ExampleV1alpha2];
+
   kubeObjectMenuItems = [
     {
       kind: ExampleV1alpha1.kind,
