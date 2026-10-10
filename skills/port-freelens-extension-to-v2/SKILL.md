@@ -84,9 +84,10 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    pinned version, and say so in the PR. Never take the files from an older
    commit of the template to match the pin: that also drops the template's
    changes that do not depend on it. The template renders no
-   `Renderer.Component.MonacoEditor`; an extension that does keeps
+   `Renderer.Component.MonacoEditor`; an extension that does declares
    `monaco-editor` in `devDependencies`, at the host's version, for the
-   editor's types ("Project Overview" in `AGENTS.md`). Move the code into
+   editor's types, even when its v1 `package.json` did not list it ("Project
+   Overview" in `AGENTS.md`). Move the code into
    `src/main/`, `src/renderer/` and `src/common/`, one TypeScript program each
    ("Source layout: one tsconfig per runtime environment" in
    `migrating-from-v1.md`, "Build" and "TypeScript" in `AGENTS.md`). Remove
