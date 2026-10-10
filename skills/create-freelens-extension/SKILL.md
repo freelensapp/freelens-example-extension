@@ -123,7 +123,13 @@ the same kind.
 ### Remove, or replace with the extension's own feature
 
 The `Example` CRD. Its files are the model to follow for the extension's own
-resources, one file per API version.
+resources, one file per API version. Its registration in
+`src/renderer/index.tsx` is too: a resource that the extension presents with a
+sidebar entry and pages of its own has its model classes listed in
+`customResources`, as `Example` has both of its versions, so that the cluster
+sidebar does not list it again in its Custom Resources tree. A model the
+extension only decorates with details or menu items stays out of the field
+("CRD KubeObject Pattern" in `AGENTS.md`).
 
 - Models and their tests: `src/renderer/api/example/example-v1alpha1.ts`,
   `src/renderer/api/example/example-v1alpha1.test.ts`,
