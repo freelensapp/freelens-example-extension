@@ -83,12 +83,16 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    "Stack alignment" in the migration issue pins, keep the file and set the
    pinned version, and say so in the PR. Never take the files from an older
    commit of the template to match the pin: that also drops the template's
-   changes that do not depend on it. Move the code into `src/main/`,
-   `src/renderer/` and `src/common/`, one TypeScript program each ("Source
-   layout: one tsconfig per runtime environment" in `migrating-from-v1.md`,
-   "Build" and "TypeScript" in `AGENTS.md`). Remove whatever only the v1 build
-   needed: the bundler configuration, the global externals, legacy decorator
-   plugins.
+   changes that do not depend on it. The template renders no
+   `Renderer.Component.MonacoEditor`; an extension that does declares
+   `monaco-editor` in `devDependencies`, at the host's version, for the
+   editor's types, even when its v1 `package.json` did not list it ("Project
+   Overview" in `AGENTS.md`). Move the code into
+   `src/main/`, `src/renderer/` and `src/common/`, one TypeScript program each
+   ("Source layout: one tsconfig per runtime environment" in
+   `migrating-from-v1.md`, "Build" and "TypeScript" in `AGENTS.md`). Remove
+   whatever only the v1 build needed: the bundler configuration, the global
+   externals, legacy decorator plugins.
 3. **API changes.** Let `pnpm type:check` drive them. Look every error up in
    the "v1→v2 rename table" of `migrating-from-v1.md` and follow the section it
    links. Decorators follow "MobX 7 and mobx-react 10 (standard decorators
@@ -107,7 +111,8 @@ Check the port against:
   `@observable` without `accessor`, Node or Electron in renderer code, a CSS
   asset other than `dist/renderer.css`, an instance method on a KubeObject
   subclass, a cluster page that expects more than `params`, a version choice
-  through `getStore()` in a component that is not an `observer`, a CommonJS
+  through `getStore()` in a component that is not an `observer`, `this.props`
+  of an `@observer` class component read outside its `render()`, a CommonJS
   `main`.
 - The extension's own version choice. An extension that already has a copy of
   `createAvailableVersionPage`, or another component that picks the served API
@@ -117,6 +122,16 @@ Check the port against:
   and its test: otherwise a page that renders before the cluster frame has
   loaded the CRDs, as a page Freelens restores when a cluster is opened does,
   shows the kind as not installed ("CRD KubeObject Pattern" in `AGENTS.md`).
+- The extension's `@observer` class components. Under v1 they could read
+  `this.props` anywhere; under mobx-react 10 only their own `render()` may.
+  Search for `this.props` in `@computed` getters and in the methods passed to
+  the host, such as `getItems` and `customizeHeader` of
+  `KubeObjectListLayout`: each throws
+  `[mobx-react] Cannot read "X.props" in a reactive context` when the page
+  renders, and the host shows "App crash". Read the values in `render()` and
+  hand them to the callback, or make the component a function component
+  ("MobX 7 and mobx-react 10 (standard decorators only)" in
+  `migrating-from-v1.md`).
 - The porting hint in "Renderer Components" in `AGENTS.md`: the `clusterPages`
   and `globalPages` registrations that compiled under v1 and get `undefined`
   props on v2, and how to pass the extension from the registration instead.

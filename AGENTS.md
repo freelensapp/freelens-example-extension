@@ -73,6 +73,15 @@ props are checked against them. A main-only extension needs neither; its code
 reaches no React type, and `skipLibCheck` leaves the declaration's own imports
 unchecked.
 
+An extension that renders `Renderer.Component.MonacoEditor` compiles against
+`monaco-editor` without importing it, so it declares `monaco-editor` in
+`devDependencies` at the host's version as well. `MonacoEditorProps` takes its
+`options` and callback types from that package; without it they are `any`, and
+`skipLibCheck` hides the unresolved import. This template renders no editor and
+does not declare it ("The host-provided libraries, and how to mark them
+external" in Freelens's `migrating-from-v1.md`, and contracts C3 and C11 of
+`api.md`).
+
 ## Common Commands
 
 ```bash
@@ -273,6 +282,16 @@ mechanism; this is the list to check a change against.
   then shows the kind as not installed until the user navigates away and back.
   Only a test whose `getStore` reads an observable shows it
   ("CRD KubeObject Pattern").
+- **`this.props` of an `@observer` class component only in its `render()`.**
+  Under mobx-react 10 they are not observable. A `@computed` getter that reads
+  them, or a method the host calls from its own derivations (`getItems` and
+  `customizeHeader` of `KubeObjectListLayout`), throws
+  `[mobx-react] Cannot read "X.props" in a reactive context` when the page
+  renders, and the host shows its "App crash" page. The type check, the build
+  and unit tests in a Node environment pass. Read the values in `render()` and
+  hand them to the callback, or make the component a function component
+  ("MobX 7 and mobx-react 10 (standard decorators only)" in Freelens's
+  `migrating-from-v1.md`).
 - **A cluster page gets the extension from its registration.** The host passes
   `params` only. The type check rejects a page that requires another prop, but
   not one that declares it optional ("Renderer Components").
