@@ -216,6 +216,21 @@ a version through `getStore()` is an `observer` for the same reason.
 `src/renderer/components/available-version.test.tsx` checks it: its spy on
 `getStore` reads an observable, and the page follows when the test sets it.
 
+`customResources` in `src/renderer/index.tsx` lists both model classes. The
+field takes the models of the custom resources the extension presents with a
+sidebar entry and pages of its own. While the extension is enabled, the
+**Custom Resources** tree of the cluster sidebar leaves those resources out, so
+`Example` is listed once, under the extension's "Examples" entry, and not again
+under its API group. Its definition stays in the **Definitions** list, and the
+host's own list and details stay reachable by URL and from the command palette.
+The host reads the group and plural from `crd.apiVersions` and `crd.plural`, or
+from `apiBase`; the classes of two versions of one resource name the same ones,
+so listing both is harmless. A model the extension only decorates, with
+`kubeObjectDetailItems` or `kubeObjectMenuItems` and no page of its own, stays
+out of the field: listed, it would leave the tree with nothing in its place
+(contract C6 of `api.md`, and "Registering things: declarative fields" in
+`migrating-from-v1.md`).
+
 ## Renderer Components
 
 - Pages and details panels are `observer` components from `mobx-react`, which the build maps to the host's copy.
