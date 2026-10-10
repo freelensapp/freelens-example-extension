@@ -107,7 +107,8 @@ Check the port against:
   `@observable` without `accessor`, Node or Electron in renderer code, a CSS
   asset other than `dist/renderer.css`, an instance method on a KubeObject
   subclass, a cluster page that expects more than `params`, a version choice
-  through `getStore()` in a component that is not an `observer`, a CommonJS
+  through `getStore()` in a component that is not an `observer`, `this.props`
+  of an `@observer` class component read outside its `render()`, a CommonJS
   `main`.
 - The extension's own version choice. An extension that already has a copy of
   `createAvailableVersionPage`, or another component that picks the served API
@@ -117,6 +118,16 @@ Check the port against:
   and its test: otherwise a page that renders before the cluster frame has
   loaded the CRDs, as a page Freelens restores when a cluster is opened does,
   shows the kind as not installed ("CRD KubeObject Pattern" in `AGENTS.md`).
+- The extension's `@observer` class components. Under v1 they could read
+  `this.props` anywhere; under mobx-react 10 only their own `render()` may.
+  Search for `this.props` in `@computed` getters and in the methods passed to
+  the host, such as `getItems` and `customizeHeader` of
+  `KubeObjectListLayout`: each throws
+  `[mobx-react] Cannot read "X.props" in a reactive context` when the page
+  renders, and the host shows "App crash". Read the values in `render()` and
+  hand them to the callback, or make the component a function component
+  ("MobX 7 and mobx-react 10 (standard decorators only)" in
+  `migrating-from-v1.md`).
 - The porting hint in "Renderer Components" in `AGENTS.md`: the `clusterPages`
   and `globalPages` registrations that compiled under v1 and get `undefined`
   props on v2, and how to pass the extension from the registration instead.
