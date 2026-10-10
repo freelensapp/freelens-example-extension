@@ -273,6 +273,16 @@ mechanism; this is the list to check a change against.
   then shows the kind as not installed until the user navigates away and back.
   Only a test whose `getStore` reads an observable shows it
   ("CRD KubeObject Pattern").
+- **`this.props` of an `@observer` class component only in its `render()`.**
+  Under mobx-react 10 they are not observable. A `@computed` getter that reads
+  them, or a method the host calls from its own derivations (`getItems` and
+  `customizeHeader` of `KubeObjectListLayout`), throws
+  `[mobx-react] Cannot read "X.props" in a reactive context` when the page
+  renders, and the host shows its "App crash" page. The type check, the build
+  and unit tests in a Node environment pass. Read the values in `render()` and
+  hand them to the callback, or make the component a function component
+  ("MobX 7 and mobx-react 10 (standard decorators only)" in Freelens's
+  `migrating-from-v1.md`).
 - **A cluster page gets the extension from its registration.** The host passes
   `params` only. The type check rejects a page that requires another prop, but
   not one that declares it optional ("Renderer Components").
