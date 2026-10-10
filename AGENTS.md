@@ -72,6 +72,7 @@ React types from `react` and `react-dom`, and the renderer's JSX and component
 props are checked against them. A main-only extension needs neither; its code
 reaches no React type, and `skipLibCheck` leaves the declaration's own imports
 unchecked.
+
 An extension that renders `Renderer.Component.MonacoEditor` compiles against
 `monaco-editor` without importing it, so it declares `monaco-editor` in
 `devDependencies` at the host's version as well. `MonacoEditorProps` takes its
