@@ -209,6 +209,10 @@ Follow the patterns the template's `AGENTS.md` and the contracts set:
 - A new runtime dependency is bundled and goes in `dependencies` ("Knip" in
   `AGENTS.md`); one with install scripts needs an `allowBuilds` entry in
   `pnpm-workspace.yaml`.
+- An extension that renders `Renderer.Component.MonacoEditor` adds
+  `monaco-editor` to `devDependencies` at the host's version, although it never
+  imports it; otherwise the editor's `options` and callback types are `any`
+  ("Project Overview" in `AGENTS.md`).
 
 ## 4. Verify
 

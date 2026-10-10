@@ -72,6 +72,14 @@ React types from `react` and `react-dom`, and the renderer's JSX and component
 props are checked against them. A main-only extension needs neither; its code
 reaches no React type, and `skipLibCheck` leaves the declaration's own imports
 unchecked.
+An extension that renders `Renderer.Component.MonacoEditor` compiles against
+`monaco-editor` without importing it, so it declares `monaco-editor` in
+`devDependencies` at the host's version as well. `MonacoEditorProps` takes its
+`options` and callback types from that package; without it they are `any`, and
+`skipLibCheck` hides the unresolved import. This template renders no editor and
+does not declare it ("The host-provided libraries, and how to mark them
+external" in Freelens's `migrating-from-v1.md`, and contracts C3 and C11 of
+`api.md`).
 
 ## Common Commands
 

@@ -83,12 +83,15 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    "Stack alignment" in the migration issue pins, keep the file and set the
    pinned version, and say so in the PR. Never take the files from an older
    commit of the template to match the pin: that also drops the template's
-   changes that do not depend on it. Move the code into `src/main/`,
-   `src/renderer/` and `src/common/`, one TypeScript program each ("Source
-   layout: one tsconfig per runtime environment" in `migrating-from-v1.md`,
-   "Build" and "TypeScript" in `AGENTS.md`). Remove whatever only the v1 build
-   needed: the bundler configuration, the global externals, legacy decorator
-   plugins.
+   changes that do not depend on it. The template renders no
+   `Renderer.Component.MonacoEditor`; an extension that does keeps
+   `monaco-editor` in `devDependencies`, at the host's version, for the
+   editor's types ("Project Overview" in `AGENTS.md`). Move the code into
+   `src/main/`, `src/renderer/` and `src/common/`, one TypeScript program each
+   ("Source layout: one tsconfig per runtime environment" in
+   `migrating-from-v1.md`, "Build" and "TypeScript" in `AGENTS.md`). Remove
+   whatever only the v1 build needed: the bundler configuration, the global
+   externals, legacy decorator plugins.
 3. **API changes.** Let `pnpm type:check` drive them. Look every error up in
    the "v1→v2 rename table" of `migrating-from-v1.md` and follow the section it
    links. Decorators follow "MobX 7 and mobx-react 10 (standard decorators
