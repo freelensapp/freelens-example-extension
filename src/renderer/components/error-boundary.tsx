@@ -2,6 +2,10 @@ import { Common, type Renderer } from "@freelensapp/extensions";
 import React from "react";
 import { ErrorPage } from "./error-page";
 
+type PageRegistration = Renderer.LensExtension["clusterPages"][number];
+type DetailRegistration = Renderer.LensExtension["kubeObjectDetailItems"][number];
+type MenuRegistration = Renderer.LensExtension["kubeObjectMenuItems"][number];
+
 export interface ErrorBoundaryProps {
   extension: Renderer.LensExtension;
   /**
@@ -30,7 +34,8 @@ interface ErrorBoundaryState {
  * A `try`/`catch` around the call of a component does not see such an error: a child component renders later than
  * the call, and the host calls a callback such as `renderTableContents` of `KubeObjectListLayout` from its own
  * render. The host has no boundary around the details drawer or a menu item of an extension, and its boundary
- * around the cluster frame would replace the whole cluster view.
+ * around the cluster frame would replace the whole cluster view. The registrations of the extension are wrapped with
+ * `withPageErrorBoundary`, `withDetailsErrorBoundary` and `withMenuItemErrorBoundary`.
  *
  * It is a class component of the host's React, because only a class component can be an error boundary, with no
  * decorators and no `observer`: it reads no observable, and the children it renders are observers of their own.
@@ -55,4 +60,72 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (this.props.fallback === "nothing") return null;
     return <ErrorPage error={this.state.error} />;
   }
+}
+
+/**
+ * The registration of a cluster page, with the page inside an error boundary.
+ */
+export function withPageErrorBoundary(
+  extension: Renderer.LensExtension,
+  registration: PageRegistration,
+): PageRegistration {
+  const { Page } = registration.components;
+
+  return {
+    ...registration,
+    components: {
+      ...registration.components,
+      Page: (props) => (
+        <ErrorBoundary extension={extension}>
+          <Page {...props} />
+        </ErrorBoundary>
+      ),
+    },
+  };
+}
+
+/**
+ * The registration of a details panel, made by `Renderer.K8sApi.detailsFor`, with the panel inside an error boundary
+ * that renders it again for a new object.
+ */
+export function withDetailsErrorBoundary(
+  extension: Renderer.LensExtension,
+  registration: DetailRegistration,
+): DetailRegistration {
+  const { Details } = registration.components;
+
+  return {
+    ...registration,
+    components: {
+      ...registration.components,
+      Details: (props) => (
+        <ErrorBoundary extension={extension} resetKey={props.object}>
+          <Details {...props} />
+        </ErrorBoundary>
+      ),
+    },
+  };
+}
+
+/**
+ * The registration of a menu item, made by `Renderer.K8sApi.menuItemFor`, with the item inside an error boundary that
+ * renders nothing in the menu after an error, and renders the item again for a new object.
+ */
+export function withMenuItemErrorBoundary(
+  extension: Renderer.LensExtension,
+  registration: MenuRegistration,
+): MenuRegistration {
+  const { MenuItem } = registration.components;
+
+  return {
+    ...registration,
+    components: {
+      ...registration.components,
+      MenuItem: (props) => (
+        <ErrorBoundary extension={extension} fallback="nothing" resetKey={props.object}>
+          <MenuItem {...props} />
+        </ErrorBoundary>
+      ),
+    },
+  };
 }
