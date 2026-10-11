@@ -240,8 +240,22 @@ A new kind, or a new version of a kind, takes the same set of files as
    and not from memory: the Go types when the controller is written with
    kubebuilder, otherwise the `openAPIV3Schema` of the CRD.
    - Every Go struct has a TypeScript interface of the same name, with the
-     same fields under their `json` names. A field with `omitempty` or of a
-     pointer type is optional.
+     same fields under their `json` names.
+   - A field is optional in the interface when the CRD does not require it.
+     `controller-gen` decides that from the markers, not from the `json` tag:
+     `+required` (or `+kubebuilder:validation:Required`) makes the field
+     required and `+optional` (or `+kubebuilder:validation:Optional`) makes
+     it optional, whatever the tag says. A field without a marker is
+     optional with `omitempty` and required without it, unless the package
+     sets `+kubebuilder:validation:Optional`, which makes every such field
+     optional. Current API conventions pair `+required` with `omitempty`, so
+     `omitempty` alone does not make a field optional. When the types come
+     from the `openAPIV3Schema`, a field is required when it is in the
+     `required` list of its object. The generated CRD settles any doubt.
+   - The API server validates every object against the CRD, so a required
+     field is present. The one exception is a field that a newer CRD made
+     required, on an object stored before; a list column or details panel
+     shows `-` when it is missing, and the type does not allow for it.
    - Every `+kubebuilder:validation:Enum` (an `enum` in the schema) is a
      string-literal union type alias, used by the fields that have it, such
      as `export type ReflectionPolicy = "Always" | "IfNotPresent" | "Never";`.
