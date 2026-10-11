@@ -21,22 +21,20 @@ afterEach(() => {
 });
 
 describe("ErrorPage", () => {
-  it("renders the error message and logs the error", () => {
-    render(<ErrorPage error={new Error("boom")} extension={extension} />);
+  it("renders the error message", () => {
+    render(<ErrorPage error={new Error("boom")} />);
 
     expect(screen.getByText("Error: boom")).toBeDefined();
-    expect(Common.logger.error).toHaveBeenCalledWith("[example-extension]: Error: boom");
   });
 
-  it("renders children and does not log when there is no error", () => {
+  it("renders children when there is no error", () => {
     render(
-      <ErrorPage extension={extension}>
+      <ErrorPage>
         <span>child content</span>
       </ErrorPage>,
     );
 
     expect(screen.getByText("child content")).toBeDefined();
-    expect(Common.logger.error).not.toHaveBeenCalled();
   });
 
   describe("withErrorPage", () => {
