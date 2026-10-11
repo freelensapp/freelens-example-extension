@@ -206,6 +206,20 @@ That page is made by `createAvailableVersionPage` from the list pages of both
 versions, newest first: it renders the first one whose store the host has,
 and a "not available" message when the cluster serves neither.
 
+`customResources` lists the model classes of both versions. The host reads the
+group and plural from each class's `crd`, and while the extension is enabled
+it leaves the resource out of the Custom Resources tree of the cluster
+sidebar, where it would otherwise be listed a second time next to the
+"Examples" page. Both versions name the same group and plural, so either class
+alone would do; both are listed so that removing one version leaves the other
+registered. The definition stays in the Definitions list, and the host's own
+list and details stay reachable by URL and from the command palette. A model
+the extension only decorates, with a details panel or a menu item and no page
+of its own, stays out of the field: registered, it would leave the tree with
+nothing in its place. The host rejects an entry it cannot read (no `kind`, no
+`crd` or `apiBase`, a core-group resource) with an error in the log, and the
+resource stays in the tree (contract C6 of `api.md`).
+
 The page it returns is an `observer`. `getStore()` reads the host's API
 registry, which is observable, and the host registers a CRD's APIs only after
 the cluster frame has loaded the CRDs. Freelens restores the last page when a

@@ -177,7 +177,9 @@ enabled. Open every page, details panel, menu item and preference the
 extension registers, and check that neither the renderer's DevTools console nor
 the terminal running Freelens shows an error. Make one change through mobx,
 such as a preference, and check that the UI follows it: that proves the
-extension uses the host's mobx. Then tick the functional checks of the
+extension uses the host's mobx. Check that every custom resource listed in
+`customResources` is gone from the Custom Resources tree of the cluster
+sidebar, and that the log has no error rejecting one of its entries. Then tick the functional checks of the
 migration issue and of each feature issue.
 To run these checks through an agent attached to Freelens dev, follow
 "Checking the Extension in Freelens Dev" in the template's `AGENTS.md`.

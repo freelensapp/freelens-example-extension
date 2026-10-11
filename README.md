@@ -30,6 +30,9 @@ for a custom resource, `Example`, and a setting on the preferences page:
 - **The served API version picked at runtime.** The "Examples" page shows the
   newest version the cluster serves, or a message when the CRDs are not
   installed.
+- **One sidebar entry for the resource.** While the extension is enabled,
+  `Example` is left out of the Custom Resources tree of the cluster sidebar,
+  so it is listed once, under "Examples".
 - **Static helpers on the model.** Per-object logic is a `static` method that
   takes the object, such as `Example.getSuspended(object)`.
 - **An error boundary.** Each page, details panel and menu item renders an
