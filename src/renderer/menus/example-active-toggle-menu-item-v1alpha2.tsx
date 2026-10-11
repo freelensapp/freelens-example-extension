@@ -1,4 +1,4 @@
-import { Renderer } from "@freelensapp/extensions";
+import { Common, Renderer } from "@freelensapp/extensions";
 import { Example } from "../api/example/example-v1alpha2";
 import { withErrorPage } from "../components/error-page";
 
@@ -6,7 +6,7 @@ const {
   Component: { MenuItem, Icon },
 } = Renderer;
 
-export interface ExampleActiveToggleMenuItemProps extends Renderer.Component.KubeObjectMenuProps<Example> {
+export interface ExampleActiveToggleMenuItemProps extends Common.Types.KubeObjectMenuItemProps<Example> {
   extension: Renderer.LensExtension;
 }
 
