@@ -135,6 +135,16 @@ Check the port against:
 - The porting hint in "Renderer Components" in `AGENTS.md`: the `clusterPages`
   and `globalPages` registrations that compiled under v1 and get `undefined`
   props on v2, and how to pass the extension from the registration instead.
+- The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations. A v1
+  registration with `kind` and `apiVersions` written out still compiles, and
+  so does one that pairs a component with the model of another version.
+  Replace each with `Renderer.K8sApi.detailsFor` or
+  `Renderer.K8sApi.menuItemFor` and the model class, and declare the instance
+  `kind` and `apiVersion` of every model as literals, without which two
+  versions of one kind are not told apart. A menu item whose props extend
+  `Renderer.Component.KubeObjectMenuProps` compiles too; make it extend
+  `Common.Types.KubeObjectMenuItemProps`, the props the host passes ("CRD
+  KubeObject Pattern" and "Renderer Components" in `AGENTS.md`).
 - The "Checklist" at the end of `migrating-from-v1.md`, including the two items
   it marks as failing silently.
 

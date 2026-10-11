@@ -159,6 +159,12 @@ of the host's `KubeObject`, not of the extension's subclass. The methods of
 is not, and calling it throws. So:
 
 - **Metadata**: `static readonly` `kind`, `namespaced`, `apiBase` and `crd`.
+- **Instance type**: `declare kind` and `declare apiVersion`, with the class's
+  kind and version as literals. Two versions of a kind usually differ only in
+  optional fields, so without the literals their classes are assignable to
+  each other, and `detailsFor` and `menuItemFor` accept a component written
+  for the other version (see "Renderer Components"). `declare` emits nothing,
+  so the runtime object is the host's as before.
 - **Per-object logic**: a `static` method that takes the object, such as
   `Example.getSuspended(object)`.
 - **Fields**: read `object.spec` and `object.status` through the model's typed
@@ -173,6 +179,9 @@ export class Example extends Renderer.K8sApi.LensExtensionKubeObject<
   ExampleStatus,
   ExampleSpec
 > {
+  declare kind: "Example";
+  declare apiVersion: "example.freelens.app/v1alpha2";
+
   static readonly kind = "Example";
   static readonly namespaced = true;
   static readonly apiBase = "/apis/example.freelens.app/v1alpha2/examples";
@@ -200,8 +209,10 @@ instantiated, because the store comes from the host, through
 `Example.getStore()`.
 
 `src/renderer/index.tsx` registers each version's details panel
-(`kubeObjectDetailItems`) and menu item (`kubeObjectMenuItems`) by `kind` and
-`crd.apiVersions`, and one "Examples" page (`clusterPages`, `clusterPageMenus`).
+(`kubeObjectDetailItems`) and menu item (`kubeObjectMenuItems`) with
+`Renderer.K8sApi.detailsFor` and `Renderer.K8sApi.menuItemFor`, which take
+`kind` and `crd.apiVersions` from the model class, and one "Examples" page
+(`clusterPages`, `clusterPageMenus`).
 That page is made by `createAvailableVersionPage` from the list pages of both
 versions, newest first: it renders the first one whose store the host has,
 and a "not available" message when the cluster serves neither.
@@ -265,17 +276,20 @@ A new kind, or a new version of a kind, takes the same set of files as
    - A new version of a kind starts as a copy of the newest version's files;
      the diff of the Go types between the two releases says what changes.
 2. **The model**, `src/renderer/api/<kind>/<kind>-<version>.ts`, as in "CRD
-   KubeObject Pattern": the class with the `static readonly` metadata, `static`
-   helpers for the per-object logic, and the `KubeApi` and `KubeObjectStore`
-   subclasses. `apiBase` and `crd.apiVersions` name the group and version,
-   `crd` the plural, singular and short names of the CRD.
+   KubeObject Pattern": the class with the `static readonly` metadata, the
+   `declare kind` and `declare apiVersion` literals, `static` helpers for the
+   per-object logic, and the `KubeApi` and `KubeObjectStore` subclasses.
+   `apiBase`, `crd.apiVersions` and `declare apiVersion` name the group and
+   version, `crd` the plural, singular and short names of the CRD.
 3. **The list page** per version in `src/renderer/pages/`, joined into one page
    per kind by `createAvailableVersionPage`, newest version first, and
    registered once in `clusterPages` and `clusterPageMenus`.
 4. **The details panel** per version in `src/renderer/details/`, registered in
-   `kubeObjectDetailItems` by `kind` and `crd.apiVersions`.
+   `kubeObjectDetailItems` with `Renderer.K8sApi.detailsFor` and the version's
+   model class.
 5. **Menu items** per version in `src/renderer/menus/`, registered in
-   `kubeObjectMenuItems`, only for what the resource supports: a
+   `kubeObjectMenuItems` with `Renderer.K8sApi.menuItemFor` and the version's
+   model class, only for what the resource supports: a
    Suspend/Resume item needs a suspend field in its spec, an action that
    annotates the object needs a controller that reads the annotation.
 6. **`customResources`**: the model class of every version that has a page.
@@ -303,8 +317,18 @@ menu items work, and the resource is gone from the Custom Resources tree.
   "CSS module declarations"). They are committed, because `pnpm type:check` and `type-check.yaml` run without a build;
   commit the regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
 - Icons are SVG files imported with `?raw` and rendered by `Renderer.Component.Icon` through its `svg` prop.
-- The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` type their props with
-  the concrete KubeObject class, such as `Renderer.Component.KubeObjectDetailsProps<Example>`, never with `any`.
+- The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` are made by
+  `Renderer.K8sApi.detailsFor(Example, { priority: 10, Details })` and
+  `Renderer.K8sApi.menuItemFor(Example, { MenuItem })`, not written out with `kind` and `apiVersions`. The helper takes
+  both from the model class and types the props of `Details` and `MenuItem` from it, so the wrapper that passes
+  `extension={this}` needs no props annotation, and a component written for another model fails the type check. The
+  check is structural: it tells two versions of one kind apart only by the `declare apiVersion` literal of each model
+  ("CRD KubeObject Pattern").
+- The props of a details panel extend `Renderer.Component.KubeObjectDetailsProps<Example>`, and those of a menu item
+  extend `Common.Types.KubeObjectMenuItemProps<Example>`: the concrete model class, never `any`, and only what the host
+  passes. A menu item does not extend `Renderer.Component.KubeObjectMenuProps`, the props of the host's whole
+  `KubeObjectMenu` (`id`, `editable`, `removable`, `onMenuReady` and more). That compiles, because both require only
+  `object`, and the item then promises props the host never passes.
 - The host renders a cluster page with `params` only. A page that needs the extension gets it from the registration
   (`Page: () => <ExamplesPage extension={this} />`), with the page component created once, outside the registration.
   `PageComponents.Page` is typed with the props the host passes, `Common.Types.PageComponentProps`, so the type check

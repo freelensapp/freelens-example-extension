@@ -38,26 +38,14 @@ export default class ExampleRenderer extends Renderer.LensExtension {
   ];
 
   kubeObjectDetailItems = [
-    {
-      kind: ExampleV1alpha1.kind,
-      apiVersions: ExampleV1alpha1.crd.apiVersions,
+    Renderer.K8sApi.detailsFor(ExampleV1alpha1, {
       priority: 10,
-      components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<ExampleV1alpha1>) => (
-          <ExampleDetailsV1alpha1 {...props} extension={this} />
-        ),
-      },
-    },
-    {
-      kind: ExampleV1alpha2.kind,
-      apiVersions: ExampleV1alpha2.crd.apiVersions,
+      Details: (props) => <ExampleDetailsV1alpha1 {...props} extension={this} />,
+    }),
+    Renderer.K8sApi.detailsFor(ExampleV1alpha2, {
       priority: 10,
-      components: {
-        Details: (props: Renderer.Component.KubeObjectDetailsProps<ExampleV1alpha2>) => (
-          <ExampleDetailsV1alpha2 {...props} extension={this} />
-        ),
-      },
-    },
+      Details: (props) => <ExampleDetailsV1alpha2 {...props} extension={this} />,
+    }),
   ];
 
   clusterPages = [
@@ -83,23 +71,11 @@ export default class ExampleRenderer extends Renderer.LensExtension {
   customResources = [ExampleV1alpha1, ExampleV1alpha2];
 
   kubeObjectMenuItems = [
-    {
-      kind: ExampleV1alpha1.kind,
-      apiVersions: ExampleV1alpha1.crd.apiVersions,
-      components: {
-        MenuItem: (props: Renderer.Component.KubeObjectMenuProps<ExampleV1alpha1>) => (
-          <ExampleActiveToggleMenuItem_v1alpha1 {...props} extension={this} />
-        ),
-      },
-    },
-    {
-      kind: ExampleV1alpha2.kind,
-      apiVersions: ExampleV1alpha2.crd.apiVersions,
-      components: {
-        MenuItem: (props: Renderer.Component.KubeObjectMenuProps<ExampleV1alpha2>) => (
-          <ExampleActiveToggleMenuItem_v1alpha2 {...props} extension={this} />
-        ),
-      },
-    },
+    Renderer.K8sApi.menuItemFor(ExampleV1alpha1, {
+      MenuItem: (props) => <ExampleActiveToggleMenuItem_v1alpha1 {...props} extension={this} />,
+    }),
+    Renderer.K8sApi.menuItemFor(ExampleV1alpha2, {
+      MenuItem: (props) => <ExampleActiveToggleMenuItem_v1alpha2 {...props} extension={this} />,
+    }),
   ];
 }

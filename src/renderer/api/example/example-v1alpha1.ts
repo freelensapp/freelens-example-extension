@@ -16,6 +16,9 @@ export class Example extends Renderer.K8sApi.LensExtensionKubeObject<
   ExampleStatus,
   ExampleSpec
 > {
+  declare kind: "Example";
+  declare apiVersion: "example.freelens.app/v1alpha1";
+
   static readonly kind = "Example";
   static readonly namespaced = true;
   static readonly apiBase = "/apis/example.freelens.app/v1alpha1/examples";

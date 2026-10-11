@@ -195,13 +195,16 @@ repository first: without its environment and secret, it fails.
 Follow the patterns the template's `AGENTS.md` and the contracts set:
 
 - "CRD KubeObject Pattern" in `AGENTS.md` for a custom resource model: the
-  metadata in `static readonly` properties, per-object logic in `static`
-  methods that take the object, and no instance methods, because the objects
-  the host passes are not instances of the subclass.
+  metadata in `static readonly` properties, the instance `kind` and
+  `apiVersion` declared as literals, per-object logic in `static` methods that
+  take the object, and no instance methods, because the objects the host
+  passes are not instances of the subclass.
 - "Renderer Components" in `AGENTS.md` for pages, details panels, menu items
   and preferences: `observer`, `withErrorPage`, the extension passed from the
-  registration, CSS modules imported for their class names, icons through
-  `?raw`.
+  registration, details panels and menu items registered with
+  `Renderer.K8sApi.detailsFor` and `Renderer.K8sApi.menuItemFor`, menu item
+  props from `Common.Types.KubeObjectMenuItemProps`, CSS modules imported for
+  their class names, icons through `?raw`.
 - "Rules That Fail Silently" in `AGENTS.md`: check every change against it,
   since each item compiles when broken.
 - Contract C6 (registration) in `api.md`: an extension contributes through the
