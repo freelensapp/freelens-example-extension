@@ -112,8 +112,8 @@ Check the port against:
   asset other than `dist/renderer.css`, an instance method on a KubeObject
   subclass, a cluster page that expects more than `params`, a version choice
   through `getStore()` in a component that is not an `observer`, `this.props`
-  of an `@observer` class component read outside its `render()`, a CommonJS
-  `main`.
+  of an `@observer` class component read outside its `render()`, a page,
+  details panel or menu item outside an error boundary, a CommonJS `main`.
 - The extension's own version choice. An extension that already has a copy of
   `createAvailableVersionPage`, or another component that picks the served API
   version through `getStore()`, keeps it from before the port, and it is
@@ -145,6 +145,17 @@ Check the port against:
   `Renderer.Component.KubeObjectMenuProps` compiles too; make it extend
   `Common.Types.KubeObjectMenuItemProps`, the props the host passes ("CRD
   KubeObject Pattern" and "Renderer Components" in `AGENTS.md`).
+- The error boundary. A v1 extension that keeps an error in its place with a
+  `try`/`catch` around the call of a component, such as the template's former
+  `withErrorPage`, catches only what that call throws: an error that a child
+  throws when React renders it, or that a callback such as
+  `renderTableContents` throws from the host's `KubeObjectListLayout`, replaces
+  the main area, or from a details panel or a menu item the whole cluster view.
+  Copy the template's `src/renderer/components/error-boundary.tsx` and its test,
+  map `clusterPages`, `globalPages`, `kubeObjectDetailItems` and
+  `kubeObjectMenuItems` through its wrappers, and remove the `try`/`catch`
+  wrapper ("Renderer Components" and "Rules That Fail Silently" in
+  `AGENTS.md`).
 - The "Checklist" at the end of `migrating-from-v1.md`, including the two items
   it marks as failing silently.
 
