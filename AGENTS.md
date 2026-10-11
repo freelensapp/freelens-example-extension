@@ -230,6 +230,52 @@ a version through `getStore()` is an `observer` for the same reason.
 `src/renderer/components/available-version.test.tsx` checks it: its spy on
 `getStore` reads an observable, and the page follows when the test sets it.
 
+### Adding an API
+
+A new kind, or a new version of a kind, takes the same set of files as
+`Example`, one per version. The steps, in order:
+
+1. **The types.** They follow the API of the controller that serves the
+   resource, read from its sources at the release that serves the version,
+   and not from memory: the Go types when the controller is written with
+   kubebuilder, otherwise the `openAPIV3Schema` of the CRD.
+   - Every Go struct has a TypeScript interface of the same name, with the
+     same fields under their `json` names. A field with `omitempty` or of a
+     pointer type is optional.
+   - Every `+kubebuilder:validation:Enum` (an `enum` in the schema) is a
+     string-literal union type alias, used by the fields that have it, such
+     as `export type ReflectionPolicy = "Always" | "IfNotPresent" | "Never";`.
+   - A type that several kinds or versions share goes to
+     `src/renderer/api/types.ts` and has the fields of every version it
+     covers, optional where one of them omits it.
+   - A new version of a kind starts as a copy of the newest version's files;
+     the diff of the Go types between the two releases says what changes.
+2. **The model**, `src/renderer/api/<kind>/<kind>-<version>.ts`, as in "CRD
+   KubeObject Pattern": the class with the `static readonly` metadata, `static`
+   helpers for the per-object logic, and the `KubeApi` and `KubeObjectStore`
+   subclasses. `apiBase` and `crd.apiVersions` name the group and version,
+   `crd` the plural, singular and short names of the CRD.
+3. **The list page** per version in `src/renderer/pages/`, joined into one page
+   per kind by `createAvailableVersionPage`, newest version first, and
+   registered once in `clusterPages` and `clusterPageMenus`.
+4. **The details panel** per version in `src/renderer/details/`, registered in
+   `kubeObjectDetailItems` by `kind` and `crd.apiVersions`.
+5. **Menu items** per version in `src/renderer/menus/`, registered in
+   `kubeObjectMenuItems`, only for what the resource supports: a
+   Suspend/Resume item needs a suspend field in its spec, an action that
+   annotates the object needs a controller that reads the annotation.
+6. **`customResources`**: the model class of every version that has a page.
+7. **Tests** for the static helpers, next to the model, and for any logic in
+   the page or panel; a member of the host that a test reaches goes into the
+   stub, as small as the test needs.
+8. **`examples/<version>/`**: the CRD and a test object, applied with
+   `kubectl apply -k` as `README.md` shows, and a row per version in the
+   resource table of `README.md`.
+
+Then check the result in Freelens dev ("Checking the Extension in Freelens
+Dev"): the page lists the test object, the details show every field, the
+menu items work, and the resource is gone from the Custom Resources tree.
+
 ## Renderer Components
 
 - Pages and details panels are `observer` components from `mobx-react`, which the build maps to the host's copy.
