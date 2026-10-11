@@ -9,17 +9,27 @@
 // Only the surface the tests exercise is stubbed here, and only at runtime: the
 // tests are type-checked against the real declaration of the package. Extend it
 // as your tests need more of the host API.
+import React from "react";
 import { vi } from "vitest";
 
 class LensExtensionKubeObject {
   apiVersion?: string;
   kind?: string;
-  metadata?: unknown;
+  metadata?: { name?: string; namespace?: string };
   spec?: unknown;
   status?: unknown;
 
   constructor(data: Record<string, unknown> = {}) {
     Object.assign(this, data);
+  }
+
+  // As the host's, from the metadata.
+  getName() {
+    return this.metadata?.name ?? "";
+  }
+
+  getNs() {
+    return this.metadata?.namespace;
   }
 
   // The host returns the store it registered for one of the class's
@@ -37,7 +47,26 @@ class ExtensionStore<M extends object> {
   constructor(_params: { configName: string; defaults: M }) {}
 }
 
+interface KubeObjectListLayoutProps {
+  store: { items: unknown[] };
+  renderTableContents: (item: unknown) => React.ReactNode[];
+}
+
+// Only the part of the host's list layout where it calls back into the
+// extension: it calls `renderTableContents` for every item of the store from
+// its own render, a child of the page, and renders the cells.
+function KubeObjectListLayout({ store, renderTableContents }: KubeObjectListLayoutProps) {
+  return React.createElement(
+    "div",
+    null,
+    store.items.map((item, index) => React.createElement("div", { key: index }, ...renderTableContents(item))),
+  );
+}
+
 export const Renderer = {
+  Component: {
+    KubeObjectListLayout,
+  },
   K8sApi: {
     LensExtensionKubeObject,
     KubeApi: class KubeApi {},

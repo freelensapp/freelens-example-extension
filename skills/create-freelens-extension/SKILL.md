@@ -81,7 +81,9 @@ the same kind.
   excluded with `!` in its catalog rule, or its lookup fails on the Dependency
   Dashboard).
 - Agent configuration: `CLAUDE.md`, `.claude/settings.json`.
-- Shared components and styles: `src/renderer/components/error-page.tsx`,
+- Shared components and styles: `src/renderer/components/error-boundary.tsx`,
+  `src/renderer/components/error-boundary.test.tsx`,
+  `src/renderer/components/error-page.tsx`,
   `src/renderer/components/error-page.module.scss`,
   `src/renderer/components/error-page.module.d.scss.ts`,
   `src/renderer/components/error-page.test.tsx`,
@@ -104,7 +106,11 @@ the same kind.
   preferences store, so drop that with the store.
 - `src/renderer/index.tsx`: the `Renderer.LensExtension` with every
   registration. Replace the `Example` registrations with the extension's own,
-  keeping `extension={this}` on each component. List in `customResources` the
+  keeping `extension={this}` on each page, and keep `clusterPages`,
+  `kubeObjectDetailItems` and `kubeObjectMenuItems` mapped through
+  `withPageErrorBoundary`, `withDetailsErrorBoundary` and
+  `withMenuItemErrorBoundary`, so that every entry renders inside the error
+  boundary ("Renderer Components" in `AGENTS.md`). List in `customResources` the
   models of the custom resources the extension gives a page of its own, and
   only those ("CRD KubeObject Pattern" in `AGENTS.md`).
 - `src/renderer/api/types.ts`: `ExampleKubeObjectCRD`, the CRD metadata with a
@@ -200,8 +206,11 @@ Follow the patterns the template's `AGENTS.md` and the contracts set:
   take the object, and no instance methods, because the objects the host
   passes are not instances of the subclass.
 - "Renderer Components" in `AGENTS.md` for pages, details panels, menu items
-  and preferences: `observer`, `withErrorPage`, the extension passed from the
-  registration, details panels and menu items registered with
+  and preferences: `observer`, the error boundary applied where the
+  registrations are made (a `try`/`catch` around the call of a component
+  misses what a child or a callback of the host's list layout throws later),
+  the extension passed from the registration, details panels and menu items
+  registered with
   `Renderer.K8sApi.detailsFor` and `Renderer.K8sApi.menuItemFor`, menu item
   props from `Common.Types.KubeObjectMenuItemProps`, CSS modules imported for
   their class names, icons through `?raw`.
