@@ -49,11 +49,11 @@ export default class ExampleRenderer extends Renderer.LensExtension {
   kubeObjectDetailItems: Renderer.LensExtension["kubeObjectDetailItems"] = [
     Renderer.K8sApi.detailsFor(ExampleV1alpha1, {
       priority: 10,
-      Details: (props) => <ExampleDetailsV1alpha1 {...props} extension={this} />,
+      Details: ExampleDetailsV1alpha1,
     }),
     Renderer.K8sApi.detailsFor(ExampleV1alpha2, {
       priority: 10,
-      Details: (props) => <ExampleDetailsV1alpha2 {...props} extension={this} />,
+      Details: ExampleDetailsV1alpha2,
     }),
   ].map((registration) => withDetailsErrorBoundary(this, registration));
 
@@ -81,10 +81,10 @@ export default class ExampleRenderer extends Renderer.LensExtension {
 
   kubeObjectMenuItems: Renderer.LensExtension["kubeObjectMenuItems"] = [
     Renderer.K8sApi.menuItemFor(ExampleV1alpha1, {
-      MenuItem: (props) => <ExampleActiveToggleMenuItem_v1alpha1 {...props} extension={this} />,
+      MenuItem: ExampleActiveToggleMenuItem_v1alpha1,
     }),
     Renderer.K8sApi.menuItemFor(ExampleV1alpha2, {
-      MenuItem: (props) => <ExampleActiveToggleMenuItem_v1alpha2 {...props} extension={this} />,
+      MenuItem: ExampleActiveToggleMenuItem_v1alpha2,
     }),
   ].map((registration) => withMenuItemErrorBoundary(this, registration));
 }

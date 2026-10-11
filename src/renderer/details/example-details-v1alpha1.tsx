@@ -1,7 +1,6 @@
 import { Renderer } from "@freelensapp/extensions";
 import * as MobxReact from "mobx-react";
 import { ExamplePreferencesStore } from "../../common/store";
-import { withErrorPage } from "../components/error-page";
 
 import type { Example } from "../api/example/example-v1alpha1";
 
@@ -11,25 +10,20 @@ const {
   Component: { BadgeBoolean, DrawerItem, MarkdownViewer },
 } = Renderer;
 
-export interface ExampleDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Example> {
-  extension: Renderer.LensExtension;
-}
+export type ExampleDetailsProps = Renderer.Component.KubeObjectDetailsProps<Example>;
 
-export const ExampleDetails = observer((props: ExampleDetailsProps) =>
-  withErrorPage(props, () => {
-    const { object } = props;
-    const preferences = ExamplePreferencesStore.getInstance<ExamplePreferencesStore>();
+export const ExampleDetails = observer(({ object }: ExampleDetailsProps) => {
+  const preferences = ExamplePreferencesStore.getInstance<ExamplePreferencesStore>();
 
-    return (
-      <>
-        <DrawerItem name="Api Version">v1alpha1</DrawerItem>
-        <DrawerItem name="Description">
-          <MarkdownViewer markdown={object.spec.description ?? ""} />
-        </DrawerItem>
-        <DrawerItem name="Example checkbox">
-          <BadgeBoolean value={preferences.enabled} />
-        </DrawerItem>
-      </>
-    );
-  }),
-);
+  return (
+    <>
+      <DrawerItem name="Api Version">v1alpha1</DrawerItem>
+      <DrawerItem name="Description">
+        <MarkdownViewer markdown={object.spec.description ?? ""} />
+      </DrawerItem>
+      <DrawerItem name="Example checkbox">
+        <BadgeBoolean value={preferences.enabled} />
+      </DrawerItem>
+    </>
+  );
+});
