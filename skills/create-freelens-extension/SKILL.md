@@ -104,7 +104,9 @@ the same kind.
   preferences store, so drop that with the store.
 - `src/renderer/index.tsx`: the `Renderer.LensExtension` with every
   registration. Replace the `Example` registrations with the extension's own,
-  keeping `extension={this}` on each component.
+  keeping `extension={this}` on each component. List in `customResources` the
+  models of the custom resources the extension gives a page of its own, and
+  only those ("CRD KubeObject Pattern" in `AGENTS.md`).
 - `src/renderer/api/types.ts`: `ExampleKubeObjectCRD`, the CRD metadata with a
   page title. Rename it, or remove it with the last CRD model.
 - `src/common/store/index.ts`, `src/common/store/preferences-store.ts`,
