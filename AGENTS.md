@@ -128,7 +128,7 @@ src/
   renderer/pages/                # List page per API version, and their CSS module
   renderer/details/              # Details panel per API version
   renderer/menus/                # Suspend/Resume menu item per API version
-  renderer/components/           # createAvailableVersionPage, withErrorPage
+  renderer/components/           # createAvailableVersionPage, ErrorBoundary and its registration wrappers, ErrorPage
   renderer/preferences/          # The preference input and hint
   renderer/icons/                # SVG icons, imported with ?raw
   renderer/vars.scss             # SCSS variables
@@ -307,9 +307,28 @@ menu items work, and the resource is gone from the Custom Resources tree.
 ## Renderer Components
 
 - Pages and details panels are `observer` components from `mobx-react`, which the build maps to the host's copy.
-- Every page, details panel and menu item renders through `withErrorPage(props, () => ...)` from
-  `src/renderer/components/error-page.tsx`. It catches what the render throws, logs it with `extension.name` and renders
-  the error instead, so its props need `extension`; each registration passes `extension={this}`.
+- Every page, details panel and menu item renders inside an `ErrorBoundary` from
+  `src/renderer/components/error-boundary.tsx`, a class component of the host's React with `getDerivedStateFromError`
+  and `componentDidCatch`. It logs what its children throw while React renders them with `extension.name` and the
+  component stack, and renders `ErrorPage` in place of a page or a details panel, and nothing in place of a menu item,
+  where an error page does not fit. A details panel or menu item renders again when the host passes a new `object`,
+  which is the boundary's reset key.
+  - The boundary is applied where the registrations are made: `clusterPages`, `kubeObjectDetailItems` and
+    `kubeObjectMenuItems` are mapped through `withPageErrorBoundary`, `withDetailsErrorBoundary` and
+    `withMenuItemErrorBoundary`, each taking `this` and a registration, so an entry added to a field is wrapped as well.
+    A `globalPages` field is mapped through `withPageErrorBoundary` too. Each field is annotated with its type from
+    `Renderer.LensExtension` (`clusterPages: Renderer.LensExtension["clusterPages"] = [...]`), because the mapping
+    refers to `this`, and its type would otherwise depend on itself.
+  - The wrappers take the registration that `Renderer.K8sApi.detailsFor` and `menuItemFor` built, so the helpers check
+    each component against its model first, with no cast.
+  - A `try`/`catch` around the call of a component is not enough. It sees only what the call throws, and the errors
+    that matter come later: a child component throws when React renders it, and a callback such as
+    `renderTableContents`, `getItems` or `customizeHeader` of `KubeObjectListLayout` throws when the host calls it from
+    its own render. Such an error goes up to the nearest boundary of the host: the one around the main area of a
+    cluster for a list page, and the one around the whole cluster frame for a details panel or a menu item, because the
+    host has none around the details drawer or a menu item of an extension.
+  - The boundary has no decorators and no `observer`; it reads no observable, and the components inside it are
+    observers of their own.
 - Pages, details and menu items import their CSS module for the class names only, with no `?inline` import and no
   `<style>` tag; the rules reach the page through `renderer.css` (see "CSS"). SCSS variables are in
   `src/renderer/vars.scss`, used with `@use "../vars"`.
@@ -320,12 +339,13 @@ menu items work, and the resource is gone from the Custom Resources tree.
 - The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` are made by
   `Renderer.K8sApi.detailsFor(Example, { priority: 10, Details })` and
   `Renderer.K8sApi.menuItemFor(Example, { MenuItem })`, not written out with `kind` and `apiVersions`. The helper takes
-  both from the model class and types the props of `Details` and `MenuItem` from it, so the wrapper that passes
-  `extension={this}` needs no props annotation, and a component written for another model fails the type check. The
+  both from the model class and types the props of `Details` and `MenuItem` from it, so a wrapper that passes more
+  props, such as `(props) => <Details {...props} extension={this} />`, needs no props annotation, and a component
+  written for another model fails the type check. The
   check is structural: it tells two versions of one kind apart only by the `declare apiVersion` literal of each model
   ("CRD KubeObject Pattern").
-- The props of a details panel extend `Renderer.Component.KubeObjectDetailsProps<Example>`, and those of a menu item
-  extend `Common.Types.KubeObjectMenuItemProps<Example>`: the concrete model class, never `any`, and only what the host
+- The props of a details panel are, or extend, `Renderer.Component.KubeObjectDetailsProps<Example>`, and those of a menu
+  item `Common.Types.KubeObjectMenuItemProps<Example>`: the concrete model class, never `any`, and only what the host
   passes. A menu item does not extend `Renderer.Component.KubeObjectMenuProps`, the props of the host's whole
   `KubeObjectMenu` (`id`, `editable`, `removable`, `onMenuReady` and more). That compiles, because both require only
   `object`, and the item then promises props the host never passes.
@@ -390,6 +410,14 @@ mechanism; this is the list to check a change against.
   hand them to the callback, or make the component a function component
   ("MobX 7 and mobx-react 10 (standard decorators only)" in Freelens's
   `migrating-from-v1.md`).
+- **Every page, details panel and menu item inside an error boundary.** A
+  `try`/`catch` around the call of a component catches only what the call
+  throws, not what a child throws when React renders it or what a callback of
+  `KubeObjectListLayout` throws from the host's render. Such an error replaces
+  the main area with the host's error, or, from a details panel or a menu item,
+  the whole cluster view with the host's crash page. Map `clusterPages`,
+  `kubeObjectDetailItems` and `kubeObjectMenuItems` through their wrappers in
+  `error-boundary.tsx` ("Renderer Components").
 - **A cluster page gets the extension from its registration.** The host passes
   `params` only. The type check rejects a page that requires another prop, but
   not one that declares it optional ("Renderer Components").
