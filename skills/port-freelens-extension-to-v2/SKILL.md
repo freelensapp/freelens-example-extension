@@ -142,7 +142,7 @@ Check the port against:
   `Renderer.K8sApi.menuItemFor` and the model class, and declare the instance
   `kind` and `apiVersion` of every model as literals, without which two
   versions of one kind are not told apart. A menu item whose props extend
-  `Renderer.Component.KubeObjectMenuProps` compiles too; it extends
+  `Renderer.Component.KubeObjectMenuProps` compiles too; make it extend
   `Common.Types.KubeObjectMenuItemProps`, the props the host passes ("CRD
   KubeObject Pattern" and "Renderer Components" in `AGENTS.md`).
 - The "Checklist" at the end of `migrating-from-v1.md`, including the two items
