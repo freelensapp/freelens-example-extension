@@ -29,7 +29,7 @@ jobs:
           - freelens_version: main
 
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     env:
       DO_NOT_TRACK: "1"
@@ -261,15 +261,21 @@ jobs:
           path: freelens/freelens/dist
           key: ${{ steps.electron-build-cache.outputs.cache-primary-key }}
 
+      # The tests run three sessions, each with an app of its own: the install
+      # test and one session per API version of the Example CRD. A session
+      # applies the manifests of the version from EXTENSION_DIR, the checkout
+      # of the extension, to the kind cluster named by TEST_KIND_CLUSTER_NAME,
+      # and removes them again.
       - name: Run integration tests
         id: integration-tests-linux
         working-directory: freelens
         run: |
           sudo chown root:root freelens/dist/linux*-unpacked/chrome-sandbox
           sudo chmod 4755 freelens/dist/linux*-unpacked/chrome-sandbox
-          timeout 600 xvfb-run -a pnpm --color=always test:integration --reporter=verbose --reporter=github-actions --includeTaskLocation
+          timeout 1500 xvfb-run -a pnpm --color=always test:integration --reporter=verbose --reporter=github-actions --includeTaskLocation
         env:
           DEBUG: pw:browser
+          EXTENSION_DIR: ${{ github.workspace }}
           TEST_KIND_CLUSTER_NAME: freelens
         continue-on-error: true
 
@@ -279,7 +285,8 @@ jobs:
         run: |
           sudo chown root:root freelens/dist/linux*-unpacked/chrome-sandbox
           sudo chmod 4755 freelens/dist/linux*-unpacked/chrome-sandbox
-          timeout 600 xvfb-run -a pnpm --color=always test:integration --reporter=verbose --reporter=github-actions --includeTaskLocation
+          timeout 1500 xvfb-run -a pnpm --color=always test:integration --reporter=verbose --reporter=github-actions --includeTaskLocation
         env:
           DEBUG: pw:browser
+          EXTENSION_DIR: ${{ github.workspace }}
           TEST_KIND_CLUSTER_NAME: freelens
