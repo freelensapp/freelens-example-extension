@@ -45,13 +45,19 @@ rendered page drops:
 gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq .body
 ```
 
-- Copy the sections marked **(generic)** as they are, including their
-  findings, which every later port inherits.
+- Copy the sections marked **(generic)**, including their findings, which
+  every later port inherits. They also carry the template's own results, so
+  that #326 stays a worked example; the "Copying" note at the top of #326 names
+  them, and the copy drops them or replaces them with its own:
+  - the text marked "here:", such as the v1 workaround that step 2 names and
+    the step prefix and feature issue of "Rules for the CI agent";
+  - the notes in parentheses after a ticked item, such as the results of
+    "Validation by maintainers";
+  - the "Done in" notes.
+- Untick every item of the plan and the validation.
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
   and the API symbols to check), "Functional checks" and "Decisions".
-- Reset the checkboxes of the plan and the validation, and drop the "Done in"
-  notes, which record the template's own port.
 - A short reference such as `#328` resolves in the repository it is written
   in. In the copy, write the template's issues and pull requests as
   `freelensapp/freelens-example-extension#328`, and replace #327 with the
