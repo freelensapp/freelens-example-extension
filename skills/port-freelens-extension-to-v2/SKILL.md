@@ -23,7 +23,7 @@ with `gh`, which returns their source, as in step 1.
 | Document | Read it for |
 | --- | --- |
 | [`migrating-from-v1.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/migrating-from-v1.md) | The porting guide: what changed and what replaces it, the "v1→v2 rename table" and the "Checklist" at the end. |
-| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C14: what the host guarantees and how a violation fails. |
+| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C15: what the host guarantees and how a violation fails. C15 is for an extension that runs kubectl or helm. |
 | [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/binaries.md) | Only for an extension that ships executables. |
 | [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template | The build, type-check, test, lint and CI patterns of a v2 extension, each with its reason, and "Rules That Fail Silently". |
 | [`README.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/README.md) of the template | Installing an extension in Freelens and the development loop. |
