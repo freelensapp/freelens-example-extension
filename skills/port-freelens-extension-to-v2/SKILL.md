@@ -58,6 +58,11 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
   and the API symbols to check), "Functional checks" and "Decisions".
+- "Decisions" settles at least the version of the extension, the integration
+  test ref, and how the port lands: in one PR, or in stages on a branch that
+  nothing is released from, as the template's port landed on `main`; and how
+  its pull requests are merged (squash, merge commit or rebase), which "Rules
+  for the CI agent" refers to rather than assumes.
 - A short reference such as `#328` resolves in the repository it is written
   in. In the copy, write the template's issues and pull requests as
   `freelensapp/freelens-example-extension#328`, and replace #327 with the
