@@ -29,7 +29,16 @@ Freelens has adopted it, at that version, in one `Freelens dependencies` group
 PR together with the `@freelensapp/extensions` nightly. A dependency added to
 `package.json` follows the Freelens catalog unless the catalog rule excludes
 it; one that Freelens does not have must be excluded there, or its lookup fails
-on the Dependency Dashboard. What Freelens does not define (GitHub Actions, the
+on the Dependency Dashboard. The catalog rule matches only `dependencies` and
+`devDependencies`, so an override copied from Freelens's `pnpm-workspace.yaml`,
+such as `@kubernetes/client-node>@types/node`, is otherwise looked up on npm
+and runs ahead of Freelens. Such an override gets a rule of its own, next to
+the catalog rule: `matchManagers: ["npm"]`, the override's key in
+`matchDepNames`, `overrideDatasource: "custom.freelens-catalog"`, the overridden
+package in `overridePackageName`, and the catalog rule's `rangeStrategy`,
+`minimumReleaseAge` and `groupName`
+(freelensapp/freelens-for-claude-extension@f2f49241828f201890423e070655c2dc04120b23).
+This template has no override. What Freelens does not define (GitHub Actions, the
 tool versions in the workflows, `shx`) Renovate updates as usual.
 pnpm is the exception: Renovate updates it from the npm registry, in a pull
 request of its own, and not to the version of Freelens's `packageManager`.
