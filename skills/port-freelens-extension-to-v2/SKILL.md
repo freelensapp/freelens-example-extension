@@ -58,6 +58,22 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
   and the API symbols to check), "Functional checks" and "Decisions".
+- In "Inventory", answer in its "HTTP and cluster access" row how the
+  extension makes HTTP requests and how it reaches a cluster, in main and in
+  the renderer, with "none" when it does neither. A v1 client keeps working on
+  a plain network and fails only behind a proxy or with custom CAs, so the
+  port does not find it by itself; search for `fetch(`, bundled HTTP and
+  Kubernetes clients, `kubeConfigPath`, and spawned `kubectl` or `helm`. The
+  v2 answers (C12 in `api.md`):
+  - HTTP outside a cluster: `Main.Util.fetch` or `Renderer.Util.fetch`, not
+    `globalThis.fetch` or a bundled client;
+  - a catalog cluster: `K8sApi.forCluster` for a `KubeApi` of one kind, or
+    `K8sApi.KubeJsonApi.forCluster` for requests by path, not a client built
+    from the cluster's `kubeConfigPath` ("Reaching a catalog cluster" in
+    `migrating-from-v1.md`);
+  - kubectl or helm: the host's, through `Main.Shell` (C15): the paths of
+    `getKubectlPath` and `getHelmPath`, run with `getEnvironment` as the
+    environment, not a binary found by name or given the raw kubeconfig.
 - "Decisions" settles at least the version of the extension, the integration
   test ref, and how the port lands: in one PR, or in stages on a branch that
   nothing is released from, as the template's port landed on `main`; and how
