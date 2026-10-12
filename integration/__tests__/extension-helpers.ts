@@ -216,15 +216,17 @@ export async function openKindCluster({ app, window }: AppSession): Promise<Fram
 }
 
 /**
- * Selects the namespace of the test objects in the namespace filter, on the
- * host's Pods page, as Freelens's cluster tests do. A new cluster shows only
- * `default`, and the selection holds for every namespaced list of the cluster,
- * the extension's page included.
+ * Selects the namespace of the test objects in the namespace filter of the
+ * extension's page, which its `KubeObjectListLayout` renders for a namespaced
+ * resource. A new cluster shows only `default`, and the selection holds for
+ * every namespaced list of the cluster. The session opens no page of the host,
+ * whose requests can log errors of their own: the Pods page asks for pod
+ * metrics, and kind has no metrics server.
  */
 async function selectTestNamespace(frame: Frame) {
   console.log(`select namespace ${testNamespace}`);
-  await utils.clickSidebarItem(frame, "link-for-sidebar-item-workloads");
-  await utils.clickSidebarItem(frame, "link-for-sidebar-item-pods");
+  await frame.waitForSelector(`[data-testid="${pageLinkTestId}"]`, viewTimeout);
+  await utils.clickSidebarItem(frame, pageLinkTestId);
 
   const namespaceSelect = await frame.waitForSelector(".NamespaceSelect", viewTimeout);
 

@@ -816,11 +816,14 @@ run: each session removes the leftovers of an earlier run (the namespace
 `integration/fixtures/<version>/` (the object of `examples/<version>/test`,
 in the namespace `integration-tests`, which the kustomization creates), and
 only then starts the app. Once the app has opened the cluster, the session
-selects `integration-tests` in the namespace filter of the host's Pods page,
-as Freelens's cluster tests do: a new cluster shows only `default`, and the
-selection holds for every namespaced list of the cluster, the extension's page
-included. Without it the page lists nothing, and every view fails on its
-timeout. A session's teardown closes the app first, so that the app
+selects `integration-tests` in the namespace filter of the extension's own
+page, which its `KubeObjectListLayout` renders for a namespaced resource: a
+new cluster shows only `default`, and the selection holds for every
+namespaced list of the cluster. Without it the page lists nothing, and every
+view fails on its timeout. The session opens no page of the host, whose
+requests can log errors of their own: the Pods page, where Freelens's cluster
+tests select the namespace, asks for pod metrics, and kind has no metrics
+server. A session's teardown closes the app first, so that the app
 logs no watch error for a CRD deleted under it, then deletes the fixtures and
 the CRD with `--wait`, also when a test failed, and then checks the errors.
 
