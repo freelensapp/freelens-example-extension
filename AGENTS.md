@@ -740,6 +740,15 @@ production pass only. And the SVGO plugin is on (`"svgo": true`), so that
 `svgo.config.mjs` is an entry: Trunk runs SVGO, and no dependency turns the
 plugin on.
 
+`ignore` leaves out `dist/**`. The `main` field of `package.json` makes
+`dist/main.js` an entry once it exists, and the `knip` script runs with
+`--no-gitignore`, so after `pnpm build`, which `check.yaml` runs first, knip
+would analyse the bundle and report what it inlines from the libraries it
+bundles: a `spawnSync("wsl.exe")` in a bundled `@kubernetes/client-node` comes
+out as `Unlisted binaries: wsl.exe dist/main.js`. Run `pnpm knip:check` after a
+build when changing `knip.jsonc`, as `check.yaml` does; without `dist/` the
+problem does not show.
+
 ### Workflows
 
 | Workflow                 | Runs                                                                          |
