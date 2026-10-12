@@ -60,9 +60,10 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   and the API symbols to check), "Functional checks" and "Decisions".
 - In "Inventory", answer in its "HTTP and cluster access" row how the
   extension makes HTTP requests and how it reaches a cluster, in main and in
-  the renderer, with "none" when it does neither. A v1 client keeps working on
-  a plain network and fails only behind a proxy or with custom CAs, so the
-  port does not find it by itself; search for `fetch(`, bundled HTTP and
+  the renderer, with "none" when it does neither. A v1 client still works in
+  v2 on a plain network, so nothing points at it, but it goes around the
+  cluster's proxy setting and everything else Freelens does for the cluster,
+  so the port does not find it by itself; search for `fetch(`, bundled HTTP and
   Kubernetes clients, `kubeConfigPath`, and spawned `kubectl` or `helm`. The
   v2 answers (C12 in `api.md`):
   - HTTP outside a cluster: `Main.Util.fetch` or `Renderer.Util.fetch`, not
