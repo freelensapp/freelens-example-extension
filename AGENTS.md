@@ -815,7 +815,12 @@ run: each session removes the leftovers of an earlier run (the namespace
 `examples/<version>/crds`, waits until it is established, applies
 `integration/fixtures/<version>/` (the object of `examples/<version>/test`,
 in the namespace `integration-tests`, which the kustomization creates), and
-only then starts the app. Its teardown closes the app first, so that the app
+only then starts the app. Once the app has opened the cluster, the session
+selects `integration-tests` in the namespace filter of the host's Pods page,
+as Freelens's cluster tests do: a new cluster shows only `default`, and the
+selection holds for every namespaced list of the cluster, the extension's page
+included. Without it the page lists nothing, and every view fails on its
+timeout. A session's teardown closes the app first, so that the app
 logs no watch error for a CRD deleted under it, then deletes the fixtures and
 the CRD with `--wait`, also when a test failed, and then checks the errors.
 

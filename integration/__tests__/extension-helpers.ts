@@ -199,15 +199,44 @@ export async function installExtension({ app, window }: AppSession) {
 }
 
 /**
- * Opens the kind cluster from the catalog and returns its frame, where the
- * extension's pages, details and menus render.
+ * Opens the kind cluster from the catalog, selects the namespace of the test
+ * objects, and returns the cluster's frame, where the extension's pages, details
+ * and menus render.
  */
 export async function openKindCluster({ app, window }: AppSession): Promise<Frame> {
   console.log("navigate to catalog");
   await clickApplicationMenuItem(app, "view", "navigate-to-catalog");
   console.log(`open kind-${kindClusterName}`);
 
-  return utils.launchKindClusterFromCatalog(kindClusterName, window);
+  const frame = await utils.launchKindClusterFromCatalog(kindClusterName, window);
+
+  await selectTestNamespace(frame);
+
+  return frame;
+}
+
+/**
+ * Selects the namespace of the test objects in the namespace filter, on the
+ * host's Pods page, as Freelens's cluster tests do. A new cluster shows only
+ * `default`, and the selection holds for every namespaced list of the cluster,
+ * the extension's page included.
+ */
+async function selectTestNamespace(frame: Frame) {
+  console.log(`select namespace ${testNamespace}`);
+  await utils.clickSidebarItem(frame, "link-for-sidebar-item-workloads");
+  await utils.clickSidebarItem(frame, "link-for-sidebar-item-pods");
+
+  const namespaceSelect = await frame.waitForSelector(".NamespaceSelect", viewTimeout);
+
+  await namespaceSelect.click();
+  await namespaceSelect.type(testNamespace);
+  await namespaceSelect.press("Enter");
+  await namespaceSelect.click();
+
+  await frame
+    .locator(".NamespaceSelect")
+    .getByText(`Namespace: ${testNamespace}`, { exact: true })
+    .waitFor(viewTimeout);
 }
 
 /**
