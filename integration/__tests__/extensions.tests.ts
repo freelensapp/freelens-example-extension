@@ -7,7 +7,7 @@
 // by the integration tests workflow, and imports the helpers found there.
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { installExtension, startApp } from "./extension-helpers";
+import { installExtension, openExtensionPreferences, startApp } from "./extension-helpers";
 
 import type { AppSession } from "./extension-helpers";
 
@@ -33,4 +33,12 @@ describe("extensions page tests", () => {
     },
     100 * 60 * 1000,
   );
+
+  it("opens the extension's preferences", async () => {
+    if (!session) {
+      throw new Error("The app did not start");
+    }
+
+    await openExtensionPreferences(session);
+  });
 });

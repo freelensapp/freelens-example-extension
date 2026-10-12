@@ -26,11 +26,18 @@ const testNamespace = "integration-tests";
 // The CRD of every API version of the extension's kind.
 const crdName = "examples.example.freelens.app";
 
+// The package name with `@` dropped and `/` turned into `--`
+// (`sanitizeExtensionName` in Freelens's `lens-extension.ts`).
+const sanitizedExtensionId = extensionName.replace("@", "").replace("/", "--");
+
 // The link inside the sidebar item of the extension's cluster page: the
-// `clusterPageMenus` id, after the package name with `@` dropped and `/` turned
-// into `--` (`getExtensionId` in Freelens's `lens-extension.ts`). Only the link
+// `clusterPageMenus` id, after the sanitized package name. Only the link
 // navigates.
-const pageLinkTestId = `link-for-sidebar-item-${extensionName.replace("@", "").replace("/", "--")}-example`;
+const pageLinkTestId = `link-for-sidebar-item-${sanitizedExtensionId}-example`;
+
+// The title and the input label of the extension's `appPreferences` entry.
+const preferencesTitle = "Example Preferences";
+const preferencesInputLabel = "Example checkbox";
 
 // The name of the test object in `examples/<version>/test`.
 const testObjectName = "test";
@@ -196,6 +203,31 @@ export async function installExtension({ app, window }: AppSession) {
     }
     await window.waitForTimeout(200);
   }
+}
+
+/**
+ * Opens the preferences from the application menu, then the extension's tab in
+ * the "Extensions" tab group, and waits for the title and the input label of
+ * the extension's block. The entry sets no `showInPreferencesTab`, so it is on
+ * the page of that tab (`registrator-for-preference-items.injectable.tsx` in
+ * Freelens). It does not change the preference.
+ */
+export async function openExtensionPreferences({ app, window }: AppSession) {
+  console.log("navigate to preferences");
+  await clickApplicationMenuItem(app, process.platform === "darwin" ? "mac" : "file", "navigate-to-preferences");
+
+  console.log(`open the preferences tab of ${extensionName}`);
+  await window
+    .locator('[data-preference-tab-group-test="extensions-tab-group"]')
+    .getByRole("tab", { name: extensionName, exact: true })
+    .click(viewTimeout);
+
+  const page = window.locator(
+    `[data-preference-page-test="preference-item-for-extension-${sanitizedExtensionId}-page"]`,
+  );
+
+  await page.getByText(preferencesTitle, { exact: true }).waitFor(viewTimeout);
+  await page.getByText(preferencesInputLabel, { exact: true }).waitFor(viewTimeout);
 }
 
 /**

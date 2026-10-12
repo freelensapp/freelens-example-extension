@@ -784,7 +784,10 @@ there under Freelens's Vitest, with its helpers. Each test file is a session
 with an app of its own, which installs the tarball from the extensions page,
 and fails on any error logged by either process:
 
-- `extensions.tests.ts` installs the extension, and checks nothing else.
+- `extensions.tests.ts` installs the extension and opens its preferences
+  page, without changing the preference: the extension's tab in the
+  "Extensions" tab group shows the title and the checkbox label of its
+  `appPreferences` entry. It needs no cluster.
 - `example-v1alpha1.tests.ts` and `example-v1alpha2.tests.ts` open the kind
   cluster with the CRD of one API version and its test object, and click
   through the extension's views: the list page shows a row for the object,
