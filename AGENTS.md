@@ -145,7 +145,8 @@ src/
 test/freelens-extensions.ts      # Runtime stub of @freelensapp/extensions for Vitest
 environment-tests/               # Probes for the per-environment programs
 build/                           # Vite plugins: host modules, standard decorators, CSS module declarations
-integration/__tests__/           # Integration test, run inside a Freelens checkout
+integration/__tests__/           # Integration tests, run inside a Freelens checkout, and their shared module
+integration/fixtures/            # Test objects of the integration tests per API version
 examples/                        # CRDs and test objects per API version
 skills/                          # Agent skills for other repositories (see "Agent Skills")
 ```
@@ -779,9 +780,72 @@ The integration tests run inside a Freelens checkout: the workflow builds the
 extension, packs it with a `.tgz.sha256` checksum next to the tarball, as the
 release publishes it, checks out and packages Freelens, copies
 `integration/__tests__/` into `freelens/integration/__tests__/` and runs them
-there under Freelens's Vitest, with its helpers. The test installs the
-tarball from the extensions page and fails on any error logged by either
-process.
+there under Freelens's Vitest, with its helpers. Each test file is a session
+with an app of its own, which installs the tarball from the extensions page,
+and fails on any error logged by either process:
+
+- `extensions.tests.ts` installs the extension and opens its preferences
+  page, without changing the preference: the extension's tab in the
+  "Extensions" tab group shows the title and the checkbox label of its
+  `appPreferences` entry. It needs no cluster.
+- `example-v1alpha1.tests.ts` and `example-v1alpha2.tests.ts` open the kind
+  cluster with the CRD of one API version and its test object, and click
+  through the extension's views: the list page shows a row for the object,
+  its details show the extension's panel with `Api Version` set to the
+  session's version and no error page of the error boundary, and the row's
+  menu lists the extension's `Suspend` item, which is not clicked. Each view
+  is an `it` that navigates from the sidebar itself, so that it does not
+  depend on the state another left. They do not check the columns, every
+  field, what a menu action does, or the Custom Resources tree.
+
+The tests are deterministic, so the workflow does not retry them: it passes
+`--retry=0`, which overrides the `retry: 2` of Freelens's Vitest config, and
+runs the step once, under `timeout 600`. A retry repeats the same failure, and
+every view of a session waits its full timeout before it fails, so the
+retries of Vitest and a second run of the step together would turn one
+broken view into a run of about 40 minutes.
+
+There is one session per API version because the cluster and the app are
+singletons: the CRD `examples.example.freelens.app` is one object, whose
+`examples/v1alpha1` definition serves v1alpha1 only and whose
+`examples/v1alpha2` definition serves both versions, and the app reads which
+versions are served when it loads the cluster's CRDs. So the v1alpha1 session
+checks that the page falls back to the v1alpha1 list, and the v1alpha2
+session that it picks v1alpha2, the newest version. Freelens's Vitest runs
+the files one at a time, in no set order, and none depends on another having
+run: each session removes the leftovers of an earlier run (the namespace
+`integration-tests` and the CRD), applies the CRD from
+`examples/<version>/crds`, waits until it is established, applies
+`integration/fixtures/<version>/` (the object of `examples/<version>/test`,
+in the namespace `integration-tests`, which the kustomization creates), and
+only then starts the app. Once the app has opened the cluster, the session
+selects `integration-tests` in the namespace filter of the extension's own
+page, which its `KubeObjectListLayout` renders for a namespaced resource: a
+new cluster shows only `default`, and the selection holds for every
+namespaced list of the cluster. Without it the page lists nothing, and every
+view fails on its timeout. The session opens no page of the host, whose
+requests can log errors of their own: the Pods page, where Freelens's cluster
+tests select the namespace, asks for pod metrics, and kind has no metrics
+server. A session's teardown closes the app first, so that the app
+logs no watch error for a CRD deleted under it, then deletes the fixtures and
+the CRD with `--wait`, also when a test failed, and then checks the errors.
+
+The code the sessions share is in `integration/__tests__/extension-helpers.ts`:
+starting the app with the error collector, installing the extension, opening
+the kind cluster, kubectl, and the selectors. Its name does not match
+`*.tests.ts`, so Freelens's Vitest does not collect it. The directory stays
+flat, because the workflow copies it with `cp integration/__tests__/*`.
+
+Two variables configure the sessions. `EXTENSION_DIR` is the root of this
+checkout, where they read the manifests from, since they run inside the
+Freelens checkout. `TEST_KIND_CLUSTER_NAME` names the kind cluster (`kind` by
+default, `freelens` in the workflow), and every kubectl call names its
+context, `kind-<name>`, so a run never acts on the current context. Outside
+CI a session skips with a warning when either is missing or the cluster is not
+reachable; in CI (`CI` set) the run fails instead, so that a mistake in the
+workflow does not turn into a silent skip. A run deletes the CRD
+`examples.example.freelens.app`, and with it every `Example` on the cluster:
+run it locally only against a kind cluster with nothing worth keeping.
 
 ## Checking the Extension in Freelens Dev
 

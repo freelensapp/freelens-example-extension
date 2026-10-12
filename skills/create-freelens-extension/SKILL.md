@@ -124,9 +124,28 @@ the same kind.
   input and hint. Adapt them to the store, or remove them with it.
 - `src/renderer/icons/index.ts`: re-exports the icons; point it at the new
   ones.
-- `integration/__tests__/extensions.tests.ts`: set `extensionName` to the new
-  package name. The test installs the extension in Freelens and fails on any
-  error either process logs.
+- `integration/__tests__/extensions.tests.ts`: keep it. The test installs the
+  extension in Freelens, opens its preferences page, and fails on any error
+  either process logs. Remove the preferences test if the extension has no
+  `appPreferences`.
+- `integration/__tests__/extension-helpers.ts`: the code the integration test
+  sessions share. Set `extensionName` to the new package name,
+  `preferencesTitle` and `preferencesInputLabel` to the extension's
+  `appPreferences` entry, the page id in
+  `pageLinkTestId` to the extension's `clusterPageMenus` id, and `crdName`,
+  `testObjectName` and the paths of `setUpCluster` and `tearDownCluster` to
+  the extension's own CRD and test objects.
+- `integration/__tests__/example-v1alpha1.tests.ts`,
+  `integration/__tests__/example-v1alpha2.tests.ts`,
+  `integration/fixtures/v1alpha1/kustomization.yaml`,
+  `integration/fixtures/v1alpha1/namespace.yaml`,
+  `integration/fixtures/v1alpha2/kustomization.yaml`,
+  `integration/fixtures/v1alpha2/namespace.yaml`: one session per API version
+  that clicks through the list page, the details and the menu of the test
+  object on a kind cluster. Adapt them to the extension's own kinds and
+  versions, one test file and one fixtures directory per version, or remove
+  them for an extension without a cluster view. "Workflows" in `AGENTS.md`
+  explains why each version runs in a session of its own.
 
 ### Remove, or replace with the extension's own feature
 

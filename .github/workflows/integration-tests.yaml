@@ -261,25 +261,23 @@ jobs:
           path: freelens/freelens/dist
           key: ${{ steps.electron-build-cache.outputs.cache-primary-key }}
 
+      # The tests run three sessions, each with an app of its own: the install
+      # test and one session per API version of the Example CRD. A session
+      # applies the manifests of the version from EXTENSION_DIR, the checkout
+      # of the extension, to the kind cluster named by TEST_KIND_CLUSTER_NAME,
+      # and removes them again.
+      #
+      # The tests are deterministic, so a failure is not retried: --retry=0
+      # overrides the `retry: 2` of Freelens's Vitest config, and there is no
+      # second run of the step. A failing view costs one view timeout.
       - name: Run integration tests
         id: integration-tests-linux
         working-directory: freelens
         run: |
           sudo chown root:root freelens/dist/linux*-unpacked/chrome-sandbox
           sudo chmod 4755 freelens/dist/linux*-unpacked/chrome-sandbox
-          timeout 600 xvfb-run -a pnpm --color=always test:integration --reporter=verbose --reporter=github-actions --includeTaskLocation
+          timeout 600 xvfb-run -a pnpm --color=always test:integration --retry=0 --reporter=verbose --reporter=github-actions --includeTaskLocation
         env:
           DEBUG: pw:browser
-          TEST_KIND_CLUSTER_NAME: freelens
-        continue-on-error: true
-
-      - name: Run integration tests (retry)
-        if: steps.integration-tests-linux.outcome == 'failure'
-        working-directory: freelens
-        run: |
-          sudo chown root:root freelens/dist/linux*-unpacked/chrome-sandbox
-          sudo chmod 4755 freelens/dist/linux*-unpacked/chrome-sandbox
-          timeout 600 xvfb-run -a pnpm --color=always test:integration --reporter=verbose --reporter=github-actions --includeTaskLocation
-        env:
-          DEBUG: pw:browser
+          EXTENSION_DIR: ${{ github.workspace }}
           TEST_KIND_CLUSTER_NAME: freelens
