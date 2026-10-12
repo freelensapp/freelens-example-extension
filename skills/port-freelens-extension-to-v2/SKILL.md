@@ -23,7 +23,7 @@ with `gh`, which returns their source, as in step 1.
 | Document | Read it for |
 | --- | --- |
 | [`migrating-from-v1.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/migrating-from-v1.md) | The porting guide: what changed and what replaces it, the "v1→v2 rename table" and the "Checklist" at the end. |
-| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C14: what the host guarantees and how a violation fails. |
+| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C15: what the host guarantees and how a violation fails. C15 is for an extension that runs kubectl or helm. |
 | [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/binaries.md) | Only for an extension that ships executables. |
 | [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template | The build, type-check, test, lint and CI patterns of a v2 extension, each with its reason, and "Rules That Fail Silently". |
 | [`README.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/README.md) of the template | Installing an extension in Freelens and the development loop. |
@@ -45,13 +45,41 @@ rendered page drops:
 gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq .body
 ```
 
-- Copy the sections marked **(generic)** as they are, including their
-  findings, which every later port inherits.
+- Copy the sections marked **(generic)**, including their findings, which
+  every later port inherits. They also carry the template's own results, so
+  that #326 stays a worked example; the "Copying" note at the top of #326 names
+  them, and the copy drops them or replaces them with its own:
+  - the text marked "here:", such as the v1 workaround that step 2 names and
+    the step prefix and feature issue of "Rules for the CI agent";
+  - the notes in parentheses after a ticked item, such as the results of
+    "Validation by maintainers";
+  - the "Done in" notes.
+- Untick every item of the plan and the validation.
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
   and the API symbols to check), "Functional checks" and "Decisions".
-- Reset the checkboxes of the plan and the validation, and drop the "Done in"
-  notes, which record the template's own port.
+- In "Inventory", answer in its "HTTP and cluster access" row how the
+  extension makes HTTP requests and how it reaches a cluster, in main and in
+  the renderer, with "none" when it does neither. A v1 client still works in
+  v2 on a plain network, so nothing points at it, but it goes around the
+  cluster's proxy setting and everything else Freelens does for the cluster,
+  so the port does not find it by itself; search for `fetch(`, bundled HTTP and
+  Kubernetes clients, `kubeConfigPath`, and spawned `kubectl` or `helm`. The
+  v2 answers (C12 in `api.md`):
+  - HTTP outside a cluster: `Main.Util.fetch` or `Renderer.Util.fetch`, not
+    `globalThis.fetch` or a bundled client;
+  - a catalog cluster: `K8sApi.forCluster` for a `KubeApi` of one kind, or
+    `K8sApi.KubeJsonApi.forCluster` for requests by path, not a client built
+    from the cluster's `kubeConfigPath` ("Reaching a catalog cluster" in
+    `migrating-from-v1.md`);
+  - kubectl or helm: the host's, through `Main.Shell` (C15): the paths of
+    `getKubectlPath` and `getHelmPath`, run with `getEnvironment` as the
+    environment, not a binary found by name or given the raw kubeconfig.
+- "Decisions" settles at least the version of the extension, the integration
+  test ref, and how the port lands: in one PR, or in stages on a branch that
+  nothing is released from, as the template's port landed on `main`; and how
+  its pull requests are merged (squash, merge commit or rebase), which "Rules
+  for the CI agent" refers to rather than assumes.
 - A short reference such as `#328` resolves in the repository it is written
   in. In the copy, write the template's issues and pull requests as
   `freelensapp/freelens-example-extension#328`, and replace #327 with the
@@ -60,12 +88,38 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   it: an issue whose body contains the handle starts the Claude workflow when
   it is opened, in a repository that has one.
 
-**One feature issue per feature**, as #327 is for the `Example` CRD: a custom
-resource with its models, pages, details and menu items, or another view of the
-extension. Each lists its scope, the v1 constructs and API symbols it uses, its
-steps with a prefix of its own (`E1`, `E2`, ...) and its functional checks.
-Keeping the features out of the migration issue keeps that issue reusable as a
-template; its "Rules for the CI agent" say how the two are worked on together.
+**One feature issue per feature.** Each lists its scope, the v1 constructs and
+API symbols it uses, its steps with a prefix of its own (`E1`, `E2`, ...) and
+its functional checks. Keeping the features out of the migration issue keeps
+that issue reusable as a template; its "Rules for the CI agent" say how the two
+are worked on together. Two kinds of feature have a pattern:
+
+- **A custom resource**, with its models, pages, details and menu items, or
+  another view of the extension, as #327 is for the `Example` CRD. Its steps
+  follow "Adding an API" in `AGENTS.md`, and its checks include the Custom
+  Resources tree of the `customResources` item.
+- **A feature in the main process**: a local server (an HTTP bridge, a
+  socket), spawned processes, a bundled Node library such as
+  `@kubernetes/client-node`. freelensapp/freelens-for-claude-extension#73 is
+  one. Its steps cover:
+  - the ESM main: no `require`, `__dirname` or `module.exports` of its own
+    left, its files located with `this.manifestPath`, and every bundled
+    CommonJS library loading from `dist/main.js`, which needs the `node`
+    platform of "Process-specific settings" in `AGENTS.md`;
+  - the lifecycle: what `onActivate` starts, `onDeactivate` stops, because a
+    reload runs `onDeactivate` before the new build's `onActivate` ("The
+    development loop" in `migrating-from-v1.md`), and a server still bound to
+    its port or a child process left running survives it;
+  - HTTP and cluster access, as the "HTTP and cluster access" row of the
+    inventory in #326 gives them;
+  - a spawned kubectl or helm through `Main.Shell` (C15), and a shipped
+    executable after `binaries.md`.
+
+  Its functional checks: the server answers and the processes run once the
+  extension is enabled, both are gone after it is disabled, a rebuild under
+  `pnpm dev` leaves exactly one of each, and the main-process log has no error.
+  Such a feature registers no model, so the `customResources` item of
+  "Validation by maintainers" does not apply to it.
 
 ## 2. Order of work
 
@@ -98,8 +152,9 @@ template; its "Rules for the CI agent" say how the two are worked on together.
    links. Decorators follow "MobX 7 and mobx-react 10 (standard decorators
    only)", stylesheets "Styling and CSS", and Node or Electron in renderer code
    "Node and Electron in the renderer".
-4. **Features.** One feature issue at a time, after "CRD KubeObject Pattern"
-   and "Renderer Components" in `AGENTS.md`.
+4. **Features.** One feature issue at a time: a custom resource or a view after
+   "CRD KubeObject Pattern" and "Renderer Components" in `AGENTS.md`, a feature
+   in the main process after its pattern in step 1.
 5. **Functional check in Freelens**, as in "Verify" below.
 
 ## 3. What compiles and fails at runtime
@@ -200,7 +255,9 @@ the terminal running Freelens shows an error. Make one change through mobx,
 such as a preference, and check that the UI follows it: that proves the
 extension uses the host's mobx. Check that every custom resource listed in
 `customResources` is gone from the Custom Resources tree of the cluster
-sidebar, and that the log has no error rejecting one of its entries. Then tick the functional checks of the
-migration issue and of each feature issue.
+sidebar, and that the log has no error rejecting one of its entries; an
+extension that presents no custom resource sets no `customResources`, and its
+item in "Validation by maintainers" says so. Then tick the functional checks of
+the migration issue and of each feature issue.
 To run these checks through an agent attached to Freelens dev, follow
 "Checking the Extension in Freelens Dev" in the template's `AGENTS.md`.

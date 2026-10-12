@@ -29,7 +29,16 @@ Freelens has adopted it, at that version, in one `Freelens dependencies` group
 PR together with the `@freelensapp/extensions` nightly. A dependency added to
 `package.json` follows the Freelens catalog unless the catalog rule excludes
 it; one that Freelens does not have must be excluded there, or its lookup fails
-on the Dependency Dashboard. What Freelens does not define (GitHub Actions, the
+on the Dependency Dashboard. The catalog rule matches only `dependencies` and
+`devDependencies`, so an override copied from Freelens's `pnpm-workspace.yaml`,
+such as `@kubernetes/client-node>@types/node`, is otherwise looked up on npm
+and runs ahead of Freelens. Such an override gets a rule of its own, next to
+the catalog rule: `matchManagers: ["npm"]`, the override's key in
+`matchDepNames`, `overrideDatasource: "custom.freelens-catalog"`, the overridden
+package in `overridePackageName`, and the catalog rule's `rangeStrategy`,
+`minimumReleaseAge` and `groupName`
+(freelensapp/freelens-for-claude-extension@f2f49241828f201890423e070655c2dc04120b23).
+This template has no override. What Freelens does not define (GitHub Actions, the
 tool versions in the workflows, `shx`) Renovate updates as usual.
 pnpm is the exception: Renovate updates it from the npm registry, in a pull
 request of its own, and not to the version of Freelens's `packageManager`.
@@ -740,6 +749,15 @@ production pass only. And the SVGO plugin is on (`"svgo": true`), so that
 `svgo.config.mjs` is an entry: Trunk runs SVGO, and no dependency turns the
 plugin on.
 
+`ignore` leaves out `dist/**`. The `main` field of `package.json` makes
+`dist/main.js` an entry once it exists, and the `knip` script runs with
+`--no-gitignore`, so after `pnpm build`, which `check.yaml` runs first, knip
+would analyse the bundle and report what it inlines from the libraries it
+bundles: a `spawnSync("wsl.exe")` in a bundled `@kubernetes/client-node` comes
+out as `Unlisted binaries: wsl.exe dist/main.js`. Run `pnpm knip:check` after a
+build when changing `knip.jsonc`, as `check.yaml` does; without `dist/` the
+problem does not show.
+
 ### Workflows
 
 | Workflow                 | Runs                                                                          |
@@ -773,10 +791,12 @@ with `--remoteDebuggingPort 9223`, so an agent can drive the app over the
 Chrome DevTools Protocol. How to attach Playwright MCP to it is in Freelens's
 `DEVELOPMENT.md`, "Inspecting the running dev app from an AI agent"; start
 Freelens before the session connects. Playwright MCP writes its snapshots to
-`.playwright-mcp/`, which is git-ignored.
+`.playwright-mcp/`, which is git-ignored. Added to a Claude Code session that
+is already running, the server is listed as connected, but its tools appear
+only in a new session.
 
-Without the MCP server, a `playwright-core` script with
-`chromium.connectOverCDP("http://127.0.0.1:9223")` does the same. End such a
+Without the MCP server, or until that new session, a `playwright-core` script
+with `chromium.connectOverCDP("http://127.0.0.1:9223")` does the same. End such a
 script by exiting the process; do not close the browser, which belongs to
 Freelens.
 
@@ -800,7 +820,10 @@ Freelens.
 - Pages of the extension have URLs like `/extension/<name>/<pageId>`, with the
   package name's `@` dropped and `/` turned into `--`, for example
   `/extension/freelensapp--example-extension/example`. The sidebar entries
-  navigate in `onClick`; their `href` is not the page URL.
+  navigate in `onClick`; their `href` is not the page URL. A click on an
+  entry's `[data-testid="sidebar-item-…"]` element does not navigate; a DOM
+  `click()` on the link inside it, `[data-testid="link-for-sidebar-item-…"]`,
+  does. Neither does `history.pushState` in the cluster frame.
 - Playwright's actionability checks can fail on the hotbar, where
   `#ScrollSpyRoot` intercepts pointer events; a DOM `click()` on the element
   works.
@@ -816,6 +839,12 @@ lines, and never paste the full console into a PR, an issue or a report.
 React reports key problems as console errors ("Each child in a list should
 have a unique key", "Encountered two children with the same key"); they count
 as failures of the "no error in DevTools" check.
+
+The main process logs to the terminal running Freelens, and to a file. On
+macOS it is `~/Library/Logs/Freelens/lens.log`, with the renderer's
+`lens-renderer-*.log` next to it; when the terminal is not at hand, it shows
+the extension's activation, its reloads and its own lines. Filter it as the
+console.
 
 ## Agent Skills
 

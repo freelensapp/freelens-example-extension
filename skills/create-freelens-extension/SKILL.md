@@ -20,7 +20,7 @@ Fetch the raw URLs; they return Markdown.
 
 | Document | Read it for |
 | --- | --- |
-| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C14: what the host guarantees and how a violation fails. |
+| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C15: what the host guarantees and how a violation fails. |
 | [`migrating-from-v1.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/migrating-from-v1.md) | The v2 API from an author's side; "Registering things: declarative fields", "Styling and CSS" and "The development loop" apply to a new extension too. |
 | [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/binaries.md) | Only for an extension that ships executables. |
 | [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template | The build, type-check, test, lint and CI patterns, each with its reason, and "Rules That Fail Silently". |
