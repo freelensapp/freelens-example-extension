@@ -791,9 +791,16 @@ and fails on any error logged by either process:
   its details show the extension's panel with `Api Version` set to the
   session's version and no error page of the error boundary, and the row's
   menu lists the extension's `Suspend` item, which is not clicked. Each view
-  is an `it` that navigates from the sidebar itself, because Vitest's
-  `retry` reruns a failed `it` without its `beforeAll`. They do not check the
-  columns, every field, what a menu action does, or the Custom Resources tree.
+  is an `it` that navigates from the sidebar itself, so that it does not
+  depend on the state another left. They do not check the columns, every
+  field, what a menu action does, or the Custom Resources tree.
+
+The tests are deterministic, so the workflow does not retry them: it passes
+`--retry=0`, which overrides the `retry: 2` of Freelens's Vitest config, and
+runs the step once, under `timeout 600`. A retry repeats the same failure, and
+every view of a session waits its full timeout before it fails, so the
+retries of Vitest and a second run of the step together would turn one
+broken view into a run of about 40 minutes.
 
 There is one session per API version because the cluster and the app are
 singletons: the CRD `examples.example.freelens.app` is one object, whose
