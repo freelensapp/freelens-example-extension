@@ -942,11 +942,11 @@ not copy them, so nothing drifts. What a skill does depend on is the names:
 - The links point at `main` of both repositories. Once Freelens 2.0.0 is
   released, they move to the `v2.0.0` tag of freelensapp/freelens and to a
   release tag of this repository.
-- The pin in "Source of truth" of #326, a Freelens commit and the nightly
-  built from it, is never older than what the skills or the documents they
-  link to require. A change that makes a skill rely on what a newer nightly
-  brought, as `Main.Shell` (C15) came with the 2026-10-12 nightly, moves the
-  pin of #326 to that nightly, with a finding there.
+
+The pin in "Source of truth" of #326, a Freelens commit and the nightly built
+from it, is never older than what the skills or the documents they link to
+require. A change that makes a skill rely on what a newer nightly brought moves
+the pin of #326 to that nightly, with a finding there.
 
 The frontmatter follows the specification: `name` equal to the directory name,
 a `description` of at most 1024 characters that says what the skill does and
