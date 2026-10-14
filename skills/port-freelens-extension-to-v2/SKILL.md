@@ -142,6 +142,17 @@ are worked on together. Two kinds of feature have a pattern:
   Such a feature registers no model, so the `customResources` item of
   "Validation by maintainers" does not apply to it.
 
+**Before the first trigger comment**, compare the job that runs the agent in
+the repository's `.github/workflows/claude.yaml` with the `claude` job of the
+[template's](https://github.com/freelensapp/freelens-example-extension/blob/main/.github/workflows/claude.yaml):
+its `--max-turns` (400 there) and its `timeout-minutes` (120 there). A run
+stops at whichever it reaches first, and "Rules for the CI agent" of the
+migration issue asks for a set of steps that fits in one run, so a comment
+sized for the template's limits ends in the middle of a step under lower ones,
+as the first run of freelensapp/freelens-ai-extension did at 200 turns. Either
+raise both to the template's values, in a commit of their own before the
+first run, or size the trigger comments to the repository's values.
+
 ## 2. Order of work
 
 1. **Manifest.** Bump `engines.freelens` to `^2.0.0` first: until then the
