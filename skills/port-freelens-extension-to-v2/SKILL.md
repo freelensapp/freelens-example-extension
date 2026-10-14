@@ -45,15 +45,42 @@ rendered page drops:
 gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq .body
 ```
 
+- Check the pin of "Source of truth" first. It is never older than what this
+  skill and the documents it links to require: `Main.Shell` (C15), which the
+  "HTTP and cluster access" row and a feature in the main process use, came
+  with freelensapp/freelens@d5e986b43 and
+  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-12`, and a declaration
+  without it does not type-check the step that uses it. The template's own
+  `package.json` names the nightly the template is checked against; a pin older
+  than that is a sign. When the pin is older, move it in the copy to the
+  nightly that has what the port needs and to the commit that nightly was built
+  from, with the versions of "Stack alignment" as Freelens has them there,
+  record the move under "Findings" of the copy, and report the stale pin to
+  freelensapp/freelens-example-extension. The check applies until Freelens
+  2.0.0 is released; from then on the port takes the released
+  `@freelensapp/extensions` from npm rather than a nightly.
 - Copy the sections marked **(generic)**, including their findings, which
-  every later port inherits. They also carry the template's own results, so
-  that #326 stays a worked example; the "Copying" note at the top of #326 names
-  them, and the copy drops them or replaces them with its own:
+  every later port inherits, though not in the body, as the next item says.
+  They also carry the template's own results, so that #326 stays a worked
+  example; the "Copying" note at the top of #326 names them, and the copy drops
+  them or replaces them with its own:
   - the text marked "here:", such as the v1 workaround that step 2 names and
     the step prefix and feature issue of "Rules for the CI agent";
   - the notes in parentheses after a ticked item, such as the results of
     "Validation by maintainers";
   - the "Done in" notes.
+- Put the inherited findings into the first comment of the migration issue.
+  GitHub refuses an issue body over 65,536 characters; the body of #326 alone
+  comes close, and a copy with a real inventory, decisions and functional
+  checks goes past it. Open the issue with a "Findings" section that says the
+  inherited findings are in the first comment and keeps only the findings of
+  this migration, empty at first, then post the inherited entries as that
+  comment. It opens with a heading and a sentence saying that the findings come
+  from freelensapp/freelens-example-extension#326, followed by the entries as
+  #326 has them, with two changes: their short references (`#372`, `#327`,
+  ...) are written as `freelensapp/freelens-example-extension#372`, as the
+  item about short references below says, and the Claude handle stays split.
+  New findings go into the body, as #326 records its own.
 - Untick every item of the plan and the validation.
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
@@ -84,9 +111,10 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   in. In the copy, write the template's issues and pull requests as
   `freelensapp/freelens-example-extension#328`, and replace #327 with the
   extension's own feature issues.
-- Keep the Claude handle split as `@<!-- -->claude` wherever the body names
-  it: an issue whose body contains the handle starts the Claude workflow when
-  it is opened, in a repository that has one.
+- Keep the Claude handle split as `@<!-- -->claude` wherever the body or the
+  comment of the inherited findings names it: an issue whose body contains the
+  handle starts the Claude workflow when it is opened, and so does a comment
+  that contains it, in a repository that has one.
 
 **One feature issue per feature.** Each lists its scope, the v1 constructs and
 API symbols it uses, its steps with a prefix of its own (`E1`, `E2`, ...) and
@@ -120,6 +148,17 @@ are worked on together. Two kinds of feature have a pattern:
   `pnpm dev` leaves exactly one of each, and the main-process log has no error.
   Such a feature registers no model, so the `customResources` item of
   "Validation by maintainers" does not apply to it.
+
+**Before the first trigger comment**, compare the job that runs the agent in
+the repository's `.github/workflows/claude.yaml` with the `claude` job of the
+[template's](https://github.com/freelensapp/freelens-example-extension/blob/main/.github/workflows/claude.yaml):
+its `--max-turns` (400 there) and its `timeout-minutes` (120 there). A run
+stops at whichever it reaches first, and "Rules for the CI agent" of the
+migration issue asks for a set of steps that fits in one run, so a comment
+sized for the template's limits ends in the middle of a step under lower ones,
+as the first run of freelensapp/freelens-ai-extension did at 200 turns. Either
+raise both to the template's values, in a commit of their own before the
+first run, or size the trigger comments to the repository's values.
 
 ## 2. Order of work
 
