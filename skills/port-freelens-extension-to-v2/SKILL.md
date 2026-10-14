@@ -56,7 +56,9 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   nightly that has what the port needs and to the commit that nightly was built
   from, with the versions of "Stack alignment" as Freelens has them there,
   record the move under "Findings" of the copy, and report the stale pin to
-  freelensapp/freelens-example-extension.
+  freelensapp/freelens-example-extension. The check applies until Freelens
+  2.0.0 is released; from then on the port takes the released
+  `@freelensapp/extensions` from npm rather than a nightly.
 - Copy the sections marked **(generic)**, including their findings, which
   every later port inherits, though not in the body, as the next item says.
   They also carry the template's own results, so that #326 stays a worked
