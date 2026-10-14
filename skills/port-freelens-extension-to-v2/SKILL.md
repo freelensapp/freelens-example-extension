@@ -72,8 +72,13 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   comes close, and a copy with a real inventory, decisions and functional
   checks goes past it. Open the issue with a "Findings" section that says the
   inherited findings are in the first comment and keeps only the findings of
-  this migration, empty at first, then post the inherited entries, unchanged,
-  as that comment. New findings go into the body, as #326 records its own.
+  this migration, empty at first, then post the inherited entries as that
+  comment. It opens with a heading and a sentence saying that the findings come
+  from freelensapp/freelens-example-extension#326, followed by the entries as
+  #326 has them, with two changes: their short references (`#372`, `#327`,
+  ...) are written as `freelensapp/freelens-example-extension#372`, as the
+  item about short references below says, and the Claude handle stays split.
+  New findings go into the body, as #326 records its own.
 - Untick every item of the plan and the validation.
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
