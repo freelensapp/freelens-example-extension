@@ -58,14 +58,22 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   record the move under "Findings" of the copy, and report the stale pin to
   freelensapp/freelens-example-extension.
 - Copy the sections marked **(generic)**, including their findings, which
-  every later port inherits. They also carry the template's own results, so
-  that #326 stays a worked example; the "Copying" note at the top of #326 names
-  them, and the copy drops them or replaces them with its own:
+  every later port inherits, though not in the body, as the next item says.
+  They also carry the template's own results, so that #326 stays a worked
+  example; the "Copying" note at the top of #326 names them, and the copy drops
+  them or replaces them with its own:
   - the text marked "here:", such as the v1 workaround that step 2 names and
     the step prefix and feature issue of "Rules for the CI agent";
   - the notes in parentheses after a ticked item, such as the results of
     "Validation by maintainers";
   - the "Done in" notes.
+- Put the inherited findings into the first comment of the migration issue.
+  GitHub refuses an issue body over 65,536 characters; the body of #326 alone
+  comes close, and a copy with a real inventory, decisions and functional
+  checks goes past it. Open the issue with a "Findings" section that says the
+  inherited findings are in the first comment and keeps only the findings of
+  this migration, empty at first, then post the inherited entries, unchanged,
+  as that comment. New findings go into the body, as #326 records its own.
 - Untick every item of the plan and the validation.
 - Rewrite the sections marked **(project-specific)** for this extension:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
@@ -96,9 +104,10 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   in. In the copy, write the template's issues and pull requests as
   `freelensapp/freelens-example-extension#328`, and replace #327 with the
   extension's own feature issues.
-- Keep the Claude handle split as `@<!-- -->claude` wherever the body names
-  it: an issue whose body contains the handle starts the Claude workflow when
-  it is opened, in a repository that has one.
+- Keep the Claude handle split as `@<!-- -->claude` wherever the body or the
+  comment of the inherited findings names it: an issue whose body contains the
+  handle starts the Claude workflow when it is opened, and so does a comment
+  that contains it, in a repository that has one.
 
 **One feature issue per feature.** Each lists its scope, the v1 constructs and
 API symbols it uses, its steps with a prefix of its own (`E1`, `E2`, ...) and
