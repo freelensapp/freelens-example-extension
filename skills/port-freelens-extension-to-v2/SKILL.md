@@ -45,6 +45,18 @@ rendered page drops:
 gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq .body
 ```
 
+- Check the pin of "Source of truth" first. It is never older than what this
+  skill and the documents it links to require: `Main.Shell` (C15), which the
+  "HTTP and cluster access" row and a feature in the main process use, came
+  with freelensapp/freelens@d5e986b43 and
+  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-12`, and a declaration
+  without it does not type-check the step that uses it. The template's own
+  `package.json` names the nightly the template is checked against; a pin older
+  than that is a sign. When the pin is older, move it in the copy to the
+  nightly that has what the port needs and to the commit that nightly was built
+  from, with the versions of "Stack alignment" as Freelens has them there,
+  record the move under "Findings" of the copy, and report the stale pin to
+  freelensapp/freelens-example-extension.
 - Copy the sections marked **(generic)**, including their findings, which
   every later port inherits. They also carry the template's own results, so
   that #326 stays a worked example; the "Copying" note at the top of #326 names
