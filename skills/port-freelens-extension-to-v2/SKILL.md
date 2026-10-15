@@ -46,11 +46,13 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
 ```
 
 - Check the pin of "Source of truth" first. It is never older than what this
-  skill and the documents it links to require: `Main.Shell` (C15), which the
-  "HTTP and cluster access" row and a feature in the main process use, came
-  with freelensapp/freelens@d5e986b43 and
-  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-12`, and a declaration
-  without it does not type-check the step that uses it. The template's own
+  skill and the documents it links to require. The "HTTP and cluster access"
+  row and a feature in the main process use `Main.Shell` (C15),
+  "Reaching a catalog cluster" in `migrating-from-v1.md`, and
+  `Main.Util.fetch` typed as the standard `fetch`, with no
+  `Renderer.Util.fetch`; all of them are in freelensapp/freelens@5e1870e97 and
+  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-15`, and a declaration
+  without them does not type-check the step that uses them. The template's own
   `package.json` names the nightly the template is checked against; a pin older
   than that is a sign. When the pin is older, move it in the copy to the
   nightly that has what the port needs and to the commit that nightly was built
@@ -93,8 +95,10 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   so the port does not find it by itself; search for `fetch(`, bundled HTTP and
   Kubernetes clients, `kubeConfigPath`, and spawned `kubectl` or `helm`. The
   v2 answers (C12 in `api.md`):
-  - HTTP outside a cluster: `Main.Util.fetch` or `Renderer.Util.fetch`, not
-    `globalThis.fetch` or a bundled client;
+  - HTTP outside a cluster: in main `Main.Util.fetch`, also given as the
+    `fetch` option of a bundled library that takes one (an SDK, an MCP
+    transport), not `globalThis.fetch` or a bundled client; in the renderer
+    the global `fetch`, Chromium's, which the host uses there too;
   - a catalog cluster: `K8sApi.forCluster` for a `KubeApi` of one kind, or
     `K8sApi.KubeJsonApi.forCluster` for requests by path, not a client built
     from the cluster's `kubeConfigPath` ("Reaching a catalog cluster" in
