@@ -968,18 +968,22 @@ their own repositories with `npx skills add` or by copying the directory. They
 are for work on other repositories, not on this one, so they are not in
 `.claude/skills/`.
 
-| Skill                           | Does                                                                |
-| ------------------------------- | ------------------------------------------------------------------- |
-| `create-freelens-extension`     | starts a new extension from a copy of this repository               |
-| `port-freelens-extension-to-v2` | ports a v1 extension to v2, with #326 as the plan and #327 and #336 |
+| Skill                           | Does                                                                                                      |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `create-freelens-extension`     | starts a new extension from a copy of this repository                                                     |
+| `port-freelens-extension-to-v2` | ports a v1 extension to v2, with the template of the migration issue, and #326, #327 and #336 as examples |
 
 Each `SKILL.md` carries the workflow and links to the documents it relies on:
 `api.md`, `migrating-from-v1.md` and `binaries.md` of Freelens, this file,
 `README.md`, the source tree, and the issues and pull request above. It does
-not copy them, so nothing drifts. What a skill does depend on is the names:
+not copy them, so nothing drifts. The one exception is
+`skills/port-freelens-extension-to-v2/references/migration-issue.md`, the
+template of the migration issue, which exists nowhere else. What a skill does
+depend on is the names:
 
-- They cite sections of this file and of `README.md` by their headings, and
-  files of this repository by their paths. Renaming such a section, or moving
+- They, the template of the migration issue included, cite sections of this
+  file and of `README.md` by their headings, and files of this repository by
+  their paths. Renaming such a section, or moving
   or removing such a file, updates the skill in the same commit.
 - `create-freelens-extension` puts every tracked file into one of its groups
   (keep, adapt, remove, rewrite). A new tracked file goes into one of them in
@@ -995,10 +999,21 @@ not copy them, so nothing drifts. What a skill does depend on is the names:
   `port-freelens-extension-to-v2` ends, because a port takes the released
   `@freelensapp/extensions` from npm rather than a nightly.
 
-The pin in "Source of truth" of #326, a Freelens commit and the nightly built
-from it, is never older than what the skills or the documents they link to
-require. A change that makes a skill rely on what a newer nightly brought moves
-the pin of #326 to that nightly, with a finding there.
+The pin in "Source of truth" of the template of the migration issue, a Freelens
+commit and the nightly built from it, is never older than what the skills or
+the documents they link to require. A change that makes a skill rely on what a
+newer nightly brought moves the pin of the template to that nightly, together
+with the versions of its "Stack alignment".
+
+The template changes by pull request, like any file here. A finding of a port
+that applies to any port is folded into the generic section it affects, and
+the template keeps no list of findings: the history is in git, and #326, the
+migration of this repository, keeps its own findings as a completed example
+that is not edited for later ports. The template is an issue body, so it keeps
+one paragraph per line: GitHub turns every newline of an issue body into a line
+break. Every mention of the Claude handle in it stays split, and every
+reference to this repository is written in full, because the body is opened in
+other repositories.
 
 The frontmatter follows the specification: `name` equal to the directory name,
 a `description` of at most 1024 characters that says what the skill does and
