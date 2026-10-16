@@ -70,7 +70,9 @@ the same kind.
   `environment-tests/node-apis.ts`, `environment-tests/shared-apis.ts`,
   `environment-tests/worker-apis.ts`.
 - Tests: `vitest.config.ts`, `test/freelens-extensions.ts` (the runtime stub of
-  `@freelensapp/extensions`; add the members the new tests reach).
+  `@freelensapp/extensions`; add the members the new tests reach),
+  `vitest.integration.config.ts` and `integration/tsconfig.json` (the runner
+  and the program of the integration tests).
 - Lint and format: `biome.jsonc`, `knip.jsonc`, `.trunk/trunk.yaml`,
   `.trunk/.gitignore`, `.markdownlint.yaml`, `.yamlfmt.yaml`, `.yamllint.yaml`,
   `.editorconfig`, `.gitattributes`, `.gitignore`.
@@ -125,9 +127,9 @@ the same kind.
 - `src/renderer/icons/index.ts`: re-exports the icons; point it at the new
   ones.
 - `integration/__tests__/extensions.tests.ts`: keep it. The test installs the
-  extension in Freelens, opens its preferences page, and fails on any error
-  either process logs. Remove the preferences test if the extension has no
-  `appPreferences`.
+  checkout in place in Freelens dev, opens its preferences page, and fails on
+  any error either process logs. Remove the preferences test if the extension
+  has no `appPreferences`.
 - `integration/__tests__/extension-helpers.ts`: the code the integration test
   sessions share. Set `extensionName` to the new package name,
   `preferencesTitle` and `preferencesInputLabel` to the extension's

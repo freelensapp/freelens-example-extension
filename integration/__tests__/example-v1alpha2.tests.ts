@@ -3,25 +3,23 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-// Runs inside a Freelens checkout, copied into `freelens/integration/__tests__/`
-// by the integration tests workflow, and imports the helpers found there.
-//
 // One session per API version: the CRD of v1alpha2 serves both versions, so the
-// page picks v1alpha2, the newest one. The session sets up the cluster, starts
-// its own app and tears both down; it does not depend on another test file
-// having run.
+// page picks v1alpha2, the newest one. The session disconnects the kind
+// cluster, sets up the CRD, connects the cluster again, so that the app reads
+// the CRD anew, and leaves the cluster disconnected; it does not depend on
+// another test file having run.
 
-import { describeIf } from "@freelensapp/test-utils";
-import { afterAll, beforeAll, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
-  clusterReady,
+  appReady,
+  connectApp,
+  disconnectKindCluster,
   installExtension,
   openDetails,
   openKindCluster,
   openListPage,
   openRowMenu,
   setUpCluster,
-  startApp,
   tearDownCluster,
   waitForMenuItem,
 } from "./extension-helpers";
@@ -32,14 +30,15 @@ import type { AppSession } from "./extension-helpers";
 
 const version = "v1alpha2";
 
-describeIf(clusterReady())(`Example ${version} views`, () => {
+describe.skipIf(!(await appReady({ cluster: true })))(`Example ${version} views`, () => {
   let session: AppSession | undefined;
   let frame: Frame;
 
   beforeAll(
     async () => {
+      session = await connectApp();
+      await disconnectKindCluster(session);
       setUpCluster(version);
-      session = await startApp();
       await installExtension(session);
       frame = await openKindCluster(session);
     },
@@ -51,8 +50,12 @@ describeIf(clusterReady())(`Example ${version} views`, () => {
       let errors: string[] = [];
 
       try {
-        // The app first: it watches the CRD, and would log errors for a CRD
-        // deleted under it.
+        // The cluster first: the app watches the CRD, and would log errors for
+        // a CRD deleted under it.
+        if (session) {
+          await disconnectKindCluster(session);
+        }
+
         errors = (await session?.close()) ?? [];
       } finally {
         tearDownCluster(version);
