@@ -830,8 +830,12 @@ closes only the connection, so a session ends with it and the app keeps
 running. The renderer's console carries the errors of the root frame and of
 every cluster frame; the main log is read from the file that
 `FREELENS_MAIN_LOG` names, from its size when the session started, and every
-line that starts with `error:` counts. Without the variable only the renderer
-is checked.
+line that starts with `error:` counts, also after a task prefix that turbo
+may add, such as `freelens:dev:`. Without the variable only the renderer is
+checked.
+The workflow sets `TURBO_LOG_ORDER=stream` for `pnpm dev`: in GitHub Actions
+turbo otherwise groups the output of a task until it ends, and the persistent
+`dev` task never ends, so the log would stay empty.
 
 There is one session per API version because the cluster and the app are
 singletons: the CRD `examples.example.freelens.app` is one object, whose

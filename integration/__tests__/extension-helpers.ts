@@ -129,7 +129,8 @@ function collectErrors(window: Page) {
   };
 
   // A line of the main log starts with its level, in the file and on the
-  // console alike.
+  // console alike, after the task prefix that turbo adds to the output of
+  // `pnpm dev` when it streams it (`freelens:dev: `).
   const readMainLog = () => {
     if (!mainLogFile || !fs.existsSync(mainLogFile)) {
       return;
@@ -157,7 +158,7 @@ function collectErrors(window: Page) {
       for (const line of buffer.toString("utf8").split("\n")) {
         const text = line.replaceAll(ansiEscapePattern, "");
 
-        if (/^\s*error:/.test(text)) {
+        if (/^(?:[\w@/.-]+:[\w:-]+: )?\s*error:/.test(text)) {
           errorLogs.push(`[main] ${text.trim()}`);
         }
       }
@@ -304,7 +305,9 @@ export async function installExtension({ window }: AppSession, { reinstall = fal
   const row = table.locator("tbody tr", { hasText: extensionName });
   const enabled = row.locator("td").nth(2).getByText("Enabled", { exact: true });
 
-  await table.waitFor(viewTimeout);
+  // Once the extensions are discovered, the page shows the table, or a notice
+  // in its place when no extension is installed, as in a fresh profile.
+  await table.or(window.getByText("There are no extensions installed.", { exact: true })).waitFor(viewTimeout);
 
   if (await row.count()) {
     const inPlace = await row.locator(`[title="Loaded in place from ${extensionDir}"]`).count();

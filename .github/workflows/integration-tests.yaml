@@ -258,6 +258,9 @@ jobs:
             exit 1
           fi
         env:
+          # In GitHub Actions turbo groups the output of a task and prints it
+          # when the task ends, which a persistent `dev` task never does.
+          TURBO_LOG_ORDER: stream
           FREELENS_INTEGRATION_TESTING_DIR: /tmp/freelens-integration-testing
           FREELENS_MAIN_LOG: ${{ runner.temp }}/freelens-dev.log
 
