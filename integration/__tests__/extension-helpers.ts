@@ -1,23 +1,36 @@
 /**
- * Copyright (c) OpenLens Authors. All rights reserved.
+ * Copyright (c) Freelens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-// The code the integration test sessions share. Copied with them into
-// `freelens/integration/__tests__/` by the integration tests workflow, and
-// imports the helpers found there. Its name does not match `*.tests.ts`, so
-// Freelens's Vitest does not collect it as a test file.
+// The code the integration test sessions share. The sessions attach to
+// Freelens started with `pnpm dev` from a freelensapp/freelens checkout, over
+// the Chrome DevTools Protocol port that script opens, and drive its renderer
+// with Playwright. Its name does not match `*.tests.ts`, so Vitest does not
+// collect it as a test file.
 
 import { spawnSync } from "node:child_process";
+import * as fs from "node:fs";
 import * as path from "node:path";
-import { kindReady } from "../helpers/kind";
-import * as utils from "../helpers/utils";
+import { chromium } from "playwright";
 
-import type { ConsoleMessage, ElectronApplication, Frame, Locator, Page } from "playwright";
+import type { Browser, ConsoleMessage, Frame, Locator, Page } from "playwright";
 
 export const extensionName = "@freelensapp/example-extension";
 
-// The kind cluster the sessions run against, as in Freelens's cluster tests.
+// The root of this checkout, installed in place and read for the manifests.
+const extensionDir = path.resolve(import.meta.dirname, "..", "..");
+
+// The CDP endpoint of Freelens dev: `pnpm dev` of Freelens starts Electron
+// with `--remoteDebuggingPort 9223`.
+const cdpUrl = process.env.FREELENS_CDP_URL || "http://127.0.0.1:9223";
+
+// The log of the main process, which CDP does not carry: the output of
+// `pnpm dev` of Freelens, or its `lens.log`. Without it only the renderer's
+// errors are checked.
+const mainLogFile = process.env.FREELENS_MAIN_LOG;
+
+// The kind cluster the sessions run against.
 export const kindClusterName = process.env.TEST_KIND_CLUSTER_NAME || "kind";
 
 // The namespace of the test objects, created by the fixtures.
@@ -44,183 +57,292 @@ const testObjectName = "test";
 
 const viewTimeout = { timeout: 60 * 1000 };
 
+const ansiEscapePattern = /\u001b\[[0-9;]*m/g;
+
 /**
- * An app started by `startApp`, with the errors that either process logs.
+ * A connection to Freelens dev, with the errors that either process logs.
  */
 export interface AppSession {
-  app: ElectronApplication;
+  browser: Browser;
+  /** The root frame's page, where the catalog, the extensions and the preferences render. */
   window: Page;
   /** The errors logged so far. */
   errors(): string[];
-  /** Closes the app and stops collecting errors; returns every error logged. */
+  /** Stops collecting errors and closes the connection; returns every error logged. */
   close(): Promise<string[]>;
 }
 
 /**
- * Collects the errors of the renderer's console and of the output of the test
- * process, which carries the output of the app.
+ * Whether Freelens dev answers on its CDP endpoint and the kind cluster is
+ * reachable. Outside CI a session skips with a warning otherwise; in CI the
+ * run fails, so that a mistake in the workflow does not turn into a silent
+ * skip.
  */
-function collectErrors() {
-  const errorLogs: string[] = [];
-  const processErrorLogs: string[] = [];
-  const outputErrorPattern = /\[out\]\s*error:/i;
-  const ansiEscapePattern = /\u001b\[[0-9;]*m/g;
-  let processOutputBuffer = "";
-
-  const collectOutputErrors = (chunk: string | Uint8Array) => {
-    const text = typeof chunk === "string" ? chunk : Buffer.from(chunk).toString("utf8");
-    processOutputBuffer += text;
-
-    // Keep buffer bounded while preserving enough tail to match split patterns across chunks.
-    if (processOutputBuffer.length > 200_000) {
-      processOutputBuffer = processOutputBuffer.slice(-20_000);
-    }
-
-    const normalizedOutput = processOutputBuffer.replaceAll(ansiEscapePattern, "");
-
-    if (outputErrorPattern.test(normalizedOutput)) {
-      processErrorLogs.push(normalizedOutput.trim());
-      processOutputBuffer = "";
-    }
-  };
-
-  const logger = (msg: ConsoleMessage) => {
-    const text = msg.text();
-    const normalizedText = text.replaceAll(ansiEscapePattern, "");
-
-    console.log(text);
-
-    // Some app logs are emitted as "log" messages, so inspect both console type and message content.
-    if (msg.type() === "error" || outputErrorPattern.test(normalizedText)) {
-      errorLogs.push(`[${msg.type()}] ${normalizedText}`);
-    }
-  };
-
-  const originalStdoutWrite = process.stdout.write.bind(process.stdout);
-  const originalStderrWrite = process.stderr.write.bind(process.stderr);
-
-  process.stdout.write = ((chunk, encoding, cb) => {
-    collectOutputErrors(chunk);
-
-    return originalStdoutWrite(chunk, encoding as never, cb as never);
-  }) as typeof process.stdout.write;
-
-  process.stderr.write = ((chunk, encoding, cb) => {
-    collectOutputErrors(chunk);
-
-    return originalStderrWrite(chunk, encoding as never, cb as never);
-  }) as typeof process.stderr.write;
-
-  return {
-    logger,
-    errors: () => [...errorLogs, ...processErrorLogs],
-    stop: () => {
-      process.stdout.write = originalStdoutWrite;
-      process.stderr.write = originalStderrWrite;
-    },
-  };
-}
-
-/**
- * Starts the app, with a fresh `FREELENS_INTEGRATION_TESTING_DIR`, and collects
- * the errors either process logs until it is closed.
- */
-export async function startApp(): Promise<AppSession> {
-  const collector = collectErrors();
-  let started: Awaited<ReturnType<typeof utils.start>> | undefined;
+export async function appReady({ cluster }: { cluster: boolean }): Promise<boolean> {
+  let reason: string | undefined;
 
   try {
-    started = await utils.start();
-    started.window.on("console", collector.logger);
-    console.log("await utils.clickWelcomeButton");
-    await utils.clickWelcomeButton(started.window);
+    const response = await fetch(new URL("/json/version", cdpUrl), { signal: AbortSignal.timeout(5000) });
+
+    if (!response.ok) {
+      reason = `${cdpUrl} answered ${response.status}`;
+    }
   } catch (error) {
-    await started?.cleanup();
-    collector.stop();
-    throw error;
+    reason = `Freelens dev does not answer on ${cdpUrl}: ${error instanceof Error ? error.message : error}`;
   }
 
-  const { app, window, cleanup } = started;
+  if (!reason && cluster) {
+    if (spawnSync("kubectl", ["--context", `kind-${kindClusterName}`, "get", "--raw", "/readyz"]).status !== 0) {
+      reason = `the kind cluster ${kindClusterName} is not reachable`;
+    }
+  }
+
+  if (!reason) {
+    return true;
+  }
+
+  if (process.env.CI) {
+    throw new Error(`Cannot run the integration tests: ${reason}`);
+  }
+
+  console.warn(`Skipping the integration tests: ${reason}`);
+
+  return false;
+}
+
+/**
+ * Collects the errors of the renderer's console, of every frame, and the
+ * lines of the main log written after the session started.
+ */
+function collectErrors(window: Page) {
+  const errorLogs: string[] = [];
+  let mainLogOffset = mainLogFile && fs.existsSync(mainLogFile) ? fs.statSync(mainLogFile).size : 0;
+
+  const onConsole = (msg: ConsoleMessage) => {
+    if (msg.type() === "error") {
+      errorLogs.push(`[renderer] ${msg.text().replaceAll(ansiEscapePattern, "")}`);
+    }
+  };
+
+  const onPageError = (error: Error) => {
+    errorLogs.push(`[renderer] ${error.stack ?? error.message}`);
+  };
+
+  // A line of the main log starts with its level, in the file and on the
+  // console alike, after the task prefix that turbo adds to the output of
+  // `pnpm dev` when it streams it (`freelens:dev: `).
+  const readMainLog = () => {
+    if (!mainLogFile || !fs.existsSync(mainLogFile)) {
+      return;
+    }
+
+    const size = fs.statSync(mainLogFile).size;
+
+    // A rotated log starts again from the beginning.
+    if (size < mainLogOffset) {
+      mainLogOffset = 0;
+    }
+
+    if (size === mainLogOffset) {
+      return;
+    }
+
+    const fd = fs.openSync(mainLogFile, "r");
+
+    try {
+      const buffer = Buffer.alloc(size - mainLogOffset);
+
+      fs.readSync(fd, buffer, 0, buffer.length, mainLogOffset);
+      mainLogOffset = size;
+
+      for (const line of buffer.toString("utf8").split("\n")) {
+        const text = line.replaceAll(ansiEscapePattern, "");
+
+        if (/^(?:[\w@/.-]+:[\w:-]+: )?\s*error:/.test(text)) {
+          errorLogs.push(`[main] ${text.trim()}`);
+        }
+      }
+    } finally {
+      fs.closeSync(fd);
+    }
+  };
+
+  window.on("console", onConsole);
+  window.on("pageerror", onPageError);
 
   return {
-    app,
-    window,
-    errors: collector.errors,
-    close: async () => {
-      // Keep listeners active through cleanup to catch late shutdown errors in CI logs.
-      await cleanup();
-      window.off("console", collector.logger);
-      collector.stop();
+    errors: () => {
+      readMainLog();
 
-      return collector.errors();
+      return [...errorLogs];
+    },
+    stop: () => {
+      window.off("console", onConsole);
+      window.off("pageerror", onPageError);
     },
   };
 }
 
-async function clickApplicationMenuItem(app: ElectronApplication, parentId: string, id: string) {
-  await app.evaluate(
-    async ({ app }, { parentId, id }) => {
-      await app.applicationMenu?.getMenuItemById(parentId)?.submenu?.getMenuItemById(id)?.click();
-    },
-    { parentId, id },
-  );
+/**
+ * Connects to Freelens dev and collects the errors either process logs until
+ * the session is closed. Closing a browser connected over CDP closes only the
+ * connection; the app keeps running.
+ */
+export async function connectApp(): Promise<AppSession> {
+  const browser = await chromium.connectOverCDP(cdpUrl);
+
+  try {
+    const window = await rootPage(browser);
+    const collector = collectErrors(window);
+
+    return {
+      browser,
+      window,
+      errors: collector.errors,
+      close: async () => {
+        const errors = collector.errors();
+
+        collector.stop();
+        await browser.close();
+
+        return errors;
+      },
+    };
+  } catch (error) {
+    await browser.close();
+    throw error;
+  }
 }
 
 /**
- * Installs the extension from the Extensions page and waits until it is
- * enabled.
+ * The page of the root frame: `https://renderer.freelens.app`, on the port of
+ * the app's proxy. A cluster renders in an iframe of it, on
+ * `<clusterId>.renderer.freelens.app`.
  */
-export async function installExtension({ app, window }: AppSession) {
-  // Navigate to extensions page
-  console.log("navigate to extensions");
-  await clickApplicationMenuItem(app, process.platform === "darwin" ? "mac" : "file", "navigate-to-extensions");
+async function rootPage(browser: Browser): Promise<Page> {
+  const deadline = Date.now() + viewTimeout.timeout;
 
-  // Trigger extension install: the packed tarball from the workflow, or the
-  // published package when the test runs without one.
-  console.log("await textbox.fill");
-  await window
-    .getByPlaceholder("Name, URL, or path to a package or directory")
-    .fill(process.env.EXTENSION_PATH || extensionName);
-  console.log("await install button click");
-  await window.getByRole("button", { name: "Install", exact: true }).click();
+  while (Date.now() < deadline) {
+    const page = browser
+      .contexts()
+      .flatMap((context) => context.pages())
+      .find((page) => URL.canParse(page.url()) && new URL(page.url()).hostname === "renderer.freelens.app");
 
-  // Expect extension to be listed in installed list and enabled. The status
-  // column reads "Incompatible" if the host refuses `engines.freelens`.
-  console.log("await extensions table row");
-  const row = window.getByTestId("extensions-table").locator("tbody tr", { hasText: extensionName });
-  await row.locator("td").nth(2).getByText("Enabled", { exact: true }).waitFor();
+    if (page) {
+      await page.waitForFunction(() => globalThis.FreelensExtensionApi?.Renderer !== undefined, null, viewTimeout);
 
-  // Dismiss any notifications so a notification still in its enter animation
-  // does not intercept pointer events on the elements behind it.
-  console.log("dismiss notifications");
+      return page;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
+  throw new Error(`No Freelens window on ${cdpUrl}`);
+}
+
+/**
+ * Navigates the root frame with `Renderer.Navigation.navigate` of the
+ * extension API: the application menu, which the packaged-app tests click,
+ * belongs to the main process, which CDP does not reach.
+ */
+async function navigate(window: Page, url: string) {
+  console.log(`navigate to ${url}`);
+  await window.evaluate((url) => {
+    const renderer = globalThis.FreelensExtensionApi.Renderer;
+
+    if (!renderer) {
+      throw new Error("The page has no Renderer API");
+    }
+
+    renderer.Navigation.navigate(url);
+  }, url);
+}
+
+/**
+ * Dismisses the notifications, so that one still in its enter animation does
+ * not intercept pointer events on the elements behind it.
+ */
+async function dismissNotifications(window: Page) {
   const notificationCloseSelector =
     'i[data-testid*="close-notification-for-notification_"], div[class*="close-button-module__closeButton--"][aria-label="Close"]';
+
   for (let attempt = 0; attempt < 10; attempt++) {
     const closeButtons = await window.$$(notificationCloseSelector);
+
     if (closeButtons.length === 0) break;
+
     for (const closeButton of closeButtons) {
       await closeButton.click({ force: true }).catch(() => {});
     }
+
     await window.waitForTimeout(200);
   }
 }
 
 /**
- * Opens the preferences from the application menu, then the extension's tab in
- * the "Extensions" tab group, and waits for the title and the input label of
- * the extension's block. The entry sets no `showInPreferencesTab`, so it is on
- * the page of that tab (`registrator-for-preference-items.injectable.tsx` in
- * Freelens). It does not change the preference.
+ * Uninstalls the extension from the Extensions page, from wherever it was
+ * installed. An extension installed in place is forgotten, its directory
+ * stays.
  */
-export async function openExtensionPreferences({ app, window }: AppSession) {
-  console.log("navigate to preferences");
-  await clickApplicationMenuItem(app, process.platform === "darwin" ? "mac" : "file", "navigate-to-preferences");
+async function uninstallExtension(window: Page, row: Locator) {
+  console.log(`uninstall ${extensionName}`);
+  await row.locator('[id^="menu-actions-for-installed-extensions-for-"]').click();
+  await window.locator(".MenuActions .MenuItem").getByText("Uninstall", { exact: true }).click();
+  await window.getByTestId("confirmation-dialog").getByTestId("confirm").click();
+  await row.waitFor({ state: "detached", ...viewTimeout });
+}
 
-  console.log(`open the preferences tab of ${extensionName}`);
-  await window
-    .locator('[data-preference-tab-group-test="extensions-tab-group"]')
-    .getByRole("tab", { name: extensionName, exact: true })
-    .click(viewTimeout);
+/**
+ * Installs this checkout in place from the Extensions page and waits until it
+ * is enabled. An installation of the checkout that is already enabled is
+ * kept, unless `reinstall` is set; any other installation of the extension is
+ * uninstalled first.
+ */
+export async function installExtension({ window }: AppSession, { reinstall = false } = {}) {
+  await navigate(window, "/extensions");
+
+  const table = window.getByTestId("extensions-table");
+  const row = table.locator("tbody tr", { hasText: extensionName });
+  const enabled = row.locator("td").nth(2).getByText("Enabled", { exact: true });
+
+  // Once the extensions are discovered, the page shows the table, or a notice
+  // in its place when no extension is installed, as in a fresh profile.
+  await table.or(window.getByText("There are no extensions installed.", { exact: true })).waitFor(viewTimeout);
+
+  if (await row.count()) {
+    const inPlace = await row.locator(`[title="Loaded in place from ${extensionDir}"]`).count();
+
+    if (!reinstall && inPlace && (await enabled.count())) {
+      console.log(`${extensionName} is installed from ${extensionDir}`);
+
+      return;
+    }
+
+    await uninstallExtension(window, row);
+  }
+
+  console.log(`install ${extensionDir}`);
+  await window.getByPlaceholder("Name, URL, or path to a package or directory").fill(extensionDir);
+  await window.getByRole("button", { name: "Install", exact: true }).click();
+
+  // A directory is loaded in place only after a confirmation.
+  await window.getByTestId("confirmation-dialog").getByTestId("confirm").click(viewTimeout);
+
+  // The status column reads "Incompatible" if the host refuses
+  // `engines.freelens`.
+  await enabled.waitFor(viewTimeout);
+  await dismissNotifications(window);
+}
+
+/**
+ * Opens the extension's tab in the "Extensions" tab group of the preferences,
+ * and waits for the title and the input label of the extension's block. The
+ * entry sets no `showInPreferencesTab`, so it is on the page of that tab
+ * (`registrator-for-preference-items.injectable.tsx` in Freelens). It does not
+ * change the preference.
+ */
+export async function openExtensionPreferences({ window }: AppSession) {
+  await navigate(window, `/preferences/extension/${sanitizedExtensionId}`);
 
   const page = window.locator(
     `[data-preference-page-test="preference-item-for-extension-${sanitizedExtensionId}-page"]`,
@@ -231,46 +353,124 @@ export async function openExtensionPreferences({ app, window }: AppSession) {
 }
 
 /**
- * Opens the kind cluster from the catalog, selects the namespace of the test
- * objects, and returns the cluster's frame, where the extension's pages, details
- * and menus render.
+ * The catalog id of the kind cluster, looked up by its name.
  */
-export async function openKindCluster({ app, window }: AppSession): Promise<Frame> {
-  console.log("navigate to catalog");
-  await clickApplicationMenuItem(app, "view", "navigate-to-catalog");
-  console.log(`open kind-${kindClusterName}`);
+async function kindClusterId(window: Page): Promise<string> {
+  const id = await window.waitForFunction(
+    (name) =>
+      globalThis.FreelensExtensionApi.Renderer?.Catalog.catalogEntities
+        .getItemsForApiKind("entity.k8slens.dev/v1alpha1", "KubernetesCluster")
+        .find((entity) => entity.getName() === name)
+        ?.getId(),
+    `kind-${kindClusterName}`,
+    viewTimeout,
+  );
 
-  const frame = await utils.launchKindClusterFromCatalog(kindClusterName, window);
+  return id.jsonValue() as Promise<string>;
+}
 
+/**
+ * The phase of the kind cluster in the catalog: `connected`, `connecting`,
+ * `disconnected`.
+ */
+async function kindClusterPhase(window: Page, id: string): Promise<string | undefined> {
+  return window.evaluate(
+    (id) => globalThis.FreelensExtensionApi.Renderer?.Catalog.catalogEntities.getById(id)?.status.phase,
+    id,
+  );
+}
+
+/**
+ * Disconnects the kind cluster if it is connected, and waits until it is
+ * disconnected. The app reads which versions of a CRD are served when it
+ * connects, so a session that changes the CRDs starts and ends with a
+ * disconnected cluster. Only the kind cluster is touched; the app may have
+ * others.
+ */
+export async function disconnectKindCluster({ window }: AppSession) {
+  const id = await kindClusterId(window);
+
+  if ((await kindClusterPhase(window, id)) === "disconnected") {
+    return;
+  }
+
+  console.log(`disconnect kind-${kindClusterName}`);
+  await navigate(window, "/catalog");
+  await window.evaluate(async (id) => {
+    const entity = globalThis.FreelensExtensionApi.Renderer?.Catalog.catalogEntities.getById(id);
+
+    if (!entity || !("disconnect" in entity) || typeof entity.disconnect !== "function") {
+      throw new Error(`The catalog has no cluster ${id}`);
+    }
+
+    await entity.disconnect();
+  }, id);
+  await window.waitForFunction(
+    (id) =>
+      globalThis.FreelensExtensionApi.Renderer?.Catalog.catalogEntities.getById(id)?.status.phase === "disconnected",
+    id,
+    viewTimeout,
+  );
+}
+
+/**
+ * Connects the kind cluster, selects the namespace of the test objects, and
+ * returns the cluster's frame, where the extension's pages, details and menus
+ * render.
+ */
+export async function openKindCluster({ window }: AppSession): Promise<Frame> {
+  const id = await kindClusterId(window);
+
+  await navigate(window, `/cluster/${id}`);
+
+  const element = await window.waitForSelector(`#cluster-frame-${id}`, viewTimeout);
+  const frame = await element.contentFrame();
+
+  if (!frame) {
+    throw new Error(`No iframe for kind-${kindClusterName}`);
+  }
+
+  await frame.waitForSelector("[data-testid=cluster-sidebar]", viewTimeout);
   await selectTestNamespace(frame);
 
   return frame;
 }
 
 /**
+ * Clicks a sidebar item of the cluster frame. The entries navigate in their
+ * `onClick`, and a dispatched click reaches it even while the cluster overview
+ * re-lays out over the click point (`clickSidebarItem` in Freelens's
+ * integration helpers).
+ */
+async function clickSidebarItem(frame: Frame, testId: string) {
+  await frame.dispatchEvent(`[data-testid="${testId}"]`, "click");
+}
+
+/**
  * Selects the namespace of the test objects in the namespace filter of the
  * extension's page, which its `KubeObjectListLayout` renders for a namespaced
- * resource. A new cluster shows only `default`, and the selection holds for
- * every namespaced list of the cluster. The session opens no page of the host,
- * whose requests can log errors of their own: the Pods page asks for pod
- * metrics, and kind has no metrics server.
+ * resource. The selection holds for every namespaced list of the cluster, and
+ * the app keeps it, so it is made only when the filter shows another one. The
+ * session opens no page of the host, whose requests can log errors of their
+ * own: the Pods page asks for pod metrics, and kind has no metrics server.
  */
 async function selectTestNamespace(frame: Frame) {
-  console.log(`select namespace ${testNamespace}`);
   await frame.waitForSelector(`[data-testid="${pageLinkTestId}"]`, viewTimeout);
-  await utils.clickSidebarItem(frame, pageLinkTestId);
+  await clickSidebarItem(frame, pageLinkTestId);
 
+  const label = frame.locator(".NamespaceSelect").getByText(`Namespace: ${testNamespace}`, { exact: true });
   const namespaceSelect = await frame.waitForSelector(".NamespaceSelect", viewTimeout);
 
+  if (await label.count()) {
+    return;
+  }
+
+  console.log(`select namespace ${testNamespace}`);
   await namespaceSelect.click();
   await namespaceSelect.type(testNamespace);
   await namespaceSelect.press("Enter");
   await namespaceSelect.click();
-
-  await frame
-    .locator(".NamespaceSelect")
-    .getByText(`Namespace: ${testNamespace}`, { exact: true })
-    .waitFor(viewTimeout);
+  await label.waitFor(viewTimeout);
 }
 
 /**
@@ -304,49 +504,6 @@ function kubectl(...args: string[]): string {
 }
 
 /**
- * A path in the checkout of the extension, which `EXTENSION_DIR` names: the
- * tests run inside a Freelens checkout.
- */
-function fromExtensionDir(...segments: string[]) {
-  const extensionDir = process.env.EXTENSION_DIR;
-
-  if (!extensionDir) {
-    throw new Error("EXTENSION_DIR is not set");
-  }
-
-  return path.join(extensionDir, ...segments);
-}
-
-/**
- * Whether a session can run: `EXTENSION_DIR` is set and the kind cluster is
- * reachable. Outside CI a session skips with a warning otherwise; in CI the run
- * fails, so that a mistake in the workflow does not turn into a silent skip.
- */
-export function clusterReady(): boolean {
-  let reason: string | undefined;
-
-  if (!process.env.EXTENSION_DIR) {
-    reason = "EXTENSION_DIR is not set";
-  } else if (!kindReady(kindClusterName, testNamespace)) {
-    reason = `the kind cluster ${kindClusterName} is not running`;
-  } else if (spawnSync("kubectl", ["--context", `kind-${kindClusterName}`, "get", "--raw", "/readyz"]).status !== 0) {
-    reason = `the kind cluster ${kindClusterName} is not reachable`;
-  }
-
-  if (!reason) {
-    return true;
-  }
-
-  if (process.env.CI) {
-    throw new Error(`Cannot run the cluster tests: ${reason}`);
-  }
-
-  console.warn(`Skipping the cluster tests: ${reason}`);
-
-  return false;
-}
-
-/**
  * Removes what an earlier run left, then applies the CRD of the API version
  * and, once it is established, the test objects.
  */
@@ -354,9 +511,9 @@ export function setUpCluster(version: string) {
   kubectl("delete", "namespace", testNamespace, "--ignore-not-found", "--wait");
   kubectl("delete", "crd", crdName, "--ignore-not-found", "--wait");
 
-  kubectl("apply", "-k", fromExtensionDir("examples", version, "crds"));
+  kubectl("apply", "-k", path.join(extensionDir, "examples", version, "crds"));
   kubectl("wait", "--for=condition=Established", `crd/${crdName}`, "--timeout=120s");
-  kubectl("apply", "-k", fromExtensionDir("integration", "fixtures", version));
+  kubectl("apply", "-k", path.join(extensionDir, "integration", "fixtures", version));
 }
 
 /**
@@ -364,9 +521,15 @@ export function setUpCluster(version: string) {
  */
 export function tearDownCluster(version: string) {
   try {
-    kubectl("delete", "-k", fromExtensionDir("integration", "fixtures", version), "--ignore-not-found", "--wait");
+    kubectl(
+      "delete",
+      "-k",
+      path.join(extensionDir, "integration", "fixtures", version),
+      "--ignore-not-found",
+      "--wait",
+    );
   } finally {
-    kubectl("delete", "-k", fromExtensionDir("examples", version, "crds"), "--ignore-not-found", "--wait");
+    kubectl("delete", "-k", path.join(extensionDir, "examples", version, "crds"), "--ignore-not-found", "--wait");
   }
 }
 
@@ -388,7 +551,7 @@ async function closeDetails(frame: Frame) {
  */
 export async function openListPage(frame: Frame): Promise<Locator> {
   await frame.waitForSelector(`[data-testid="${pageLinkTestId}"]`, viewTimeout);
-  await utils.clickSidebarItem(frame, pageLinkTestId);
+  await clickSidebarItem(frame, pageLinkTestId);
   await closeDetails(frame);
 
   const row = frame

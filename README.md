@@ -218,6 +218,37 @@ and, for the formats that Biome does not cover:
 pnpm trunk:check
 ```
 
+### Integration tests
+
+The integration tests drive Freelens dev, started from a
+[freelensapp/freelens](https://github.com/freelensapp/freelens) checkout,
+against a [kind](https://kind.sigs.k8s.io/) cluster. In the Freelens checkout:
+
+```sh
+pnpm dev
+```
+
+Then, with a kind cluster running, in the extension repository:
+
+```sh
+pnpm build
+pnpm test:integration
+```
+
+The tests install the checkout in place, replacing any other installation of
+the extension in Freelens dev. They delete the `examples.example.freelens.app`
+CRD, and with it every `Example`, so use a kind cluster with nothing worth
+keeping. Without Freelens dev or the cluster the tests are skipped.
+
+Optional variables:
+
+- `TEST_KIND_CLUSTER_NAME`: the kind cluster, `kind` by default, used
+  through the context `kind-<name>`.
+- `FREELENS_CDP_URL`: the CDP endpoint of Freelens dev,
+  `http://127.0.0.1:9223` by default.
+- `FREELENS_MAIN_LOG`: a log of the main process to check for errors, such
+  as its `lens.log`. Without it only the renderer's errors are checked.
+
 ### Testing the extension with unpublished Freelens
 
 In the Freelens working repository:
