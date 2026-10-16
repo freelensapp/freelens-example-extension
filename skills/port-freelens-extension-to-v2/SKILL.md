@@ -28,22 +28,24 @@ with `gh`, which returns their source, as in step 1.
 | [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template | The build, type-check, test, lint and CI patterns of a v2 extension, each with its reason, and "Rules That Fail Silently". |
 | [`README.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/README.md) of the template | Installing an extension in Freelens and the development loop. |
 | [The source tree](https://github.com/freelensapp/freelens-example-extension/tree/main) of the template | The worked example of a v2 extension. |
-| [freelensapp/freelens-example-extension#326](https://github.com/freelensapp/freelens-example-extension/issues/326) | The plan of a v2 migration, written as a template for other extensions. |
-| [freelensapp/freelens-example-extension#327](https://github.com/freelensapp/freelens-example-extension/issues/327) | A feature issue: the port of one feature, the `Example` CRD. |
+| [`references/migration-issue.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/skills/port-freelens-extension-to-v2/references/migration-issue.md) | The template of the migration issue: the plan of a v2 migration, with the project-specific sections to fill in. |
+| [freelensapp/freelens-example-extension#326](https://github.com/freelensapp/freelens-example-extension/issues/326) | The same plan carried out for the template: a worked example of a completed migration issue, with its findings. |
+| [freelensapp/freelens-example-extension#327](https://github.com/freelensapp/freelens-example-extension/issues/327) | A worked example of a feature issue: the port of one feature, the `Example` CRD. |
 | [freelensapp/freelens-example-extension#336](https://github.com/freelensapp/freelens-example-extension/pull/336) | The pull request that ported that feature, with its functional checks. |
 
 ## 1. Plan the port in two kinds of issue
 
 Open both in the extension's own repository.
 
-**The migration issue**, a copy of #326, covers the extension itself: manifest,
-build, TypeScript layout, tests, CI, documentation and the components its
-features share. Copy the source of the body, which keeps the HTML comments the
-rendered page drops:
-
-```sh
-gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq .body
-```
+**The migration issue** covers the extension itself: manifest, build,
+TypeScript layout, tests, CI, documentation and the components its features
+share. Its body is the template
+[`references/migration-issue.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/skills/port-freelens-extension-to-v2/references/migration-issue.md)
+of this skill, next to this file. Copy it as it is; its sections marked
+**(generic)** stay as written, and every item starts unticked.
+freelensapp/freelens-example-extension#326 is the same plan carried out for
+the template itself: read it for what a filled-in inventory, a step report
+and a finding look like, not to copy it.
 
 - Check the pin of "Source of truth" first. It is never older than what this
   skill and the documents it links to require. The "HTTP and cluster access"
@@ -54,39 +56,19 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   `@freelensapp/extensions@2.0.0-0-nightly-2026-10-15`, and a declaration
   without them does not type-check the step that uses them. The template's own
   `package.json` names the nightly the template is checked against; a pin older
-  than that is a sign. When the pin is older, move it in the copy to the
+  than that is a sign. When the pin is older, move it in the issue to the
   nightly that has what the port needs and to the commit that nightly was built
   from, with the versions of "Stack alignment" as Freelens has them there,
-  record the move under "Findings" of the copy, and report the stale pin to
+  record the move under "Findings" of the issue, and report the stale pin to
   freelensapp/freelens-example-extension. The check applies until Freelens
   2.0.0 is released; from then on the port takes the released
   `@freelensapp/extensions` from npm rather than a nightly.
-- Copy the sections marked **(generic)**, including their findings, which
-  every later port inherits, though not in the body, as the next item says.
-  They also carry the template's own results, so that #326 stays a worked
-  example; the "Copying" note at the top of #326 names them, and the copy drops
-  them or replaces them with its own:
-  - the text marked "here:", such as the v1 workaround that step 2 names and
-    the step prefix and feature issue of "Rules for the CI agent";
-  - the notes in parentheses after a ticked item, such as the results of
-    "Validation by maintainers";
-  - the "Done in" notes.
-- Put the inherited findings into the first comment of the migration issue.
-  GitHub refuses an issue body over 65,536 characters; the body of #326 alone
-  comes close, and a copy with a real inventory, decisions and functional
-  checks goes past it. Open the issue with a "Findings" section that says the
-  inherited findings are in the first comment and keeps only the findings of
-  this migration, empty at first, then post the inherited entries as that
-  comment. It opens with a heading and a sentence saying that the findings come
-  from freelensapp/freelens-example-extension#326, followed by the entries as
-  #326 has them, with two changes: their short references (`#372`, `#327`,
-  ...) are written as `freelensapp/freelens-example-extension#372`, as the
-  item about short references below says, and the Claude handle stays split.
-  New findings go into the body, as #326 records its own.
-- Untick every item of the plan and the validation.
-- Rewrite the sections marked **(project-specific)** for this extension:
+- Fill in every `(to fill in: ...)` placeholder, so that none is left when the
+  issue is opened. They are the sections marked **(project-specific)**:
   "Inventory" (every v1 construct in the repository, with its v2 requirement
-  and the API symbols to check), "Functional checks" and "Decisions".
+  and the API symbols to check), "Functional checks" and "Decisions", and the
+  feature issues of the template note. The findings of earlier ports are
+  already folded into the generic sections; "Findings" starts empty.
 - In "Inventory", answer in its "HTTP and cluster access" row how the
   extension makes HTTP requests and how it reaches a cluster, in main and in
   the renderer, with "none" when it does neither. A v1 client still works in
@@ -106,25 +88,27 @@ gh issue view 326 --repo freelensapp/freelens-example-extension --json body --jq
   - kubectl or helm: the host's, through `Main.Shell` (C15): the paths of
     `getKubectlPath` and `getHelmPath`, run with `getEnvironment` as the
     environment, not a binary found by name or given the raw kubeconfig.
-- "Decisions" settles at least the version of the extension, the integration
-  test ref, and how the port lands: in one PR, or in stages on a branch that
-  nothing is released from, as the template's port landed on `main`; and how
-  its pull requests are merged (squash, merge commit or rebase), which "Rules
-  for the CI agent" refers to rather than assumes.
+- "Decisions" settles at least the version of the extension, its integration
+  tests (kept on the template's pattern, with the Freelens ref they run
+  against, or none; "Integration tests" below), and how the port lands: in one
+  PR, or in stages on a branch that nothing is released from, as the
+  template's port landed on `main`; and how its pull requests are merged
+  (squash, merge commit or rebase), which "Rules for the CI agent" refers to
+  rather than assumes.
 - A short reference such as `#328` resolves in the repository it is written
-  in. In the copy, write the template's issues and pull requests as
-  `freelensapp/freelens-example-extension#328`, and replace #327 with the
-  extension's own feature issues.
-- Keep the Claude handle split as `@<!-- -->claude` wherever the body or the
-  comment of the inherited findings names it: an issue whose body contains the
-  handle starts the Claude workflow when it is opened, and so does a comment
-  that contains it, in a repository that has one.
+  in. The template writes the issues and pull requests of
+  freelensapp/freelens-example-extension in full; write any that the issue
+  adds the same way.
+- Keep the Claude handle split as `@<!-- -->claude`, as the template has it:
+  an issue whose body contains the handle starts the Claude workflow when it
+  is opened, and so does a comment that contains it, in a repository that has
+  one.
 
 **One feature issue per feature.** Each lists its scope, the v1 constructs and
 API symbols it uses, its steps with a prefix of its own (`E1`, `E2`, ...) and
 its functional checks. Keeping the features out of the migration issue keeps
-that issue reusable as a template; its "Rules for the CI agent" say how the two
-are worked on together. Two kinds of feature have a pattern:
+that issue to what every extension has; its "Rules for the CI agent" say how
+the two are worked on together. Two kinds of feature have a pattern:
 
 - **A custom resource**, with its models, pages, details and menu items, or
   another view of the extension, as #327 is for the `Example` CRD. Its steps
@@ -143,7 +127,7 @@ are worked on together. Two kinds of feature have a pattern:
     development loop" in `migrating-from-v1.md`), and a server still bound to
     its port or a child process left running survives it;
   - HTTP and cluster access, as the "HTTP and cluster access" row of the
-    inventory in #326 gives them;
+    migration issue's inventory gives them;
   - a spawned kubectl or helm through `Main.Shell` (C15), and a shipped
     executable after `binaries.md`.
 
@@ -268,8 +252,11 @@ Work on the extension, never around Freelens:
   and recorded under "Findings" and "Upstream work item" of the migration issue.
   It is not worked around silently in the extension, with `as any`,
   `globalThis.require` or a reach into the host's internals.
-- A gap in the template is reported to
-  [freelensapp/freelens-example-extension](https://github.com/freelensapp/freelens-example-extension/issues).
+- A finding of the migration issue that applies to any port, and any other gap
+  in the template, is reported to
+  [freelensapp/freelens-example-extension](https://github.com/freelensapp/freelens-example-extension/issues),
+  so that `references/migration-issue.md` or the template's files are changed
+  for the ports after this one.
 
 ## 5. Verify
 

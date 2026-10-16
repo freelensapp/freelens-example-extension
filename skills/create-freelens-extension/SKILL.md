@@ -202,8 +202,10 @@ resources, one file per API version.
   new repository and its owner. Drop the "Agent Skills" section, which is about
   this skill.
 - `skills/create-freelens-extension/SKILL.md`,
-  `skills/port-freelens-extension-to-v2/SKILL.md`: these skills. Remove the
-  `skills/` directory from the copy.
+  `skills/port-freelens-extension-to-v2/SKILL.md`,
+  `skills/port-freelens-extension-to-v2/references/migration-issue.md`: these
+  skills and the template of the migration issue. Remove the `skills/`
+  directory from the copy.
 
 ### Workflows tied to the repository
 
