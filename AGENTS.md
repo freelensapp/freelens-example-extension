@@ -784,9 +784,11 @@ tests included, which no build reaches, and a type error shows as its own
 failed check rather than as a failed build. `check.yaml` builds without the
 type check for the same reason, so it does not run twice.
 
-The integration tests run in this repository, under its own Vitest
-(`vitest.integration.config.ts`, `pnpm test:integration`), against Freelens
-started with `pnpm dev` from a freelensapp/freelens checkout. They attach to
+The integration tests are a pattern for other extensions to copy, not part of
+the extension API contract; an extension may leave them out. They run in this
+repository, under its own Vitest (`vitest.integration.config.ts`,
+`pnpm test:integration`), against Freelens started with `pnpm dev` from a
+freelensapp/freelens checkout. They attach to
 it with Playwright's `chromium.connectOverCDP` on the port that script opens
 (see "Checking the Extension in Freelens Dev"), so they need no package of
 Freelens and no file of its checkout; Freelens dev is the only dependency, and

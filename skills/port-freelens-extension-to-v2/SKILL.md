@@ -304,3 +304,22 @@ item in "Validation by maintainers" says so. Then tick the functional checks of
 the migration issue and of each feature issue.
 To run these checks through an agent attached to Freelens dev, follow
 "Checking the Extension in Freelens Dev" in the template's `AGENTS.md`.
+
+### Integration tests
+
+Integration tests are a pattern of the template, not a contract of the
+extension API: a port may keep them, add them or leave them out. The preferred
+way is the template's: Vitest in the extension's own repository, driving
+Freelens dev, which `pnpm dev` of a freelensapp/freelens checkout starts, with
+Playwright attached over CDP ("Workflows" in the template's `AGENTS.md`). v1
+tests that run inside a Freelens checkout, under its Vitest, with its
+`helpers/` and a packaged app started through `_electron`, are rewritten onto
+the template's `integration/` rather than ported as they are.
+
+An extension with custom resources can also take the kubectl pattern of the
+template's CRD sessions, which apply a CRD and its test objects to a kind
+cluster and delete them again. Such tests are destructive: they delete the CRD
+and every object of it on the cluster, and they install the checkout in the
+Freelens dev profile in place of any other installation of the extension. Run
+them in a sandbox: a kind cluster with nothing worth keeping, named in every
+kubectl call, never a shared or production context, and a fresh profile in CI.

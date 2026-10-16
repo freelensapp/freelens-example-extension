@@ -100,7 +100,8 @@ the same kind.
   `.github/workflows/type-check.yaml`, `.github/workflows/check.yaml`,
   `.github/workflows/unit-tests.yaml`, `.github/workflows/trunk-check.yaml`,
   `.github/workflows/mise-lock-check.yaml`,
-  `.github/workflows/integration-tests.yaml`.
+  `.github/workflows/integration-tests.yaml` (removed with the integration
+  tests, "4. Verify").
 
 ### Keep, then adapt
 
@@ -126,10 +127,10 @@ the same kind.
   input and hint. Adapt them to the store, or remove them with it.
 - `src/renderer/icons/index.ts`: re-exports the icons; point it at the new
   ones.
-- `integration/__tests__/extensions.tests.ts`: keep it. The test installs the
-  checkout in place in Freelens dev, opens its preferences page, and fails on
-  any error either process logs. Remove the preferences test if the extension
-  has no `appPreferences`.
+- `integration/__tests__/extensions.tests.ts`: keep it with the integration
+  tests ("4. Verify"). The test installs the checkout in place in Freelens
+  dev, opens its preferences page, and fails on any error either process logs.
+  Remove the preferences test if the extension has no `appPreferences`.
 - `integration/__tests__/extension-helpers.ts`: the code the integration test
   sessions share. Set `extensionName` to the new package name,
   `preferencesTitle` and `preferencesInputLabel` to the extension's
@@ -274,6 +275,22 @@ menu item and preference the extension registers, and check that neither the
 renderer's DevTools console nor the terminal running Freelens shows an error.
 To run these checks through an agent attached to Freelens dev, follow
 "Checking the Extension in Freelens Dev" in the template's `AGENTS.md`.
+
+The integration tests are a pattern of the template, not a contract of the
+extension API. Keep them, or remove them as a whole: `integration/`,
+`vitest.integration.config.ts`, `.github/workflows/integration-tests.yaml`, the
+`playwright` devDependency, the `test:integration` and
+`type:check:integration` scripts, and their entries in `knip.jsonc`. Kept, they
+are the preferred way to test the extension in Freelens: Freelens dev, which
+`pnpm dev` of a freelensapp/freelens checkout starts, driven with Playwright
+over CDP, and run with `pnpm test:integration` ("Workflows" in `AGENTS.md`).
+
+The CRD sessions add a kubectl pattern for custom resources, which is
+destructive: it deletes the CRD and every object of it on the cluster, and the
+sessions install the checkout in the Freelens dev profile in place of any other
+installation of the extension. Run them in a sandbox: a kind cluster with
+nothing worth keeping, named in every kubectl call, never a shared or
+production context, and a fresh profile in CI.
 
 A gap or an error in the Freelens documents or in `@freelensapp/extensions` is
 reported to [freelensapp/freelens](https://github.com/freelensapp/freelens/issues),
