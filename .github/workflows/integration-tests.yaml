@@ -97,12 +97,38 @@ jobs:
         if: steps.build-plugin-2.outcome == 'failure'
         run: pnpm build
 
+      # Cache the .deb archives and package lists that `playwright install-deps`
+      # downloads through apt, so re-runs reuse them instead of re-downloading.
+      # apt is pointed at this project-local directory via a global config file
+      # written in the install step below.
+      - name: Use APT cache
+        uses: actions/cache@v6
+        with:
+          path: .apt
+          key: ubuntu-24.04-arm-apt-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ubuntu-24.04-arm-apt-
+
       # The tests attach to Electron's own Chromium over CDP, so Playwright's
       # browsers are never downloaded. `install-deps` still apt-installs the
       # shared libraries that Chromium (and thus Electron) needs to launch
-      # under xvfb.
+      # under xvfb. It runs the playwright that pnpm-lock.yaml pins.
       - name: Install Playwright's OS dependencies
-        run: pnpm exec playwright install-deps chromium
+        run: |
+          set -eo pipefail
+          # `playwright install-deps` runs its own `apt-get update`/`install`,
+          # so the archive/list redirect has to be a global apt config file it
+          # picks up rather than per-invocation `-o` flags. dpkg's status stays
+          # at the system default, so packages still install into the runner.
+          mkdir -p .apt/cache/archives/partial .apt/state/lists/partial
+          sudo tee /etc/apt/apt.conf.d/00freelens-cache >/dev/null <<EOF
+          Dir::Cache::archives "$PWD/.apt/cache/archives";
+          Dir::State::lists "$PWD/.apt/state/lists";
+          EOF
+          pnpm exec playwright install-deps chromium
+          # apt ran as root, so hand the cache dir back to the runner user for
+          # the cache-save post step to read.
+          sudo chown -R "$(id -u):$(id -g)" .apt
 
       - name: Checkout app
         uses: actions/checkout@v7
@@ -126,21 +152,27 @@ jobs:
           electron_version=$(yq ea -r '[.importers.freelens.devDependencies.electron.version | select(. != null)] | .[0] // error("electron not found in pnpm-lock.yaml") | split("(") | .[0]' freelens/pnpm-lock.yaml)
           echo "electron_version=${electron_version}" >> ${GITHUB_ENV}
 
-      # The electron package downloads the Electron zip into the OS-default
-      # Electron cache dir on install.
-      - name: Use Electron cache
-        uses: actions/cache@v6
+      # install-electron downloads the Electron zip into the OS-default
+      # Electron cache dir. Restored here and saved explicitly right after the
+      # "Install Electron binary" step below, instead of the combined
+      # actions/cache action: that action's save only runs in a post-job step,
+      # which is skipped once a later step in the job fails, and the cache
+      # would then stay empty.
+      - name: Restore Electron cache
+        id: electron-cache-restore
+        uses: actions/cache/restore@v6
         with:
           path: ~/.cache/electron
           key: ubuntu-24.04-arm-electron-${{ env.electron_version }}
           restore-keys: |
             ubuntu-24.04-arm-electron-
 
+      # The same files as in Freelens's own integration tests workflow.
       - name: Use Turborepo cache
         uses: actions/cache@v6
         with:
           path: ${{ env.TURBOREPO_CACHE }}
-          key: ubuntu-24.04-arm-turborepo-${{ hashFiles('freelens/**/package.json', 'freelens/**/pnpm-lock.yaml', 'freelens/turbo.json') }}
+          key: ubuntu-24.04-arm-turborepo-${{ hashFiles('freelens/package.json', 'freelens/freelens/package.json', 'freelens/packages/**/package.json', 'freelens/pnpm-lock.yaml', 'freelens/turbo.json', 'freelens/tsconfig*.json', 'freelens/packages/infrastructure/typescript/config/*.json') }}
           restore-keys: |
             ubuntu-24.04-arm-turborepo-
 
@@ -158,6 +190,28 @@ jobs:
         run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+
+      # The electron package does not download its binary on install. The
+      # `predev` script of Freelens runs install-electron, and a
+      # `require("electron")` without the binary downloads it, printing a line
+      # on stdout before the path. Installed here, the binary is there for the
+      # sandbox setup below, and `predev` finds it in place.
+      # install.js passes the checksums of the electron package to
+      # @electron/get, so no SHASUMS256.txt is downloaded and the cache needs
+      # no seeding.
+      - name: Install Electron binary
+        working-directory: freelens/freelens
+        run: pnpm exec install-electron
+
+      # Skipped on an exact cache hit, where actions/cache/save would only warn
+      # that it cannot reserve the key; saved on a miss or a restore-key hit,
+      # also when the install above failed after the download.
+      - name: Save Electron cache
+        if: always() && steps.electron-cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ~/.cache/electron
+          key: ${{ steps.electron-cache-restore.outputs.cache-primary-key }}
 
       # kubectl and freelens-k8s-proxy, which the app needs to connect to a
       # cluster. `pnpm dev` does not download them.
