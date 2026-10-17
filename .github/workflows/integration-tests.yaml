@@ -176,6 +176,20 @@ jobs:
           restore-keys: |
             ubuntu-24.04-arm-turborepo-
 
+      # The binaries that ensure-binaries downloads in "Build extra resources",
+      # which Turborepo does not cache (see "Bundled Binary Versions" in
+      # Freelens's AGENTS.md). The build hashes every restored binary against
+      # the lock and downloads it again on a mismatch. Saved right after that
+      # step, as in Freelens's own integration tests workflow.
+      - name: Restore bundled binaries cache
+        id: binaries-cache-restore
+        uses: actions/cache/restore@v6
+        with:
+          path: freelens/freelens/binaries
+          key: ubuntu-24.04-arm-binaries-${{ hashFiles('freelens/freelens/binaries.lock.json') }}
+          restore-keys: |
+            ubuntu-24.04-arm-binaries-
+
       - name: Install pnpm dependencies for app
         id: install-pnpm-app
         working-directory: freelens
@@ -232,6 +246,13 @@ jobs:
         if: steps.build-resources-2.outcome == 'failure'
         working-directory: freelens
         run: pnpm --color=always build:resources
+
+      - name: Save bundled binaries cache
+        if: steps.binaries-cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: freelens/freelens/binaries
+          key: ${{ steps.binaries-cache-restore.outputs.cache-primary-key }}
 
       - name: Start KinD cluster
         uses: helm/kind-action@v1

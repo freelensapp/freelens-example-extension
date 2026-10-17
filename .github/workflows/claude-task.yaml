@@ -116,6 +116,17 @@ jobs:
           restore-keys: |
             ${{ env.RUNS_ON }}-turborepo-
 
+      # Turborepo does not cache the binaries that ensure-binaries downloads,
+      # see "Bundled Binary Versions" in Freelens's AGENTS.md. The build hashes
+      # every restored binary against the lock, so the cache is safe to use.
+      - name: Use bundled binaries cache
+        uses: actions/cache@v6
+        with:
+          path: tmp/freelens/freelens/binaries
+          key: ${{ runner.os }}-${{ runner.arch }}-binaries-${{ hashFiles('tmp/freelens/freelens/binaries.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-binaries-
+
       - name: Install pnpm dependencies
         id: install-pnpm
         working-directory: tmp/freelens
