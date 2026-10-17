@@ -640,12 +640,16 @@ jobs:
         id: install-pnpm
         shell: bash
         run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
         continue-on-error: true
 
       - name: Install pnpm dependencies (retry)
         if: steps.install-pnpm.outcome == 'failure'
         shell: bash
         run: timeout 300 pnpm install --color=always --prefer-offline --frozen-lockfile
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
 
       - name: Download PowerShell script
         uses: actions/download-artifact@v8
