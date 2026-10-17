@@ -266,7 +266,9 @@ jobs:
       # 9223. It keeps running in the background for the next steps; its output
       # is the main log the tests read. FREELENS_INTEGRATION_TESTING_DIR gives
       # it a fresh profile; the app accepts it only under the system's temporary
-      # directory. Electron's sandbox helper needs to be setuid root.
+      # directory. The profile still syncs ~/.kube, where kind-action wrote the
+      # kubeconfig of the cluster. Electron's sandbox helper needs to be setuid
+      # root.
       - name: Start Freelens dev
         working-directory: freelens
         run: |

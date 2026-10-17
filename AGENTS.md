@@ -422,6 +422,14 @@ mechanism; this is the list to check a change against.
   hand them to the callback, or make the component a function component
   ("MobX 7 and mobx-react 10 (standard decorators only)" in Freelens's
   `migrating-from-v1.md`).
+- **A memo over a store's items is keyed on something that changes with
+  them.** The host keeps one observable array per store and updates it in
+  place, with `replace` and `splice`, so `store.items` stays the same array
+  while the objects in it change. A `useMemo` keyed on it, or on a prop that
+  holds it, is computed once, and an open view keeps the objects it was opened
+  with. An `observer` that reads the items while it renders follows them; a
+  memo needs a key such as the ids and `resourceVersion`s of the objects. It
+  shows only on a cluster whose objects change while the view is open.
 - **Every page, details panel and menu item inside an error boundary.** A
   `try`/`catch` around the call of a component catches only what the call
   throws, not what a child throws when React renders it or what a callback of
@@ -796,7 +804,9 @@ it is not in `package.json`. `playwright` is a devDependency at the version of
 Freelens's catalog. The workflow builds the extension, checks out Freelens,
 starts `pnpm dev` there in the background under `xvfb-run`, with its output in
 a file and a fresh profile in `FREELENS_INTEGRATION_TESTING_DIR`, waits until
-the CDP endpoint answers, and runs `pnpm test:integration` here. Every test
+the CDP endpoint answers, and runs `pnpm test:integration` here. The fresh
+profile still syncs `~/.kube` of the runner, where `helm/kind-action` writes
+the kubeconfig of the kind cluster, and that is how the app finds it. Every test
 file is a session of its own on the one app, and fails on any error logged by
 either process:
 
@@ -888,7 +898,8 @@ which is apart from that of an installed Freelens: they navigate its window,
 leave this checkout installed in place, uninstalling another installation of
 the extension, and leave the kind cluster disconnected, with the namespace
 filter set to `integration-tests`. They touch no other cluster of the
-catalog. A run deletes the CRD `examples.example.freelens.app`, and with it
+catalog, which lists every context of the developer's kubeconfig (see
+"Checking the Extension in Freelens Dev"). A run deletes the CRD `examples.example.freelens.app`, and with it
 every `Example` on the cluster: run it only against a kind cluster with
 nothing worth keeping.
 
@@ -909,6 +920,18 @@ Without the MCP server, or until that new session, a script with
 devDependency, does the same, as the integration tests do. `browser.close()`
 of such a browser closes only the connection; the app belongs to Freelens and
 keeps running.
+
+Freelens dev lists every context of the developer's own kubeconfig,
+production clusters included, one click away from an agent that drives the
+UI. The folder it syncs by default is `~/.kube` of the user that runs it,
+taken from the system's user database (`os.userInfo().homedir`), not from
+`HOME`. `FREELENS_INTEGRATION_TESTING_DIR`, which the app accepts only under
+the system's temporary directory, moves the user data and Freelens's own home
+directory, but not that folder. To keep a session to the test cluster, start
+Freelens with such a directory and, in "Kubeconfig Syncs" of the Kubernetes
+preferences of that fresh profile, replace the synced `~/.kube` with the
+kubeconfig of the test cluster alone; or run Freelens as a user whose home
+holds only that kubeconfig.
 
 ### Installing the checkout
 
