@@ -128,6 +128,16 @@ the two are worked on together. Two kinds of feature have a pattern:
     its port or a child process left running survives it;
   - HTTP and cluster access, as the "HTTP and cluster access" row of the
     migration issue's inventory gives them;
+  - the channel between the renderer and main: IPC (`Main.Ipc.handle` and
+    `Renderer.Ipc.invoke`) for short request/response exchanges, and a local
+    HTTP server for a stream or the bulk of the traffic. The extension API has
+    no send to a single frame: `Ipc.broadcast` reaches every frame of every
+    window, so per-cluster data sent that way reaches the frames of other
+    clusters, while an HTTP request gives each frame a stream of its own. A
+    secret such as the server's bearer token goes over `invoke`, not into an
+    `ExtensionStore`, which the host syncs to every frame and saves to disk,
+    and which keeps a key once saved. freelensapp/freelens-for-claude-extension#106
+    hands its bridge token over that way;
   - a spawned kubectl or helm through `Main.Shell` (C15), and a shipped
     executable after `binaries.md`.
 
