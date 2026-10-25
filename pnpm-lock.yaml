@@ -168,7 +168,7 @@ importers:
     devDependencies:
       '@freelensapp/extensions':
         specifier: 2.0.0-0-nightly-2026-10-17
-        version: 2.0.0-0-nightly-2026-10-17(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(electron@43.8.0(supports-color@8.1.1))(mobx-react@10.0.2(mobx@7.0.6)(react@19.3.1))(mobx@7.0.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@8.1.1)
+        version: 2.0.0-0-nightly-2026-10-17(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(electron@44.9.3(supports-color@8.1.1))(mobx-react@10.0.2(mobx@7.0.6)(react@19.3.1))(mobx@7.0.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@8.1.1)
       '@testing-library/dom':
         specifier: 10.4.2
         version: 10.4.2
@@ -188,8 +188,8 @@ importers:
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.4(@types/node@24.19.2)(esbuild@0.28.2)(sass-embedded@1.105.2)(sass@1.105.2))
       electron:
-        specifier: 43.8.0
-        version: 43.8.0(supports-color@8.1.1)
+        specifier: 44.9.3
+        version: 44.9.3(supports-color@8.1.1)
       esbuild:
         specifier: 0.28.2
         version: 0.28.2
@@ -1080,8 +1080,8 @@ packages:
     resolution: {integrity: sha512-BTJ9aZYL3vCfZlZOBLy9v8TUqWGQ0pzFnygKwFZt5udj6viBoFIBviKPUoZLDCPn1FoXffv6McQFDenrm5Krfw==}
     engines: {node: '>=20'}
 
-  electron@43.8.0:
-    resolution: {integrity: sha512-K+sLv65RZ8SgmxItfH0hbGaFVOHqleMOCw7CImFedKBRpVWJ/Qo9PHihBd/GrANvmndZjN66S6ZmAdLaQYhZ4w==}
+  electron@44.9.3:
+    resolution: {integrity: sha512-Cv9/yMnZxNWsMlIe8T4v//NKHdUvbeyoTJoXE3BIcRxus2meeFaO9h/P3zB5d4cBXum51IgAYrT2QjpIDWKpJA==}
     engines: {node: '>= 22.12.0'}
     hasBin: true
 
@@ -2109,7 +2109,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@freelensapp/extensions@2.0.0-0-nightly-2026-10-17(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(electron@43.8.0(supports-color@8.1.1))(mobx-react@10.0.2(mobx@7.0.6)(react@19.3.1))(mobx@7.0.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@8.1.1)':
+  '@freelensapp/extensions@2.0.0-0-nightly-2026-10-17(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(electron@44.9.3(supports-color@8.1.1))(mobx-react@10.0.2(mobx@7.0.6)(react@19.3.1))(mobx@7.0.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@8.1.1)':
     dependencies:
       chart.js: 4.5.1
       conf: 16.0.0
@@ -2121,7 +2121,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
-      electron: 43.8.0(supports-color@8.1.1)
+      electron: 44.9.3(supports-color@8.1.1)
       mobx: 7.0.6
       mobx-react: 10.0.2(mobx@7.0.6)(react@19.3.1)
       react: 19.3.1
@@ -2491,7 +2491,7 @@ snapshots:
     dependencies:
       type-fest: 5.10.0
 
-  electron@43.8.0(supports-color@8.1.1):
+  electron@44.9.3(supports-color@8.1.1):
     dependencies:
       '@electron-internal/extract-zip': 1.0.5
       '@electron/get': 5.1.0(supports-color@8.1.1)
