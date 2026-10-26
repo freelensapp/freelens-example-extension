@@ -262,13 +262,26 @@ jobs:
           node_image: kindest/node:v${{ env.kubernetes_version }}
           wait: 5m
 
+      # FREELENS_INTEGRATION_TESTING_DIR gives Freelens dev a fresh profile; the
+      # app accepts it only under the system's temporary directory. A dev
+      # profile syncs no kubeconfig by default, so the profile is seeded with
+      # one sync entry: a file with the kind cluster alone. The catalog then
+      # lists that cluster and nothing else.
+      - name: Seed the Freelens dev profile
+        run: |
+          kubeconfig="${RUNNER_TEMP}/kind-freelens.kubeconfig"
+          kubectl config view --minify --flatten --context kind-freelens > "$kubeconfig"
+          mkdir -p "${FREELENS_INTEGRATION_TESTING_DIR}/FreelensDev"
+          KUBECONFIG_FILE="$kubeconfig" yq -n -o json '.preferences.syncKubeconfigEntries = [{"filePath": strenv(KUBECONFIG_FILE)}]' \
+            > "${FREELENS_INTEGRATION_TESTING_DIR}/FreelensDev/lens-user-store.json"
+          cat "${FREELENS_INTEGRATION_TESTING_DIR}/FreelensDev/lens-user-store.json"
+        env:
+          FREELENS_INTEGRATION_TESTING_DIR: /tmp/freelens-integration-testing
+
       # Freelens dev, as a developer runs it, with its CDP endpoint on port
       # 9223. It keeps running in the background for the next steps; its output
-      # is the main log the tests read. FREELENS_INTEGRATION_TESTING_DIR gives
-      # it a fresh profile; the app accepts it only under the system's temporary
-      # directory. The profile still syncs ~/.kube, where kind-action wrote the
-      # kubeconfig of the cluster. Electron's sandbox helper needs to be setuid
-      # root.
+      # is the main log the tests read. Electron's sandbox helper needs to be
+      # setuid root.
       - name: Start Freelens dev
         working-directory: freelens
         run: |

@@ -817,9 +817,10 @@ it is not in `package.json`. `playwright` is a devDependency at the version of
 Freelens's catalog. The workflow builds the extension, checks out Freelens,
 starts `pnpm dev` there in the background under `xvfb-run`, with its output in
 a file and a fresh profile in `FREELENS_INTEGRATION_TESTING_DIR`, waits until
-the CDP endpoint answers, and runs `pnpm test:integration` here. The fresh
-profile still syncs `~/.kube` of the runner, where `helm/kind-action` writes
-the kubeconfig of the kind cluster, and that is how the app finds it. Every test
+the CDP endpoint answers, and runs `pnpm test:integration` here. A profile of
+Freelens dev syncs no kubeconfig by default, so the workflow seeds the fresh
+one with a single sync entry, a file with the kind cluster alone, and the
+catalog lists that cluster and nothing else. Every test
 file is a session of its own on the one app, and fails on any error logged by
 either process:
 
@@ -911,10 +912,12 @@ which is apart from that of an installed Freelens: they navigate its window,
 leave this checkout installed in place, uninstalling another installation of
 the extension, and leave the kind cluster disconnected, with the namespace
 filter set to `integration-tests`. They touch no other cluster of the
-catalog, which lists every context of the developer's kubeconfig (see
-"Checking the Extension in Freelens Dev"). A run deletes the CRD `examples.example.freelens.app`, and with it
-every `Example` on the cluster: run it only against a kind cluster with
-nothing worth keeping.
+catalog. The profile lists the kind cluster only once its kubeconfig is in
+"Kubeconfig Syncs" (see "Checking the Extension in Freelens Dev"); without
+it the cluster sessions fail on the timeout of finding the cluster. A run
+deletes the CRD `examples.example.freelens.app`, and with it every `Example`
+on the cluster: run it only against a kind cluster with nothing worth
+keeping.
 
 ## Checking the Extension in Freelens Dev
 
@@ -934,17 +937,16 @@ devDependency, does the same, as the integration tests do. `browser.close()`
 of such a browser closes only the connection; the app belongs to Freelens and
 keeps running.
 
-Freelens dev lists every context of the developer's own kubeconfig,
-production clusters included, one click away from an agent that drives the
-UI. The folder it syncs by default is `~/.kube` of the user that runs it,
-taken from the system's user database (`os.userInfo().homedir`), not from
-`HOME`. `FREELENS_INTEGRATION_TESTING_DIR`, which the app accepts only under
-the system's temporary directory, moves the user data and Freelens's own home
-directory, but not that folder. To keep a session to the test cluster, start
-Freelens with such a directory and, in "Kubeconfig Syncs" of the Kubernetes
-preferences of that fresh profile, replace the synced `~/.kube` with the
-kubeconfig of the test cluster alone; or run Freelens as a user whose home
-holds only that kubeconfig.
+A profile of Freelens dev syncs no kubeconfig until one is added in
+"Kubeconfig Syncs" of the Kubernetes preferences, so its catalog lists none of
+the developer's clusters; `KUBECONFIG` does not change that. For the checks,
+add a kubeconfig with the test cluster alone, such as the output of
+`kubectl config view --minify --flatten --context kind-kind`. A fresh profile,
+in a `FREELENS_INTEGRATION_TESTING_DIR` under the system's temporary
+directory, can start with it already in place: the integration tests seed
+`FreelensDev/lens-user-store.json` there with
+`preferences.syncKubeconfigEntries`, whose `filePath` is absolute ("Kubeconfig
+syncs of the dev profile" in Freelens's `DEVELOPMENT.md`).
 
 ### Installing the checkout
 
