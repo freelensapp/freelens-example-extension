@@ -118,9 +118,13 @@ function collectErrors(window: Page) {
   const errorLogs: string[] = [];
   let mainLogOffset = mainLogFile && fs.existsSync(mainLogFile) ? fs.statSync(mainLogFile).size : 0;
 
+  // Chromium logs every response that is not a success as "Failed to load
+  // resource", whose text has no URL, so the location of the message is added.
   const onConsole = (msg: ConsoleMessage) => {
     if (msg.type() === "error") {
-      errorLogs.push(`[renderer] ${msg.text().replaceAll(ansiEscapePattern, "")}`);
+      const { url } = msg.location();
+      const text = msg.text().replaceAll(ansiEscapePattern, "");
+      errorLogs.push(`[renderer] ${text}${url ? ` (${url})` : ""}`);
     }
   };
 

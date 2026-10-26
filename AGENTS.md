@@ -990,6 +990,14 @@ React reports key problems as console errors ("Each child in a list should
 have a unique key", "Encountered two children with the same key"); they count
 as failures of the "no error in DevTools" check.
 
+The renderer's requests to Kubernetes go through Chromium, which logs every
+response that is not a success as a console error,
+`Failed to load resource: the server responded with a status of N`, also one
+that the code that sent it handles. The text names no URL; the location of the
+message does, and the error collector of the integration tests appends it. An
+extension whose tests expect such a response on purpose, a 404 or a 409, leaves
+out that one error by its status and URL, not every "Failed to load resource".
+
 The main process logs to the terminal running Freelens, and to a file. On
 macOS it is `~/Library/Logs/Freelens/lens.log`, with the renderer's
 `lens-renderer-*.log` next to it; when the terminal is not at hand, it shows
