@@ -733,14 +733,19 @@ migration are one pull request. The commit is by `github-actions[bot]`, which
 it for a manual edit and stop updating the branch.
 
 Biome formats SCSS, YAML and Markdown too, as in Freelens, so Trunk runs no
-Prettier, markdownlint or yamlfmt; yamllint still checks YAML. `biome.jsonc`
-leaves out `pnpm-lock.yaml` and `pnpm-workspace.yaml`, which pnpm writes, and
-`.trunk/`, whose `trunk.yaml` `trunk upgrade` rewrites. The Markdown rules are
-in `nursery`. `markdown.parser.frontmatter` is on for the YAML frontmatter of
-the `SKILL.md` files; without it Biome reads the opening `---` as a thematic
-break and inserts a blank line after it. Biome does not rewrap a paragraph, so
-the template of the migration issue keeps one paragraph per line ("Agent
-Skills").
+Prettier or markdownlint; yamllint still checks YAML. The Kubernetes manifests
+in `examples/` and `integration/fixtures/` are the exception: their sequences
+stay unindented, as kubectl writes them, which Biome cannot do, so yamlfmt
+formats them with the `.yamlfmt.yaml` of each directory, and the ignore rules
+of `.trunk/trunk.yaml` give them to yamlfmt only. `biome.jsonc` leaves them
+out, together with `pnpm-lock.yaml` and `pnpm-workspace.yaml`, which pnpm
+writes, and `.trunk/`, whose `trunk.yaml` `trunk upgrade` rewrites.
+
+The Markdown rules are in `nursery`. `markdown.parser.frontmatter` is on for
+the YAML frontmatter of the `SKILL.md` files; without it Biome reads the
+opening `---` as a thematic break and inserts a blank line after it. Biome does
+not rewrap a paragraph, so the template of the migration issue keeps one
+paragraph per line ("Agent Skills").
 
 ### Knip
 

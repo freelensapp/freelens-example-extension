@@ -74,7 +74,8 @@ the same kind.
   `vitest.integration.config.ts` and `integration/tsconfig.json` (the runner
   and the program of the integration tests).
 - Lint and format: `biome.jsonc`, `knip.jsonc`, `.trunk/trunk.yaml`,
-  `.trunk/.gitignore`, `.yamllint.yaml`, `.editorconfig`, `.gitattributes`,
+  `.trunk/.gitignore`, `.yamllint.yaml`, `examples/.yamlfmt.yaml`,
+  `integration/fixtures/.yamlfmt.yaml`, `.editorconfig`, `.gitattributes`,
   `.gitignore`.
 - Toolchain and dependencies: `mise.toml`, `mise.lock`, `.nvmrc`,
   `pnpm-workspace.yaml`, `pnpm-lock.yaml` (`pnpm install` updates it after the

@@ -26,14 +26,18 @@
     }
   },
   "files": {
-    // pnpm writes its own lockfile and workspace file, and Trunk rewrites its
-    // own .trunk/trunk.yaml on every trunk upgrade.
+    // The Kubernetes manifests keep their sequences unindented, which Biome
+    // cannot do, so yamlfmt formats them with the .yamlfmt.yaml of their
+    // directory. pnpm writes its own lockfile and workspace file, and Trunk
+    // rewrites its own .trunk/trunk.yaml on every trunk upgrade.
     "includes": [
       "**",
       "!**/.trunk/**",
       "!**/build/**",
       "!**/dist/**",
       "**/build/*.{js,cjs,mjs}",
+      "!**/examples/**",
+      "!**/integration/fixtures/**",
       "!**/pnpm-lock.yaml",
       "!**/pnpm-workspace.yaml"
     ]
