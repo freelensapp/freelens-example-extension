@@ -54,7 +54,11 @@ and a finding look like, not to copy it.
   `Main.Util.fetch` typed as the standard `fetch`, with no
   `Renderer.Util.fetch`; all of them are in freelensapp/freelens@5e1870e97 and
   `@freelensapp/extensions@2.0.0-0-nightly-2026-10-15`, and a declaration
-  without them does not type-check the step that uses them. The template's own
+  without them does not type-check the step that uses them. The template's
+  `biome.jsonc` configures the Markdown and YAML of Biome 2.6.2, which Freelens
+  runs from freelensapp/freelens@7801fb10a and
+  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-25` on; the Biome of an
+  older pin fails on that configuration in step 6. The template's own
   `package.json` names the nightly the template is checked against; a pin older
   than that is a sign. When the pin is older, move it in the issue to the
   nightly that has what the port needs and to the commit that nightly was built
