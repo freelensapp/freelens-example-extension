@@ -220,7 +220,14 @@ against a [kind](https://kind.sigs.k8s.io/) cluster. In the Freelens checkout:
 pnpm dev
 ```
 
-Then, with a kind cluster running, in the extension repository:
+Freelens dev lists no cluster until a kubeconfig is added in Preferences >
+Kubernetes > Kubeconfig Syncs. Add one with the kind cluster, for example:
+
+```sh
+kubectl config view --minify --flatten --context kind-kind > ~/kind-kind.kubeconfig
+```
+
+Then, with the kind cluster running, in the extension repository:
 
 ```sh
 pnpm build
