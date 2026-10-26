@@ -15,6 +15,24 @@ runtimes:
     - go@1.21.0
     - node@24.22.0! # datasource=node-version depName=node
     - python@3.14.4
+# actionlint comes from the maintained fork of kjanat, which continues the
+# releases of rhysd/actionlint after 1.7.12 with the same names of the files,
+# where the plugin downloads them from rhysd/actionlint.
+downloads:
+  - name: actionlint
+    downloads:
+      - os:
+          linux: linux
+          macos: darwin
+        cpu:
+          x86_64: amd64
+          arm_64: arm64
+        url: https://github.com/kjanat/actionlint/releases/download/v${version}/actionlint_${version}_${os}_${cpu}.tar.gz
+      - os: windows
+        cpu:
+          x86_64: amd64
+          arm_64: arm64
+        url: https://github.com/kjanat/actionlint/releases/download/v${version}/actionlint_${version}_windows_${cpu}.zip
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
   # Trunk's built-in `javascript` file type does not match `.cjs` (or `.mjs`),
@@ -92,7 +110,7 @@ lint:
           run_from: ${root_or_parent_with(biome.jsonc)}
       run_timeout: 1m
   enabled:
-    - actionlint@1.7.12
+    - actionlint@1.17.0
     - biome@2.6.3! # datasource=npm depName=@biomejs/biome
     - git-diff-check
     - shellcheck@0.11.0
