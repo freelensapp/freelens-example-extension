@@ -26,7 +26,17 @@
     }
   },
   "files": {
-    "includes": ["**", "!**/.trunk/**", "!**/build/**", "!**/dist/**", "**/build/*.{js,cjs,mjs}"]
+    // pnpm writes its own lockfile and workspace file, and Trunk rewrites its
+    // own .trunk/trunk.yaml on every trunk upgrade.
+    "includes": [
+      "**",
+      "!**/.trunk/**",
+      "!**/build/**",
+      "!**/dist/**",
+      "**/build/*.{js,cjs,mjs}",
+      "!**/pnpm-lock.yaml",
+      "!**/pnpm-workspace.yaml"
+    ]
   },
   "formatter": {
     "attributePosition": "auto",
@@ -76,6 +86,12 @@
         "noUnusedVariables": "off",
         "useExhaustiveDependencies": "off"
       },
+      "nursery": {
+        // Markdown
+        "useConsistentHeadingLevel": "error",
+        "useFencedCodeLanguage": "error",
+        "useSingleTopLevelHeading": "error"
+      },
       "preset": "none",
       "style": {
         "noNamespace": "error",
@@ -104,6 +120,13 @@
         "noUnsafeDeclarationMerging": "off",
         "useNamespaceKeyword": "error"
       }
+    }
+  },
+  "markdown": {
+    "parser": {
+      // The SKILL.md files of the skills start with YAML frontmatter, which
+      // Biome otherwise reads as a thematic break and a setext heading.
+      "frontmatter": true
     }
   },
   // Every path in an override starts with `**/`: Trunk runs Biome from a
@@ -175,5 +198,12 @@
     "clientKind": "git",
     "enabled": true,
     "useIgnoreFile": true
+  },
+  "yaml": {
+    "formatter": {
+      // Flow sequences stay [a, b], as yamlfmt left them; the global
+      // bracketSpacing is meant for JavaScript objects.
+      "bracketSpacing": false
+    }
   }
 }

@@ -103,10 +103,10 @@ pnpm type:check:integration    # Integration tests
 pnpm type:check:environments   # Environment tests
 
 # Linting & formatting
-pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS, HTML (biome)
+pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, YAML, Markdown (biome)
 pnpm biome:fix            # Auto-fix the formats above
-pnpm trunk:check          # Markdown, YAML, TOML, SCSS, workflows, and Biome again (changed files)
-pnpm trunk:fix            # Auto-fix Markdown, YAML, SCSS, etc.
+pnpm trunk:check          # TOML, shell, workflows, yamllint, and Biome again (changed files)
+pnpm trunk:fix            # Auto-fix TOML, shell, and the Biome formats
 pnpm lint:check           # Alias for biome:check
 pnpm lint:fix             # Alias for biome:fix
 pnpm knip:check           # Unused files, unused and unlisted dependencies (knip)
@@ -732,7 +732,15 @@ migration are one pull request. The commit is by `github-actions[bot]`, which
 `gitIgnoredAuthors` in `.renovaterc.json` lists, so that Renovate does not take
 it for a manual edit and stop updating the branch.
 
-Biome does not read SCSS; Trunk formats it with Prettier.
+Biome formats SCSS, YAML and Markdown too, as in Freelens, so Trunk runs no
+Prettier, markdownlint or yamlfmt; yamllint still checks YAML. `biome.jsonc`
+leaves out `pnpm-lock.yaml` and `pnpm-workspace.yaml`, which pnpm writes, and
+`.trunk/`, whose `trunk.yaml` `trunk upgrade` rewrites. The Markdown rules are
+in `nursery`. `markdown.parser.frontmatter` is on for the YAML frontmatter of
+the `SKILL.md` files; without it Biome reads the opening `---` as a thematic
+break and inserts a blank line after it. Biome does not rewrap a paragraph, so
+the template of the migration issue keeps one paragraph per line ("Agent
+Skills").
 
 ### Knip
 
@@ -1046,8 +1054,8 @@ the links need. Keep each `SKILL.md` well under 500 lines, and add a
 
 ## Code Style
 
-- **Biome** formats **TypeScript/TSX, JS, JSON, CSS, HTML**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
-- **Trunk** formats **Markdown, YAML, SCSS** (with Prettier), and other formats not covered by biome — use `pnpm trunk:fix`
+- **Biome** formats **TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, YAML, Markdown**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
+- **Trunk** formats **TOML and shell scripts**, and runs the linters for formats not covered by Biome (yamllint, actionlint, shellcheck) — use `pnpm trunk:fix`
 - Import order (enforced by biome organizeImports): built-in modules → `@freelensapp/**` → packages → relative paths
 - React 19; JSX compiles to `react/jsx-runtime` imports, which the build maps to the host's React
 - **No emoji** in Markdown files (`.md`), comments, or any source code
@@ -1113,8 +1121,8 @@ Code in `src/common/` is shared between both processes.
 2. **Follow existing patterns** — grep for similar implementations before creating new ones
 3. **Test changes** before committing
 4. **Run validation before committing:** `pnpm lint:fix && pnpm type:check && pnpm test:unit`
-5. **For TypeScript/TSX, JS, JSON, CSS, HTML files:** run `pnpm biome:fix` (or `biome check` directly if `biome` is installed locally)
-6. **For Markdown, YAML, SCSS and other formats:** run `pnpm trunk:fix` (or `trunk check` directly if `trunk` is installed locally)
+5. **For TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, YAML and Markdown files:** run `pnpm biome:fix` (or `biome check` directly if `biome` is installed locally)
+6. **For other formats:** run `pnpm trunk:fix` (or `trunk check` directly if `trunk` is installed locally)
 7. **Full build** when in doubt about cached state: `pnpm clean:all && pnpm install && pnpm build`
 8. **Do not use Anthropic Fable for coding tasks** — Fable may be used only for planning,
    analysis, and thinking through problems. When writing or editing code,
@@ -1144,6 +1152,7 @@ When reviewing code and proposing fixes:
    ```
 
    You can generate this from the terminal with:
+
    ```bash
    git diff -u -- path/to/file
    ```
@@ -1175,9 +1184,9 @@ When reviewing code and proposing fixes:
    - Use GitHub's `suggestion` block for small targeted fixes so the PR
      author can accept the change with a single click:
 
-     ````suggestion
+     ```suggestion
      <same unified-diff format as shown above>
-     ````
+     ```
 
    - For larger multi-file changes, use `diff -u` blocks in a regular
      comment instead, with the proposed commit subject shown first

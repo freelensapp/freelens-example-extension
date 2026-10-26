@@ -18,14 +18,14 @@ found elsewhere is written for the v1 API, which v2 does not load.
 
 Fetch the raw URLs; they return Markdown.
 
-| Document | Read it for |
-| --- | --- |
-| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md) | The normative contracts C1 to C15: what the host guarantees and how a violation fails. |
+| Document                                                                                                                   | Read it for                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md)                             | The normative contracts C1 to C15: what the host guarantees and how a violation fails.                                                                 |
 | [`migrating-from-v1.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/migrating-from-v1.md) | The v2 API from an author's side; "Registering things: declarative fields", "Styling and CSS" and "The development loop" apply to a new extension too. |
-| [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/binaries.md) | Only for an extension that ships executables. |
-| [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template | The build, type-check, test, lint and CI patterns, each with its reason, and "Rules That Fail Silently". |
-| [`README.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/README.md) of the template | Installing an extension in Freelens and the development loop. |
-| [The source tree](https://github.com/freelensapp/freelens-example-extension/tree/main) of the template | The worked example: a CRD in two API versions, with a page, a details panel, a menu item and a preference. |
+| [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/binaries.md)                   | Only for an extension that ships executables.                                                                                                          |
+| [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template     | The build, type-check, test, lint and CI patterns, each with its reason, and "Rules That Fail Silently".                                               |
+| [`README.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/README.md) of the template     | Installing an extension in Freelens and the development loop.                                                                                          |
+| [The source tree](https://github.com/freelensapp/freelens-example-extension/tree/main) of the template                     | The worked example: a CRD in two API versions, with a page, a details panel, a menu item and a preference.                                             |
 
 ## 1. Copy the template
 
@@ -74,8 +74,8 @@ the same kind.
   `vitest.integration.config.ts` and `integration/tsconfig.json` (the runner
   and the program of the integration tests).
 - Lint and format: `biome.jsonc`, `knip.jsonc`, `.trunk/trunk.yaml`,
-  `.trunk/.gitignore`, `.markdownlint.yaml`, `.yamlfmt.yaml`, `.yamllint.yaml`,
-  `.editorconfig`, `.gitattributes`, `.gitignore`.
+  `.trunk/.gitignore`, `.yamllint.yaml`, `.editorconfig`, `.gitattributes`,
+  `.gitignore`.
 - Toolchain and dependencies: `mise.toml`, `mise.lock`, `.nvmrc`,
   `pnpm-workspace.yaml`, `pnpm-lock.yaml` (`pnpm install` updates it after the
   `package.json` changes), `.renovaterc.json` (needs the Renovate app on the
@@ -212,13 +212,13 @@ resources, one file per API version.
 Keep each one only if the extension wants what it does, and configure the
 repository first: without its environment and secret, it fails.
 
-| Workflow | What it does | Needs |
-| --- | --- | --- |
-| `.github/workflows/release.yaml` | On a `v*` tag: builds, packs, publishes to npm (a version with a hyphen under the `next` dist-tag) and creates a GitHub release, marked as a prerelease for such a version, with the tarball, its `.tgz.sha256` and an SBOM. | Environment `publishing`, with npm trusted publishing set up for the package, the repository and this workflow, or an `NPM_TOKEN` secret. |
-| `.github/workflows/npm-version.yaml` | On demand, and after a release that is not a prerelease: opens an "Automated npm version" pull request with the bumped version. | Environment `automated` with a `GH_TOKEN` secret that can push branches and open pull requests. |
-| `.github/workflows/tag.yaml` | When an "Automated npm version" pull request is merged, prerelease versions included: tags `main` with `v<version>`, which starts `release.yaml`. | Environment `automated` with `GH_TOKEN`; a tag created with the default `GITHUB_TOKEN` starts no workflow. |
-| `.github/workflows/npm-audit.yaml`, `.github/workflows/npm-dedupe.yaml`, `.github/workflows/trunk-upgrade.yaml`, `.github/workflows/biome-migrate.yaml` | Scheduled maintenance: each opens a pull request when it changes something. | Environment `automated` with `GH_TOKEN`. |
-| `.github/workflows/claude.yaml`, `.github/workflows/claude-task.yaml` | Claude Code in CI, started from a comment that mentions the Claude handle, or on demand. | The Claude GitHub App on the repository, a `CLAUDE_CODE_OAUTH_TOKEN` secret, and the "GitHub Actions (Claude Code Action) Rules" in `AGENTS.md`. |
+| Workflow                                                                                                                                                | What it does                                                                                                                                                                                                                 | Needs                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `.github/workflows/release.yaml`                                                                                                                        | On a `v*` tag: builds, packs, publishes to npm (a version with a hyphen under the `next` dist-tag) and creates a GitHub release, marked as a prerelease for such a version, with the tarball, its `.tgz.sha256` and an SBOM. | Environment `publishing`, with npm trusted publishing set up for the package, the repository and this workflow, or an `NPM_TOKEN` secret.        |
+| `.github/workflows/npm-version.yaml`                                                                                                                    | On demand, and after a release that is not a prerelease: opens an "Automated npm version" pull request with the bumped version.                                                                                              | Environment `automated` with a `GH_TOKEN` secret that can push branches and open pull requests.                                                  |
+| `.github/workflows/tag.yaml`                                                                                                                            | When an "Automated npm version" pull request is merged, prerelease versions included: tags `main` with `v<version>`, which starts `release.yaml`.                                                                            | Environment `automated` with `GH_TOKEN`; a tag created with the default `GITHUB_TOKEN` starts no workflow.                                       |
+| `.github/workflows/npm-audit.yaml`, `.github/workflows/npm-dedupe.yaml`, `.github/workflows/trunk-upgrade.yaml`, `.github/workflows/biome-migrate.yaml` | Scheduled maintenance: each opens a pull request when it changes something.                                                                                                                                                  | Environment `automated` with `GH_TOKEN`.                                                                                                         |
+| `.github/workflows/claude.yaml`, `.github/workflows/claude-task.yaml`                                                                                   | Claude Code in CI, started from a comment that mentions the Claude handle, or on demand.                                                                                                                                     | The Claude GitHub App on the repository, a `CLAUDE_CODE_OAUTH_TOKEN` secret, and the "GitHub Actions (Claude Code Action) Rules" in `AGENTS.md`. |
 
 ## 3. Write the extension's code
 
