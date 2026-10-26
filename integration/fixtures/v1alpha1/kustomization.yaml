@@ -4,5 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: integration-tests
 resources:
-  - namespace.yaml
-  - ../../../examples/v1alpha1/test
+- namespace.yaml
+- ../../../examples/v1alpha1/test
