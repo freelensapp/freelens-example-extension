@@ -125,7 +125,8 @@ the two are worked on together. Two kinds of feature have a pattern:
   - the ESM main: no `require`, `__dirname` or `module.exports` of its own
     left, its files located with `this.manifestPath`, and every bundled
     CommonJS library loading from `dist/main.js`, which needs the `node`
-    platform of "Process-specific settings" in `AGENTS.md`;
+    platform and the `__dirname` definition of "Process-specific settings"
+    in `AGENTS.md`;
   - the lifecycle: what `onActivate` starts, `onDeactivate` stops, because a
     reload runs `onDeactivate` before the new build's `onActivate` ("The
     development loop" in `migrating-from-v1.md`), and a server still bound to
