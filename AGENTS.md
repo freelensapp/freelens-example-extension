@@ -914,9 +914,15 @@ the app keeps the selection for every namespaced list of the cluster. Without
 it the page lists nothing, and every view fails on its timeout. The session
 opens no page of the host, whose requests can log errors of their own: the
 Pods page asks for pod metrics, and kind has no metrics server. A session's
-teardown disconnects the cluster first, so that the app logs no watch error
-for a CRD deleted under it, then deletes the fixtures and the CRD with
-`--wait`, also when a test failed, and then checks the errors.
+teardown stops collecting the errors first, then disconnects the cluster, so
+that the app logs no watch error for a CRD deleted under it, then deletes the
+fixtures and the CRD with `--wait`, also when a test failed, and then checks
+the errors. The app refreshes the cluster's permissions while it disconnects
+it, and when the refresh loses the race, its requests fail on its own proxy
+(`[AUTHORIZATION-REVIEW]`, `[AUTHORIZATION-NAMESPACE-REVIEW]`,
+`[FREELENS-PROXY]` with `Cluster <id> is not connected` or `The client is
+destroyed`); those errors come and go with the timing of a run and say
+nothing about the extension, and the session no longer collects them.
 
 The code the sessions share is in `integration/__tests__/extension-helpers.ts`:
 connecting to the app with the error collector, installing the extension,
