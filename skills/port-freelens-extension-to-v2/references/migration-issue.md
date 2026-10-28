@@ -120,6 +120,7 @@ These checks and the functional checks below run in Freelens dev, by hand or by 
 - [ ] extension accepted at discovery (`isCompatible: true`) and loads without console errors in both processes
 - [ ] directory install: rebuilding reloads the extension without restarting Freelens (ESM main)
 - [ ] state changes made through mobx are reflected in the UI (host mobx instance, not a copy)
+- [ ] every view that loads stores of its own, such as an overview or a dashboard, shows its data when it is the first view opened after the cluster is connected (Freelens dev renders in `React.StrictMode`, and an effect that keeps its `AbortController` or its watches in a ref loads nothing there; "Rules That Fail Silently" in the template's `AGENTS.md`); for an extension without such a view, the item says so
 - [ ] every custom resource listed in `customResources` is gone from the Custom Resources tree of the cluster sidebar, its definition is still in the Definitions list, and the log has no error rejecting an entry; for an extension that presents no custom resource, `customResources` is not set and the item says so
 - [ ] integration tests workflow green against v2, or the extension has no integration tests and "Decisions" says so
 
