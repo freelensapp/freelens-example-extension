@@ -882,8 +882,13 @@ running. The renderer's console carries the errors of the root frame and of
 every cluster frame; the main log is read from the file that
 `FREELENS_MAIN_LOG` names, from its size when the session started, and every
 line that starts with `error:` counts, also after a task prefix that turbo
-may add, such as `freelens:dev:`. Without the variable only the renderer is
-checked. A renderer error carries its location, line and column included,
+may add, such as `freelens:dev:`, except
+`proxy_server.go:… Error while proxying request: context canceled`, which the
+Kubernetes proxy of Freelens logs for a request that the renderer aborts.
+Freelens dev renders in `React.StrictMode`, which mounts every view twice and
+aborts the requests of the first mount, so the line comes and goes with the
+timing of a run; it names no request and says nothing about the extension.
+Without the variable only the renderer is checked. A renderer error carries its location, line and column included,
 and the worker that logged it. Its text is the preview of its arguments, which
 is empty for some objects and only the class name for others, such as
 `ErrorEvent`; such an error is described from its arguments, read from the

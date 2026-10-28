@@ -59,6 +59,13 @@ const viewTimeout = { timeout: 60 * 1000 };
 
 const ansiEscapePattern = /\u001b\[[0-9;]*m/g;
 
+// The Kubernetes proxy of Freelens logs a request that the renderer aborts as
+// an error. Freelens dev renders in React.StrictMode, which mounts every view
+// twice and aborts the requests of the first mount, so the line comes and goes
+// with the timing of a run. It names no request, and says nothing about the
+// extension.
+const abortedProxyRequestPattern = /proxy_server\.go:\d+\] Error while proxying request: context canceled$/;
+
 /**
  * A connection to Freelens dev, with the errors that either process logs.
  */
@@ -220,7 +227,7 @@ function collectErrors(window: Page) {
       for (const line of buffer.toString("utf8").split("\n")) {
         const text = line.replaceAll(ansiEscapePattern, "");
 
-        if (/^(?:[\w@/.-]+:[\w:-]+: )?\s*error:/.test(text)) {
+        if (/^(?:[\w@/.-]+:[\w:-]+: )?\s*error:/.test(text) && !abortedProxyRequestPattern.test(text.trim())) {
           errorLogs.push(`[main] ${text.trim()}`);
         }
       }
