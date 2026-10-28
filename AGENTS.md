@@ -434,6 +434,15 @@ mechanism; this is the list to check a change against.
   with. An `observer` that reads the items while it renders follows them; a
   memo needs a key such as the ids and `resourceVersion`s of the objects. It
   shows only on a cluster whose objects change while the view is open.
+- **An effect creates what its cleanup aborts or releases.** Freelens dev
+  renders in `React.StrictMode`, which runs an effect, cleans it up and runs
+  it again on the same instance. An `AbortController` kept in a `useRef` is
+  aborted by the first cleanup, and every request of the second run with it;
+  the host takes an aborted `loadAll` for no failure, so the view shows
+  nothing and logs nothing. Create the controller, and the list of watches to
+  release, inside the effect. The production build has no `StrictMode`, so
+  only Freelens dev shows it, and only in a view that loads stores no other
+  page has loaded before it.
 - **Every page, details panel and menu item inside an error boundary.** A
   `try`/`catch` around the call of a component catches only what the call
   throws, not what a child throws when React renders it or what a callback of
@@ -873,8 +882,13 @@ running. The renderer's console carries the errors of the root frame and of
 every cluster frame; the main log is read from the file that
 `FREELENS_MAIN_LOG` names, from its size when the session started, and every
 line that starts with `error:` counts, also after a task prefix that turbo
-may add, such as `freelens:dev:`. Without the variable only the renderer is
-checked. A renderer error carries its location, line and column included,
+may add, such as `freelens:dev:`, except
+`proxy_server.go:… Error while proxying request: context canceled`, which the
+Kubernetes proxy of Freelens logs for a request that the renderer aborts.
+Freelens dev renders in `React.StrictMode`, which mounts every view twice and
+aborts the requests of the first mount, so the line comes and goes with the
+timing of a run; it names no request and says nothing about the extension.
+Without the variable only the renderer is checked. A renderer error carries its location, line and column included,
 and the worker that logged it. Its text is the preview of its arguments, which
 is empty for some objects and only the class name for others, such as
 `ErrorEvent`; such an error is described from its arguments, read from the
@@ -905,9 +919,15 @@ the app keeps the selection for every namespaced list of the cluster. Without
 it the page lists nothing, and every view fails on its timeout. The session
 opens no page of the host, whose requests can log errors of their own: the
 Pods page asks for pod metrics, and kind has no metrics server. A session's
-teardown disconnects the cluster first, so that the app logs no watch error
-for a CRD deleted under it, then deletes the fixtures and the CRD with
-`--wait`, also when a test failed, and then checks the errors.
+teardown stops collecting the errors first, then disconnects the cluster, so
+that the app logs no watch error for a CRD deleted under it, then deletes the
+fixtures and the CRD with `--wait`, also when a test failed, and then checks
+the errors. The app refreshes the cluster's permissions while it disconnects
+it, and when the refresh loses the race, its requests fail on its own proxy
+(`[AUTHORIZATION-REVIEW]`, `[AUTHORIZATION-NAMESPACE-REVIEW]`,
+`[FREELENS-PROXY]` with `Cluster <id> is not connected` or `The client is
+destroyed`); those errors come and go with the timing of a run and say
+nothing about the extension, and the session no longer collects them.
 
 The code the sessions share is in `integration/__tests__/extension-helpers.ts`:
 connecting to the app with the error collector, installing the extension,

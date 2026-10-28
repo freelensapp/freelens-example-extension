@@ -197,8 +197,18 @@ Check the port against:
   asset other than `dist/renderer.css`, an instance method on a KubeObject
   subclass, a cluster page that expects more than `params`, a version choice
   through `getStore()` in a component that is not an `observer`, `this.props`
-  of an `@observer` class component read outside its `render()`, a page,
-  details panel or menu item outside an error boundary, a CommonJS `main`.
+  of an `@observer` class component read outside its `render()`, an
+  `AbortController` or a list of watches kept in a ref across runs of an
+  effect, a page, details panel or menu item outside an error boundary, a
+  CommonJS `main`.
+- The extension's effects that load stores themselves, as an overview or a
+  dashboard does. Search for `useRef` holding an `AbortController`, or the
+  disposers of `subscribe()`, that an effect's cleanup aborts or releases.
+  Freelens dev renders in `React.StrictMode`, which runs the effect, cleans it
+  up and runs it again on the same instance: the second run loads with a
+  signal that is already aborted, the host takes that for no failure, and the
+  view shows nothing without an error. Create the controller and the list of
+  watches inside the effect ("Rules That Fail Silently" in `AGENTS.md`).
 - The extension's own version choice. An extension that already has a copy of
   `createAvailableVersionPage`, or another component that picks the served API
   version through `getStore()`, keeps it from before the port, and it is
@@ -313,3 +323,10 @@ and every object of it on the cluster, and they install the checkout in the
 Freelens dev profile in place of any other installation of the extension. Run
 them in a sandbox: a kind cluster with nothing worth keeping, named in every
 kubectl call, never a shared or production context, and a fresh profile in CI.
+
+An extension with a page that loads stores of its own, such as an overview or
+a dashboard, opens that page as the first view of a session, right after the
+cluster is connected. Opened after the list pages, it finds their stores
+loaded and passes even when it loads nothing itself, which is how an effect
+that breaks under `React.StrictMode` goes unnoticed ("Rules That Fail
+Silently" in the template's `AGENTS.md`).

@@ -295,6 +295,13 @@ installation of the extension. Run them in a sandbox: a kind cluster with
 nothing worth keeping, named in every kubectl call, never a shared or
 production context, and a fresh profile in CI.
 
+An extension with a page that loads stores of its own, such as an overview or
+a dashboard, opens that page as the first view of a session, right after the
+cluster is connected. Opened after the list pages, it finds their stores
+loaded and passes even when it loads nothing itself, which is how an effect
+that breaks under `React.StrictMode` goes unnoticed ("Rules That Fail
+Silently" in `AGENTS.md`).
+
 A gap or an error in the Freelens documents or in `@freelensapp/extensions` is
 reported to [freelensapp/freelens](https://github.com/freelensapp/freelens/issues),
 and one in the template to
