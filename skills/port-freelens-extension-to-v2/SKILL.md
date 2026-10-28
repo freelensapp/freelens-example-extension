@@ -22,9 +22,9 @@ with `gh`, which returns their source, as in step 1.
 
 | Document                                                                                                                                                                            | Read it for                                                                                                                               |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| [`migrating-from-v1.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/migrating-from-v1.md)                                                          | The porting guide: what changed and what replaces it, the "v1→v2 rename table" and the "Checklist" at the end.                            |
-| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/api.md)                                                                                      | The normative contracts C1 to C15: what the host guarantees and how a violation fails. C15 is for an extension that runs kubectl or helm. |
-| [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/main/docs/extensions/binaries.md)                                                                            | Only for an extension that ships executables.                                                                                             |
+| [`migrating-from-v1.md`](https://raw.githubusercontent.com/freelensapp/freelens/v2.0.0/docs/extensions/migrating-from-v1.md)                                                        | The porting guide: what changed and what replaces it, the "v1→v2 rename table" and the "Checklist" at the end.                            |
+| [`api.md`](https://raw.githubusercontent.com/freelensapp/freelens/v2.0.0/docs/extensions/api.md)                                                                                    | The normative contracts C1 to C15: what the host guarantees and how a violation fails. C15 is for an extension that runs kubectl or helm. |
+| [`binaries.md`](https://raw.githubusercontent.com/freelensapp/freelens/v2.0.0/docs/extensions/binaries.md)                                                                          | Only for an extension that ships executables.                                                                                             |
 | [`AGENTS.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/AGENTS.md) of the template                                                              | The build, type-check, test, lint and CI patterns of a v2 extension, each with its reason, and "Rules That Fail Silently".                |
 | [`README.md`](https://raw.githubusercontent.com/freelensapp/freelens-example-extension/main/README.md) of the template                                                              | Installing an extension in Freelens and the development loop.                                                                             |
 | [The source tree](https://github.com/freelensapp/freelens-example-extension/tree/main) of the template                                                                              | The worked example of a v2 extension.                                                                                                     |
@@ -47,26 +47,14 @@ freelensapp/freelens-example-extension#326 is the same plan carried out for
 the template itself: read it for what a filled-in inventory, a step report
 and a finding look like, not to copy it.
 
-- Check the pin of "Source of truth" first. It is never older than what this
-  skill and the documents it links to require. The "HTTP and cluster access"
-  row and a feature in the main process use `Main.Shell` (C15),
-  "Reaching a catalog cluster" in `migrating-from-v1.md`, and
-  `Main.Util.fetch` typed as the standard `fetch`, with no
-  `Renderer.Util.fetch`; all of them are in freelensapp/freelens@5e1870e97 and
-  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-15`, and a declaration
-  without them does not type-check the step that uses them. The template's
-  `biome.jsonc` configures the Markdown and YAML of Biome 2.6.2, which Freelens
-  runs from freelensapp/freelens@7801fb10a and
-  `@freelensapp/extensions@2.0.0-0-nightly-2026-10-25` on; the Biome of an
-  older pin fails on that configuration in step 6. The template's own
-  `package.json` names the nightly the template is checked against; a pin older
-  than that is a sign. When the pin is older, move it in the issue to the
-  nightly that has what the port needs and to the commit that nightly was built
-  from, with the versions of "Stack alignment" as Freelens has them there,
-  record the move under "Findings" of the issue, and report the stale pin to
-  freelensapp/freelens-example-extension. The check applies until Freelens
-  2.0.0 is released; from then on the port takes the released
-  `@freelensapp/extensions` from npm rather than a nightly.
+- Check the pin of "Source of truth" first: a Freelens release tag, and the
+  `@freelensapp/extensions` release of the same version. It is never older
+  than what this skill and the documents it links to require. The template's
+  own `package.json` names the release the template is checked against; a pin
+  older than that is a sign. When the pin is older, move it in the issue to
+  that release, with the versions of "Stack alignment" as Freelens has them
+  there, record the move under "Findings" of the issue, and report the stale
+  pin to freelensapp/freelens-example-extension.
 - Fill in every `(to fill in: ...)` placeholder, so that none is left when the
   issue is opened. They are the sections marked **(project-specific)**:
   "Inventory" (every v1 construct in the repository, with its v2 requirement

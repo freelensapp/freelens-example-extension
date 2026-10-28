@@ -24,9 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # No Freelens release has the v2 extension API yet; `main` is the
-          # only ref that does.
-          - freelens_version: main
+          # The Freelens releases the extension supports, by their tags.
+          - freelens_version: v2.0.0
 
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 60

@@ -26,7 +26,7 @@ Freelens's `mise.toml` and `.nvmrc` for Node and the other mise tools.
 Renovate keeps them there: custom datasources in `.renovaterc.json` read the
 versions from the same Freelens files on `main`, so an update arrives only once
 Freelens has adopted it, at that version, in one `Freelens dependencies` group
-PR together with the `@freelensapp/extensions` nightly. A dependency added to
+PR together with a release of `@freelensapp/extensions`. A dependency added to
 `package.json` follows the Freelens catalog unless the catalog rule excludes
 it; one that Freelens does not have must be excluded there, or its lookup fails
 on the Dependency Dashboard. The catalog rule matches only `dependencies` and
@@ -61,7 +61,11 @@ scripts only when `allowBuilds` sets it to `true`; a new dependency with
 install scripts that is not listed there fails `pnpm install`, so add it with
 `true` or `false` deliberately. pnpm refuses versions younger than its
 `minimumReleaseAge` (1 day), with `@freelensapp/extensions` excluded because
-its pinned nightly is often adopted on the day it is published.
+a Freelens release is adopted on the day it is published, together with the
+stack it was built with. An exact version that Freelens lets in early for a
+security fix, such as `electron@44.10.0`, is excluded here too, with the same
+comment, so that the update installs; the entry goes once the version is
+older than the policy.
 
 `strictPeerDependencies: true` makes `pnpm install` fail when the extension's
 own copy of a shared library is outside the peer range that
@@ -826,8 +830,8 @@ it with Playwright's `chromium.connectOverCDP` on the port that script opens
 (see "Checking the Extension in Freelens Dev"), so they need no package of
 Freelens and no file of its checkout; Freelens dev is the only dependency, and
 it is not in `package.json`. `playwright` is a devDependency at the version of
-Freelens's catalog. The workflow builds the extension, checks out Freelens,
-starts `pnpm dev` there in the background under `xvfb-run`, with its output in
+Freelens's catalog. The workflow builds the extension, checks out Freelens at
+each release tag of its matrix (`v2.0.0`), starts `pnpm dev` there in the background under `xvfb-run`, with its output in
 a file and a fresh profile in `FREELENS_INTEGRATION_TESTING_DIR`, waits until
 the CDP endpoint answers, and runs `pnpm test:integration` here. A profile of
 Freelens dev syncs no kubeconfig by default, so the workflow seeds the fresh
@@ -1051,17 +1055,17 @@ depend on is the names:
   `AGENTS.md` lists those citations, so that a rename there updates the skill.
   A skill that cites a section the list does not have needs the list extended
   in freelensapp/freelens.
-- The links point at `main` of both repositories. Once Freelens 2.0.0 is
-  released, they move to the `v2.0.0` tag of freelensapp/freelens and to a
-  release tag of this repository, and the pin check of
-  `port-freelens-extension-to-v2` ends, because a port takes the released
-  `@freelensapp/extensions` from npm rather than a nightly.
+- The links to freelensapp/freelens point at a release tag, `v2.0.0`, the
+  same as the pin of the template of the migration issue. The links to this
+  repository point at `main`: the template is read as it is now, not at a
+  release.
 
 The pin in "Source of truth" of the template of the migration issue, a Freelens
-commit and the nightly built from it, is never older than what the skills or
-the documents they link to require. A change that makes a skill rely on what a
-newer nightly brought moves the pin of the template to that nightly, together
-with the versions of its "Stack alignment".
+release tag and the `@freelensapp/extensions` release of the same version, is
+never older than what the skills or the documents they link to require. A
+change that makes a skill rely on what a newer release brought moves the pin
+of the template and the links of the skills to that release, together with the
+versions of its "Stack alignment".
 
 The template changes by pull request, like any file here. A finding of a port
 that applies to any port is folded into the generic section it affects, and
