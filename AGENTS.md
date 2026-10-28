@@ -62,7 +62,10 @@ install scripts that is not listed there fails `pnpm install`, so add it with
 `true` or `false` deliberately. pnpm refuses versions younger than its
 `minimumReleaseAge` (1 day), with `@freelensapp/extensions` excluded because
 a Freelens release is adopted on the day it is published, together with the
-stack it was built with.
+stack it was built with. An exact version that Freelens lets in early for a
+security fix, such as `electron@44.10.0`, is excluded here too, with the same
+comment, so that the update installs; the entry goes once the version is
+older than the policy.
 
 `strictPeerDependencies: true` makes `pnpm install` fail when the extension's
 own copy of a shared library is outside the peer range that
