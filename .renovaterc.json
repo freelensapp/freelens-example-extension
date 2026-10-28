@@ -110,7 +110,7 @@
       "enabled": false
     },
     {
-      "description": "Group @freelensapp/* with everything that follows Freelens into one PR, so that a nightly of @freelensapp/extensions and the stack it was built with arrive together.",
+      "description": "Group @freelensapp/* with everything that follows Freelens into one PR, so that a release of @freelensapp/extensions and the stack it was built with arrive together.",
       "matchPackageNames": ["@freelensapp/**"],
       "groupName": "Freelens dependencies"
     },

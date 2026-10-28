@@ -12,7 +12,7 @@
 This repository is the reference template for building, type-checking,
 testing and releasing an extension for the [Freelens](https://freelens.app)
 application. The
-[Freelens extension documentation](https://github.com/freelensapp/freelens/tree/main/docs/extensions)
+[Freelens extension documentation](https://github.com/freelensapp/freelens/tree/v2.0.0/docs/extensions)
 describes the extension API and points here for everything around it. Start a
 new extension from a copy of this repository.
 
