@@ -996,8 +996,9 @@ syncs of the dev profile" in Freelens's `DEVELOPMENT.md`).
    `dist/`.
 2. On the Extensions page, enter the checkout's directory and press
    "Install". Freelens then asks whether to load the extension in place;
-   confirm that too. The table lists the extension as "in place, unverified"
-   and enabled.
+   confirm that too. The table lists the extension as enabled, with
+   "development" in the version column and `Loaded from <directory>` in its
+   title.
 3. A rebuild, by `pnpm build` or by `pnpm dev` of the extension, reloads it
    once in the root frame and once in each cluster frame.
 

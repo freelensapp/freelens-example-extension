@@ -397,7 +397,9 @@ export async function installExtension({ window }: AppSession, { reinstall = fal
   await table.or(window.getByText("There are no extensions installed.", { exact: true })).waitFor(viewTimeout);
 
   if (await row.count()) {
-    const inPlace = await row.locator(`[title="Loaded in place from ${extensionDir}"]`).count();
+    // An extension loaded in place reads "development" in the version column,
+    // with the directory in its title.
+    const inPlace = await row.locator(`[title="Loaded from ${extensionDir}"]`).count();
 
     if (!reinstall && inPlace && (await enabled.count())) {
       console.log(`${extensionName} is installed from ${extensionDir}`);
