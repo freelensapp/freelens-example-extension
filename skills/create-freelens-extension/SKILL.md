@@ -101,6 +101,7 @@ the same kind.
   `.github/workflows/type-check.yaml`, `.github/workflows/check.yaml`,
   `.github/workflows/unit-tests.yaml`, `.github/workflows/trunk-check.yaml`,
   `.github/workflows/mise-lock-check.yaml`,
+  `.github/workflows/cleanup-cache.yaml`,
   `.github/workflows/integration-tests.yaml` (removed with the integration
   tests, "4. Verify").
 
