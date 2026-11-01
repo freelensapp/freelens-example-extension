@@ -876,7 +876,10 @@ either process:
 The tests are deterministic, so nothing retries them: the config sets no
 `retry`, and the workflow runs the step once, under `timeout 600`. A retry
 repeats the same failure, and every view of a session waits its full timeout
-before it fails.
+before it fails. The one exception is the cluster frame, which `openKindCluster`
+loads a second time when it did not render and the dev file route of Freelens
+failed a request meanwhile (see below); that failure is of Freelens dev, not of
+a test.
 
 The sessions reach the app through its renderer only; the main process, and
 with it the application menu, is out of reach of CDP. They navigate the root
@@ -900,7 +903,25 @@ and the worker that logged it. Its text is the preview of its arguments, which
 is empty for some objects and only the class name for others, such as
 `ErrorEvent`; such an error is described from its arguments, read from the
 page, and an empty one without arguments, which the browser itself logs, gets
-its time, to find it in the main log.
+its time, to find it in the main log. An uncaught value that is not an `Error`
+reaches the session as a page error with an empty stack, and is described by
+its name and message, with its time.
+
+The dev file route of Freelens dev, which serves the renderer's modules from
+the Vite dev server, logs a request that fails as a warning
+(`[DEV-FILE-ROUTE]: request for … failed`): its keep-alive agent at times
+reuses a socket that the dev server is closing, and the request fails with
+`ECONNRESET`. The route answers such a request with a 502, and Chromium logs
+`Failed to load resource: the server responded with a status of 502`; that
+error is left out when the main log has the failed request for its URL. When
+the module belongs to Monaco's editor worker, which a YAML view starts, the
+worker does not load, and Monaco rethrows its `error` event, an `Event` with
+no name, which is left out when the main log has a failed request. When the
+module belongs to the cluster frame, such as one of Freelens's own
+stylesheets, the frame does not render its sidebar, and `openKindCluster`,
+after its timeout, loads the frame again once, only if the main log has a
+failed request since the cluster was opened.
+
 The workflow sets `TURBO_LOG_ORDER=stream` for `pnpm dev`: in GitHub Actions
 turbo otherwise groups the output of a task until it ends, and the persistent
 `dev` task never ends, so the log would stay empty.
