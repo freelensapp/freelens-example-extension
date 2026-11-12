@@ -67,7 +67,7 @@ lint:
     # Trunk runs biome on a copy of the files in a sandbox outside the
     # repository, where biome finds the copy of biome.jsonc by itself. The
     # commands do not pass --config-path: biome 2.6.4 ignores every parser
-    # option (markdown.parser.frontmatter, also the matching CLI flags) when
+    # option (and the matching CLI flags) when
     # the config is given explicitly. With
     # vcs.useIgnoreFile on, biome 2.5.15 matches every target against the
     # repository's .gitignore and panics on a path outside the repository root
