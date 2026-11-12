@@ -42,20 +42,21 @@ Two skills in the [Agent Skills](https://agentskills.io/specification)
 format guide a coding agent, such as Claude Code, Codex, GitHub Copilot,
 Cursor or Gemini CLI, through an extension in its own repository:
 
-- `create-freelens-extension` starts a new Freelens extension from a copy of
-  this repository.
-- `port-freelens-extension-to-v2` ports an extension written for the v1
-  extension API to v2.
+- `create-extension` starts a new Freelens extension from a copy of this
+  repository.
+- `port-extension-to-v2` ports an extension written for the v1 extension API
+  to v2.
 
-Install both into the extension's repository, or one of them with `--skill`:
+They are the `freelens` plugin of Claude Code in
+[freelensapp/freelens](https://github.com/freelensapp/freelens/tree/main/plugins/freelens),
+whose `SKILL.md` files other agents read too. Add the marketplace with
+`--sparse`, which checks out only the plugin instead of the whole Freelens
+repository, then install the plugin from it:
 
 ```sh
-npx skills add freelensapp/freelens-example-extension
-npx skills add freelensapp/freelens-example-extension --skill port-freelens-extension-to-v2
+claude plugin marketplace add freelensapp/freelens --sparse .claude-plugin plugins
+claude plugin install freelens@freelens
 ```
-
-or copy its directory from [`skills/`](skills) to where the agent reads skills
-from.
 
 ## Requirements
 

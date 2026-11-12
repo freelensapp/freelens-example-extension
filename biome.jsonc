@@ -126,13 +126,6 @@
       }
     }
   },
-  "markdown": {
-    "parser": {
-      // The SKILL.md files of the skills start with YAML frontmatter, which
-      // Biome otherwise reads as a thematic break and a setext heading.
-      "frontmatter": true
-    }
-  },
   // Every path in an override starts with `**/`: Trunk runs Biome from a
   // sandbox outside the repository, where a path anchored at the repository
   // root matches no file and the override silently does nothing.

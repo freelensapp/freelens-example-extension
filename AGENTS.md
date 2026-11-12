@@ -154,7 +154,6 @@ build/                           # Vite plugins: host modules, standard decorato
 integration/__tests__/           # Integration tests, run against Freelens dev over CDP, and their shared module
 integration/fixtures/            # Test objects of the integration tests per API version
 examples/                        # CRDs and test objects per API version
-skills/                          # Agent skills for other repositories (see "Agent Skills")
 ```
 
 Build output goes to `dist/`: `main.js`, `renderer.js` and `renderer.css`, with
@@ -746,8 +745,7 @@ difference.
 The Biome commands in `.trunk/trunk.yaml` let Biome find the copy of
 `biome.jsonc` in the sandbox rather than pass `--config-path`. Biome 2.6.4
 ignores every parser option when the config is given explicitly, with
-`--config-path` or `BIOME_CONFIG_PATH`: `markdown.parser.frontmatter` turns
-off, and Biome reformats the frontmatter of every `SKILL.md`.
+`--config-path` or `BIOME_CONFIG_PATH`.
 
 In that sandbox, Biome also cannot apply `vcs.useIgnoreFile`: since 2.5.15 it
 matches every target against the repository's `.gitignore` and panics on a
@@ -772,11 +770,7 @@ of `.trunk/trunk.yaml` give them to yamlfmt only. `biome.jsonc` leaves them
 out, together with `pnpm-lock.yaml` and `pnpm-workspace.yaml`, which pnpm
 writes, and `.trunk/`, whose `trunk.yaml` `trunk upgrade` rewrites.
 
-The Markdown rules are in `nursery`. `markdown.parser.frontmatter` is on for
-the YAML frontmatter of the `SKILL.md` files; without it Biome reads the
-opening `---` as a thematic break and inserts a blank line after it. Biome does
-not rewrap a paragraph, so the template of the migration issue keeps one
-paragraph per line ("Agent Skills").
+The Markdown rules are in `nursery`.
 
 ### Knip
 
@@ -1081,64 +1075,24 @@ console.
 
 ## Agent Skills
 
-`skills/` holds two skills in the Agent Skills format
-(<https://agentskills.io/specification>), which extension authors install into
-their own repositories with `npx skills add` or by copying the directory. They
-are for work on other repositories, not on this one, so they are not in
-`.claude/skills/`.
-
-| Skill                           | Does                                                                                                      |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `create-freelens-extension`     | starts a new extension from a copy of this repository                                                     |
-| `port-freelens-extension-to-v2` | ports a v1 extension to v2, with the template of the migration issue, and #326, #327 and #336 as examples |
-
-Each `SKILL.md` carries the workflow and links to the documents it relies on:
-`api.md`, `migrating-from-v1.md` and `binaries.md` of Freelens, this file,
-`README.md`, the source tree, and the issues and pull request above. It does
-not copy them, so nothing drifts. The one exception is
-`skills/port-freelens-extension-to-v2/references/migration-issue.md`, the
-template of the migration issue, which exists nowhere else. What a skill does
-depend on is the names:
+The skills for extension authors, `create-extension` and
+`port-extension-to-v2`, are the `freelens` plugin of Claude Code in
+freelensapp/freelens, in `plugins/freelens/skills/`, together with the template
+of the v2 migration issue. Their own rules are in the "Skills for Coding
+Agents" section of the `AGENTS.md` there. They use this repository as the
+template of an extension, read at `main`, and depend on it by name:
 
 - They, the template of the migration issue included, cite sections of this
   file and of `README.md` by their headings, and files of this repository by
-  their paths. Renaming such a section, or moving
-  or removing such a file, updates the skill in the same commit.
-- `create-freelens-extension` puts every tracked file into one of its groups
-  (keep, adapt, remove, rewrite). A new tracked file goes into one of them in
-  the commit that adds it.
-- They cite sections of Freelens's `docs/extensions/` by their headings and
-  contracts by their numbers. The "Extension API" section of Freelens's
-  `AGENTS.md` lists those citations, so that a rename there updates the skill.
-  A skill that cites a section the list does not have needs the list extended
-  in freelensapp/freelens.
-- The links to freelensapp/freelens point at a release tag, `v2.0.0`, the
-  same as the pin of the template of the migration issue. The links to this
-  repository point at `main`: the template is read as it is now, not at a
-  release.
+  their paths. Renaming such a section, or moving or removing such a file,
+  needs a matching change of the skills in freelensapp/freelens.
+- `create-extension` puts every tracked file of this repository into one of its
+  groups (keep, adapt, remove, rewrite). A new tracked file needs adding to one
+  of them there.
 
-The pin in "Source of truth" of the template of the migration issue, a Freelens
-release tag and the `@freelensapp/extensions` release of the same version, is
-never older than what the skills or the documents they link to require. A
-change that makes a skill rely on what a newer release brought moves the pin
-of the template and the links of the skills to that release, together with the
-versions of its "Stack alignment".
-
-The template changes by pull request, like any file here. A finding of a port
-that applies to any port is folded into the generic section it affects, and
-the template keeps no list of findings: the history is in git, and #326, the
-migration of this repository, keeps its own findings as a completed example
-that is not edited for later ports. The template is an issue body, so it keeps
-one paragraph per line: GitHub turns every newline of an issue body into a line
-break. Every mention of the Claude handle in it stays split, and every
-reference to this repository is written in full, because the body is opened in
-other repositories.
-
-The frontmatter follows the specification: `name` equal to the directory name,
-a `description` of at most 1024 characters that says what the skill does and
-when to use it, `license: MIT`, and `compatibility` naming the network access
-the links need. Keep each `SKILL.md` well under 500 lines, and add a
-`references/` file only for content that exists nowhere else.
+A finding of a port about the files of this repository is reported here; one
+about a skill or the template of the migration issue goes to
+freelensapp/freelens.
 
 ## Code Style
 
