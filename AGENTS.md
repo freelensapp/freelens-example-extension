@@ -902,7 +902,13 @@ running. The renderer's console carries the errors of the root frame and of
 every cluster frame; the main log is read from the file that
 `FREELENS_MAIN_LOG` names, from its size when the session started, and every
 line that starts with `error:` counts, also after a task prefix that turbo
-may add, such as `freelens:dev:`, except
+may add, such as `freelens:dev:`. So does a line that starts with
+`Error sending from <name>:`, such as `Error sending from webContents:` or
+`Error sending from webFrameMain:`, which Electron writes to stderr when IPC
+cannot send a message, for example a store's model that is not plain data
+("Rules That Fail Silently"). It is outside the logger of Freelens and not in
+`lens.log`, only in the output of `pnpm dev`, which is the main log of the
+workflow. The one exception is
 `proxy_server.go:… Error while proxying request: context canceled`, which the
 Kubernetes proxy of Freelens logs for a request that the renderer aborts.
 Freelens dev renders in `React.StrictMode`, which mounts every view twice and

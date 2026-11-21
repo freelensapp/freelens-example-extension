@@ -252,7 +252,10 @@ function collectErrors(window: Page) {
 
   // A line of the main log starts with its level, in the file and on the
   // console alike, after the task prefix that turbo adds to the output of
-  // `pnpm dev` when it streams it (`freelens:dev: `).
+  // `pnpm dev` when it streams it (`freelens:dev: `). Electron writes a
+  // message that IPC cannot send, such as a mobx proxy in a store's model,
+  // to stderr, outside the logger of Freelens, as `Error sending from
+  // webContents:` or `Error sending from webFrameMain:`; it counts too.
   const readMainLog = () => {
     if (!mainLogFile || !fs.existsSync(mainLogFile)) {
       return;
@@ -286,7 +289,10 @@ function collectErrors(window: Page) {
           devFileRouteFailures.push(urlPath(devFileRouteFailure[1]));
         }
 
-        if (/^(?:[\w@/.-]+:[\w:-]+: )?\s*error:/.test(text) && !abortedProxyRequestPattern.test(text.trim())) {
+        if (
+          /^(?:[\w@/.-]+:[\w:-]+: )?\s*(?:error:|Error sending from \w+:)/.test(text) &&
+          !abortedProxyRequestPattern.test(text.trim())
+        ) {
           errorLogs.push(`[main] ${text.trim()}`);
         }
       }
