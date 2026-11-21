@@ -396,6 +396,16 @@ mechanism; this is the list to check a change against.
   the class does not call `makeObservable(this)`. Without `accessor` the
   production build of mobx leaves the field unobservable; a unit test that
   imports the class fails ("Decorators").
+- **A store's `toJSON()` returns plain data.** The host saves the model to
+  disk as JSON, which accepts a mobx proxy, and sends it to every frame
+  through IPC, whose structured clone does not. A deeply observable object or
+  array returned as it is makes Electron write `Error sending from
+  webContents:` and `Error sending from webFrameMain:` to stderr at every
+  change of the store, outside the log of Freelens, and the message does not
+  reach the frames. Return `toJS(...)` of such a field, or a copy. The store
+  tests pass the model through `structuredClone`, which throws `DataCloneError`
+  on a mobx proxy in Node as it does in Electron
+  (`src/common/store/preferences-store.test.ts`).
 - **No Node or Electron in renderer and common code.** They are `undefined` in
   the renderer. The build fails on an import, `pnpm type:check` on a global
   ("Process-specific settings").
@@ -892,7 +902,13 @@ running. The renderer's console carries the errors of the root frame and of
 every cluster frame; the main log is read from the file that
 `FREELENS_MAIN_LOG` names, from its size when the session started, and every
 line that starts with `error:` counts, also after a task prefix that turbo
-may add, such as `freelens:dev:`, except
+may add, such as `freelens:dev:`. So does a line that starts with
+`Error sending from <name>:`, such as `Error sending from webContents:` or
+`Error sending from webFrameMain:`, which Electron writes to stderr when IPC
+cannot send a message, for example a store's model that is not plain data
+("Rules That Fail Silently"). It is outside the logger of Freelens and not in
+`lens.log`, only in the output of `pnpm dev`, which is the main log of the
+workflow. The one exception is
 `proxy_server.go:… Error while proxying request: context canceled`, which the
 Kubernetes proxy of Freelens logs for a request that the renderer aborts.
 Freelens dev renders in `React.StrictMode`, which mounts every view twice and

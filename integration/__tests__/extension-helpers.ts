@@ -252,7 +252,9 @@ function collectErrors(window: Page) {
 
   // A line of the main log starts with its level, in the file and on the
   // console alike, after the task prefix that turbo adds to the output of
-  // `pnpm dev` when it streams it (`freelens:dev: `).
+  // `pnpm dev` when it streams it (`freelens:dev: `). Electron's IPC send
+  // errors (`Error sending from <name>:`) have no level and count too ("Rules
+  // That Fail Silently" in AGENTS.md).
   const readMainLog = () => {
     if (!mainLogFile || !fs.existsSync(mainLogFile)) {
       return;
@@ -286,7 +288,10 @@ function collectErrors(window: Page) {
           devFileRouteFailures.push(urlPath(devFileRouteFailure[1]));
         }
 
-        if (/^(?:[\w@/.-]+:[\w:-]+: )?\s*error:/.test(text) && !abortedProxyRequestPattern.test(text.trim())) {
+        if (
+          /^(?:[\w@/.-]+:[\w:-]+: )?\s*(?:error:|Error sending from \w+:)/.test(text) &&
+          !abortedProxyRequestPattern.test(text.trim())
+        ) {
           errorLogs.push(`[main] ${text.trim()}`);
         }
       }
