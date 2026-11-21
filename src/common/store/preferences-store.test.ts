@@ -10,10 +10,8 @@ import type { ExamplePreferencesModel } from "./preferences-store";
 // host may run, accepts the class and leaves the field unobservable, so the
 // preference would never be saved.
 //
-// The host also sends the model that toJSON() returns to every frame through
-// IPC, whose structured clone rejects a mobx proxy, while the JSON it saves to
-// disk accepts one. structuredClone() of Node rejects it the same way, so the
-// model is checked with it.
+// The structuredClone() tests stand in for IPC of Electron ("Rules That Fail
+// Silently" in AGENTS.md).
 
 beforeEach(() => {
   vi.spyOn(console, "log").mockImplementation(() => {});

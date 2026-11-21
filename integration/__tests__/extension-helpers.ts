@@ -252,10 +252,9 @@ function collectErrors(window: Page) {
 
   // A line of the main log starts with its level, in the file and on the
   // console alike, after the task prefix that turbo adds to the output of
-  // `pnpm dev` when it streams it (`freelens:dev: `). Electron writes a
-  // message that IPC cannot send, such as a mobx proxy in a store's model,
-  // to stderr, outside the logger of Freelens, as `Error sending from
-  // webContents:` or `Error sending from webFrameMain:`; it counts too.
+  // `pnpm dev` when it streams it (`freelens:dev: `). Electron's IPC send
+  // errors (`Error sending from <name>:`) have no level and count too ("Rules
+  // That Fail Silently" in AGENTS.md).
   const readMainLog = () => {
     if (!mainLogFile || !fs.existsSync(mainLogFile)) {
       return;

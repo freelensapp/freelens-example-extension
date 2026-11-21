@@ -402,9 +402,9 @@ mechanism; this is the list to check a change against.
   array returned as it is makes Electron write `Error sending from
   webContents:` and `Error sending from webFrameMain:` to stderr at every
   change of the store, outside the log of Freelens, and the message does not
-  reach the frames. Return `toJS(...)` of such a field, or a copy. The store tests
-  pass the model through `structuredClone`, which throws `DataCloneError` on a
-  mobx proxy in Node as it does in Electron
+  reach the frames. Return `toJS(...)` of such a field, or a copy. The store
+  tests pass the model through `structuredClone`, which throws `DataCloneError`
+  on a mobx proxy in Node as it does in Electron
   (`src/common/store/preferences-store.test.ts`).
 - **No Node or Electron in renderer and common code.** They are `undefined` in
   the renderer. The build fails on an import, `pnpm type:check` on a global
