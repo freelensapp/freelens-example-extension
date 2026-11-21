@@ -86,6 +86,7 @@ lint:
         - json
         - markdown
         - sass
+        - svg
         - typescript
         - yaml
       commands:
