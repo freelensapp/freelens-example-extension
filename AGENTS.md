@@ -107,7 +107,7 @@ pnpm type:check:integration    # Integration tests
 pnpm type:check:environments   # Environment tests
 
 # Linting & formatting
-pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, YAML, Markdown (biome)
+pnpm biome:check          # TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, SVG, YAML, Markdown (biome)
 pnpm biome:fix            # Auto-fix the formats above
 pnpm trunk:check          # TOML, shell, workflows, yamllint, and Biome again (changed files)
 pnpm trunk:fix            # Auto-fix TOML, shell, and the Biome formats
@@ -603,14 +603,14 @@ Main code runs in Node, renderer code in a browser page, and common code in
 both. Each is type-checked in a program of its own, so that an API the runtime
 does not have fails `pnpm type:check` rather than the extension:
 
-| Config                       | lib                       | types                             | Files                                                              |
-| ---------------------------- | ------------------------- | --------------------------------- | ------------------------------------------------------------------ |
-| `src/main/tsconfig.json`     | ES2024                    | `node`                            | `src/main/`, `src/common/`                                         |
-| `src/renderer/tsconfig.json` | ES2024, DOM, DOM.Iterable | `vite/client`                     | `src/renderer/`, `src/common/`                                     |
-| `src/common/tsconfig.json`   | ES2024, WebWorker         | none                              | `src/common/`                                                      |
-| `src/tsconfig.json`          | ES2024, DOM, DOM.Iterable | `node`, `vite/client`             | `*.test.ts(x)` under `src/`, and `test/`                           |
-| `integration/tsconfig.json`  | ES2024, DOM, DOM.Iterable | `node`, `@freelensapp/extensions` | `integration/`                                                     |
-| `tsconfig.json`              | ES2024                    | `node`                            | `vite.config.mjs`, the Vitest configs, `svgo.config.mjs`, `build/` |
+| Config                       | lib                       | types                             | Files                                           |
+| ---------------------------- | ------------------------- | --------------------------------- | ----------------------------------------------- |
+| `src/main/tsconfig.json`     | ES2024                    | `node`                            | `src/main/`, `src/common/`                      |
+| `src/renderer/tsconfig.json` | ES2024, DOM, DOM.Iterable | `vite/client`                     | `src/renderer/`, `src/common/`                  |
+| `src/common/tsconfig.json`   | ES2024, WebWorker         | none                              | `src/common/`                                   |
+| `src/tsconfig.json`          | ES2024, DOM, DOM.Iterable | `node`, `vite/client`             | `*.test.ts(x)` under `src/`, and `test/`        |
+| `integration/tsconfig.json`  | ES2024, DOM, DOM.Iterable | `node`, `@freelensapp/extensions` | `integration/`                                  |
+| `tsconfig.json`              | ES2024                    | `node`                            | `vite.config.mjs`, the Vitest configs, `build/` |
 
 All of them extend `tsconfig.base.json`, which has the compiler options of
 Freelens's fixture extension: `strict`, `moduleResolution: Bundler`,
@@ -783,6 +783,9 @@ of `.trunk/trunk.yaml` give them to yamlfmt only. `biome.jsonc` leaves them
 out, together with `pnpm-lock.yaml` and `pnpm-workspace.yaml`, which pnpm
 writes, and `.trunk/`, whose `trunk.yaml` `trunk upgrade` rewrites.
 
+Biome formats the SVG icons as well, with its HTML formatter, so Trunk runs
+no SVGO: it is among the disabled linters of `.trunk/trunk.yaml`.
+
 The Markdown rules are in `nursery`.
 
 ### Knip
@@ -808,14 +811,12 @@ Vitest alias target `test/freelens-extensions.ts` and the probes in
 `--no-config-hints` is set because one config serves both passes, and an entry
 that only the production pass needs is reported as redundant by the other.
 
-Two more settings keep the file check to real findings. `project` leaves out
+One more setting keeps the file check to real findings. `project` leaves out
 the CSS module declarations with `!src/**/*.d.scss.ts`: TypeScript reaches them
 through `allowArbitraryExtensions`, while knip resolves
 `import styles from "./x.module.scss"` to the stylesheet, so nothing would
 import them. The negation has no trailing `!`, which would apply it to the
-production pass only. And the SVGO plugin is on (`"svgo": true`), so that
-`svgo.config.mjs` is an entry: Trunk runs SVGO, and no dependency turns the
-plugin on.
+production pass only.
 
 `ignore` leaves out `dist/**`. The `main` field of `package.json` makes
 `dist/main.js` an entry once it exists, and the `knip` script runs with
@@ -1115,7 +1116,7 @@ freelensapp/freelens.
 
 ## Code Style
 
-- **Biome** formats **TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, YAML, Markdown**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
+- **Biome** formats **TypeScript/TSX, JS, JSON, CSS, SCSS, HTML, SVG, YAML, Markdown**: double quotes, semicolons, trailing commas, 2-space indent, 120 char line width — use `pnpm biome:fix`
 - **Trunk** formats **TOML and shell scripts**, and runs the linters for formats not covered by Biome (yamllint, actionlint, shellcheck) — use `pnpm trunk:fix`
 - Import order (enforced by biome organizeImports): built-in modules → `@freelensapp/**` → packages → relative paths
 - React 19; JSX compiles to `react/jsx-runtime` imports, which the build maps to the host's React
