@@ -128,7 +128,7 @@ pnpm pack:dev             # Bump prerelease version, build, and create .tgz for 
 
 # Clean
 pnpm clean                # Clean dist/
-pnpm clean:dts            # Remove generated *.d.scss.ts files
+pnpm clean:dts            # Remove generated *.d.css.ts and *.d.scss.ts files
 pnpm clean:all            # Clean everything (dist, dts, node_modules, tgz)
 ```
 
@@ -379,9 +379,10 @@ menu items work, and the resource is gone from the Custom Resources tree.
 - Pages, details and menu items import their CSS module for the class names only, with no `?inline` import and no
   `<style>` tag; the rules reach the page through `renderer.css` (see "CSS"). SCSS variables are in
   `src/renderer/vars.scss`, used with `@use "../vars"`.
-- SCSS modules get TypeScript declarations (`*.module.d.scss.ts`), written during the renderer build (see
-  "CSS module declarations"). They are committed, because `pnpm type:check` and `type-check.yaml` run without a build;
-  commit the regenerated file with a change to its SCSS module. `pnpm clean:dts` removes them.
+- CSS modules get TypeScript declarations (`*.module.d.scss.ts` here, `*.module.d.css.ts` for a plain CSS module),
+  written during the renderer build (see "CSS module declarations"). They are committed, because `pnpm type:check` and
+  `type-check.yaml` run without a build; commit the regenerated file with a change to its CSS module. `pnpm clean:dts`
+  removes them.
 - Icons are SVG files imported with `?raw` and rendered by `Renderer.Component.Icon` through its `svg` prop.
 - The `kubeObjectDetailItems` and `kubeObjectMenuItems` registrations in `src/renderer/index.tsx` are made by
   `Renderer.K8sApi.detailsFor(Example, { priority: 10, Details })` and
@@ -623,9 +624,14 @@ use `camelCaseOnly` class names.
 
 `build/vite-plugin-css-module-declarations.mjs` writes `x.module.d.scss.ts`
 next to every `x.module.scss` the renderer build imports, in `vite build` and
-in watch mode. It takes the class names from Vite's own `preprocessCSS`, with
-the build's resolved config, so they are the names the bundle exports, after
-`localsConvention`; a class inside `:global(...)` is not one of them.
+in watch mode. A CSS module may be an SCSS module, `x.module.scss`, as all of
+the template's are, or a plain one, `x.module.css`, which gets
+`x.module.d.css.ts`; an extension may have both. `knip.jsonc`, `clean:dts` and
+the type check cover either kind. The plugin knows Less and Stylus modules
+too, but the template has no preprocessor for them. It takes the class names
+from Vite's own `preprocessCSS`, with the build's resolved config, so they are
+the names the bundle exports, after `localsConvention`; a class inside
+`:global(...)` is not one of them.
 
 The plugin is written so that a build cannot leave a committed declaration
 empty or partial, whether it fails, is interrupted or is killed:
@@ -695,9 +701,10 @@ Common code uses `Common`.
 The renderer program has `vite/client`, which declares `*?raw`, `*?inline` and
 the CSS modules and brings no Node into the program. With
 `allowArbitraryExtensions`, `import styles from "./x.module.scss"` resolves to
-the generated `x.module.d.scss.ts`, so a class name that the stylesheet lacks
-fails the check. Without that file, after `pnpm clean:dts`, the import falls
-back to the untyped declaration of `vite/client`.
+the generated `x.module.d.scss.ts`, and `"./x.module.css"` to
+`x.module.d.css.ts`, so a class name that the stylesheet lacks fails the
+check. Without that file, after `pnpm clean:dts`, the import falls back to the
+untyped declaration of `vite/client`.
 
 ### Environment tests
 
@@ -855,8 +862,10 @@ Vitest alias target `test/freelens-extensions.ts` and the probes in
 that only the production pass needs is reported as redundant by the other.
 
 One more setting keeps the file check to real findings. `project` leaves out
-the CSS module declarations with `!src/**/*.d.scss.ts`: TypeScript reaches them
-through `allowArbitraryExtensions`, while knip resolves
+the CSS module declarations with `!src/**/*.d.{css,scss}.ts`, those of plain
+CSS and of SCSS modules, which `src/**/*.{css,scss,ts,tsx}!` would otherwise
+include with the stylesheets: TypeScript reaches them through
+`allowArbitraryExtensions`, while knip resolves
 `import styles from "./x.module.scss"` to the stylesheet, so nothing would
 import them. The negation has no trailing `!`, which would apply it to the
 production pass only.
