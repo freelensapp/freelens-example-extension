@@ -854,7 +854,7 @@ it with Playwright's `chromium.connectOverCDP` on the port that script opens
 Freelens and no file of its checkout; Freelens dev is the only dependency, and
 it is not in `package.json`. `playwright` is a devDependency at the version of
 Freelens's catalog. The workflow builds the extension, checks out Freelens at
-each release tag of its matrix (`v2.0.0`), starts `pnpm dev` there in the background under `xvfb-run`, with its output in
+each release tag of its matrix (`v2.0.0`, `v2.1.0`), starts `pnpm dev` there in the background under `xvfb-run`, with its output in
 a file and a fresh profile in `FREELENS_INTEGRATION_TESTING_DIR`, waits until
 the CDP endpoint answers, and runs `pnpm test:integration` here. The job
 `integration tests` waits for every job of the matrix and fails when one of
