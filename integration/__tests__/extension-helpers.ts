@@ -423,10 +423,15 @@ async function navigate(window: Page, url: string) {
 /**
  * Dismisses the notifications, so that one still in its enter animation does
  * not intercept pointer events on the elements behind it.
+ *
+ * The selector matches only the close buttons inside the notifications area,
+ * and any notification id: one created with an id of its own does not start
+ * with `notification_`. The `CloseButton` component of Freelens is not one of
+ * them; it closes the Extensions and Preferences pages (`SettingLayout`), and
+ * clicking it there would leave the page.
  */
 async function dismissNotifications(window: Page) {
-  const notificationCloseSelector =
-    'i[data-testid*="close-notification-for-notification_"], div[class*="close-button-module__closeButton--"][aria-label="Close"]';
+  const notificationCloseSelector = '.Notifications [data-testid^="close-notification-for-"]';
 
   for (let attempt = 0; attempt < 10; attempt++) {
     const closeButtons = await window.$$(notificationCloseSelector);
@@ -484,6 +489,10 @@ export async function installExtension({ window }: AppSession, { reinstall = fal
 
     await uninstallExtension(window, row);
   }
+
+  // A notification left by the uninstall or by a rebuild can cover the
+  // Install button.
+  await dismissNotifications(window);
 
   console.log(`install ${extensionDir}`);
   await window.getByPlaceholder("Name, URL, or path to a package or directory").fill(extensionDir);
