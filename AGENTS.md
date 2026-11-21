@@ -322,26 +322,58 @@ menu items work, and the resource is gone from the Custom Resources tree.
 ## Renderer Components
 
 - Pages and details panels are `observer` components from `mobx-react`, which the build maps to the host's copy.
-- Every page, details panel and menu item renders inside an `ErrorBoundary` from
+- Every page, panel, menu item and preference the extension registers renders inside an `ErrorBoundary` from
   `src/renderer/components/error-boundary.tsx`, a class component of the host's React with `getDerivedStateFromError`
   and `componentDidCatch`. It logs what its children throw while React renders them with `extension.name` and the
-  component stack, and renders `ErrorPage` in place of a page or a details panel, and nothing in place of a menu item,
-  where an error page does not fit. A details panel or menu item renders again when the host passes a new `object`,
-  which is the boundary's reset key.
-  - The boundary is applied where the registrations are made: `clusterPages`, `kubeObjectDetailItems` and
-    `kubeObjectMenuItems` are mapped through `withPageErrorBoundary`, `withDetailsErrorBoundary` and
-    `withMenuItemErrorBoundary`, each taking `this` and a registration, so an entry added to a field is wrapped as well.
-    A `globalPages` field is mapped through `withPageErrorBoundary` too. Each field is annotated with its type from
-    `Renderer.LensExtension` (`clusterPages: Renderer.LensExtension["clusterPages"] = [...]`), because the mapping
-    refers to `this`, and its type would otherwise depend on itself.
+  component stack, and renders its `fallback` in place of them: `ErrorPage` (the default) in place of a page or a
+  panel, and nothing (`fallback="nothing"`) in a small slot where an error page does not fit. With a `resetKey`, it
+  renders the children again when the key changes: the `object` of a details panel or a menu item, which the host
+  replaces with a new one when the object changes.
+  - The host renders the components of most fields without a boundary of its own nearer than the one around the whole
+    root window or the whole cluster view (traced in freelensapp/freelens#3138, which adds boundaries in the host; the
+    template keeps its own for the releases before it). The table lists every field that takes components, what an
+    error thrown by one replaces without the template's boundary, and what wraps it:
+
+    | Field                                    | What an error replaces                                         | Wrapper in the template                             |
+    | ---------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------- |
+    | `clusterPages` `Page`                    | the main area of the cluster                                   | `withPageErrorBoundary`                             |
+    | `globalPages` `Page`                     | the whole root window, top bar, hotbar and status bar included | `withPageErrorBoundary` (no global page here)       |
+    | `kubeObjectDetailItems` `Details`        | the whole cluster view                                         | `withDetailsErrorBoundary`                          |
+    | `kubeObjectMenuItems` `MenuItem`         | the whole cluster view                                         | `withMenuItemErrorBoundary`                         |
+    | `appPreferences` `Input`, `Hint`         | the whole root window                                          | `withPreferenceErrorBoundary`                       |
+    | `kubeWorkloadsOverviewItems` `Details`   | the whole Workloads Overview, the host's own panels included   | `withWorkloadsOverviewErrorBoundary` (no item here) |
+    | `catalogEntityDetailItems` `Details`     | the whole root frame, unmounted: a blank window until reload   | none: error page, `resetKey={props.entity}`         |
+    | `entitySettings` `View`                  | the whole root window                                          | none: error page, `resetKey={props.entity}`         |
+    | `customCategoryViews` `View`             | the catalog views, until the tab changes                       | none: error page                                    |
+    | `additionalCategoryColumns` `renderCell` | the catalog views, until the tab changes                       | none: nothing, `resetKey={entity}` (see below)      |
+    | `statusBarItems` `Item`                  | the whole root window                                          | none: nothing                                       |
+    | `topBarItems` `Item`                     | the whole root window                                          | none: nothing                                       |
+    | `clusterPageMenus` `Icon`                | the whole cluster view                                         | none: nothing                                       |
+    | `clusterFrameComponents` `Component`     | the whole cluster view                                         | none: nothing                                       |
+
+    The other fields (`appPreferenceTabs`, `commands`, `welcomeMenus`, `kubeObjectHandlers`, `customResources`) take
+    no components.
+  - The boundary is applied where the registrations are made: each field the template uses is mapped through its
+    wrapper, which takes `this` and a registration, so an entry added to the field is wrapped as well. Each field is
+    annotated with its type from `Renderer.LensExtension`
+    (`clusterPages: Renderer.LensExtension["clusterPages"] = [...]`), because the mapping refers to `this`, and its type
+    would otherwise depend on itself.
+  - A field marked "none" has no wrapper in the template. The template uses none of them but `clusterPageMenus`, whose
+    icon only passes its props and a fixed SVG to the host's `Icon`, and is left unwrapped. An extension that renders
+    more in such a field maps it the same way, replacing the component with one that renders it inside
+    `<ErrorBoundary extension={this} fallback="nothing" resetKey={...}>`, with the `fallback` and `resetKey` the table
+    gives; leave out `fallback` for the error page.
+  - `renderCell` of `additionalCategoryColumns` is a function the host calls from its own render, not a component, so a
+    boundary sees only what renders inside it. Move the work of the cell into a component and return it inside the
+    boundary:
+    `renderCell: (entity) => <ErrorBoundary extension={this} fallback="nothing" resetKey={entity}><MyCell entity={entity} /></ErrorBoundary>`.
+    The deprecated `item` of `statusBarItems` is not a component either; register `components.Item` instead.
   - The wrappers take the registration that `Renderer.K8sApi.detailsFor` and `menuItemFor` built, so the helpers check
     each component against its model first, with no cast.
   - A `try`/`catch` around the call of a component is not enough. It sees only what the call throws, and the errors
     that matter come later: a child component throws when React renders it, and a callback such as
     `renderTableContents`, `getItems` or `customizeHeader` of `KubeObjectListLayout` throws when the host calls it from
-    its own render. Such an error goes up to the nearest boundary of the host: the one around the main area of a
-    cluster for a list page, and the one around the whole cluster frame for a details panel or a menu item, because the
-    host has none around the details drawer or a menu item of an extension.
+    its own render. Such an error goes up to the nearest boundary of the host, the one the table names.
   - The boundary has no decorators and no `observer`; it reads no observable, and the components inside it are
     observers of their own.
 - Pages, details and menu items import their CSS module for the class names only, with no `?inline` import and no
@@ -452,14 +484,25 @@ mechanism; this is the list to check a change against.
   release, inside the effect. The production build has no `StrictMode`, so
   only Freelens dev shows it, and only in a view that loads stores no other
   page has loaded before it.
-- **Every page, details panel and menu item inside an error boundary.** A
-  `try`/`catch` around the call of a component catches only what the call
-  throws, not what a child throws when React renders it or what a callback of
-  `KubeObjectListLayout` throws from the host's render. Such an error replaces
-  the main area with the host's error, or, from a details panel or a menu item,
-  the whole cluster view with the host's crash page. Map `clusterPages`,
-  `kubeObjectDetailItems` and `kubeObjectMenuItems` through their wrappers in
-  `error-boundary.tsx` ("Renderer Components").
+- **Every registered component inside an error boundary.** A `try`/`catch`
+  around the call of a component catches only what the call throws, not what a
+  child throws when React renders it or what a callback of
+  `KubeObjectListLayout` throws from the host's render. Such an error goes up to
+  the host's nearest boundary, which for most fields replaces the whole root
+  window or the whole cluster view, and for `catalogEntityDetailItems` leaves a
+  blank window. Map every field that takes components through its wrapper in
+  `error-boundary.tsx`, or, for a field without one, wrap the component in
+  `ErrorBoundary` with the `fallback` of the table in "Renderer Components":
+
+  | Field                                                                                                      | Wrapper or `fallback`                |
+  | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+  | `clusterPages`, `globalPages`                                                                              | `withPageErrorBoundary`              |
+  | `kubeObjectDetailItems`                                                                                    | `withDetailsErrorBoundary`           |
+  | `kubeObjectMenuItems`                                                                                      | `withMenuItemErrorBoundary`          |
+  | `appPreferences`                                                                                           | `withPreferenceErrorBoundary`        |
+  | `kubeWorkloadsOverviewItems`                                                                               | `withWorkloadsOverviewErrorBoundary` |
+  | `catalogEntityDetailItems`, `entitySettings`, `customCategoryViews`                                        | error page                           |
+  | `additionalCategoryColumns`, `statusBarItems`, `topBarItems`, `clusterPageMenus`, `clusterFrameComponents` | nothing                              |
 - **A cluster page gets the extension from its registration.** The host passes
   `params` only. The type check rejects a page that requires another prop, but
   not one that declares it optional ("Renderer Components").

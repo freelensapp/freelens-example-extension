@@ -5,12 +5,14 @@ import { ErrorPage } from "./error-page";
 type PageRegistration = Renderer.LensExtension["clusterPages"][number];
 type DetailRegistration = Renderer.LensExtension["kubeObjectDetailItems"][number];
 type MenuRegistration = Renderer.LensExtension["kubeObjectMenuItems"][number];
+type PreferenceRegistration = Renderer.LensExtension["appPreferences"][number];
+type WorkloadsOverviewRegistration = Renderer.LensExtension["kubeWorkloadsOverviewItems"][number];
 
 export interface ErrorBoundaryProps {
   extension: Renderer.LensExtension;
   /**
-   * What renders in place of the children after an error: the error page, or nothing, for a menu item, where an
-   * error page would not fit.
+   * What renders in place of the children after an error: the error page, or nothing, for a small slot where an
+   * error page would not fit, such as a menu item or a preference.
    */
   fallback?: "error-page" | "nothing";
   /**
@@ -33,9 +35,10 @@ interface ErrorBoundaryState {
  *
  * A `try`/`catch` around the call of a component does not see such an error: a child component renders later than
  * the call, and the host calls a callback such as `renderTableContents` of `KubeObjectListLayout` from its own
- * render. The host has no boundary around the details drawer or a menu item of an extension, and its boundary
- * around the cluster frame would replace the whole cluster view. The registrations of the extension are wrapped with
- * `withPageErrorBoundary`, `withDetailsErrorBoundary` and `withMenuItemErrorBoundary`.
+ * render. The host has no boundary around most of the components of an extension nearer than the one around the whole
+ * root window or the whole cluster view. The registrations of the extension are wrapped with `withPageErrorBoundary`,
+ * `withDetailsErrorBoundary`, `withMenuItemErrorBoundary`, `withPreferenceErrorBoundary` and
+ * `withWorkloadsOverviewErrorBoundary`.
  *
  * It is a class component of the host's React, because only a class component can be an error boundary, with no
  * decorators and no `observer`: it reads no observable, and the children it renders are observers of their own.
@@ -124,6 +127,58 @@ export function withMenuItemErrorBoundary(
       MenuItem: (props) => (
         <ErrorBoundary extension={extension} fallback="nothing" resetKey={props.object}>
           <MenuItem {...props} />
+        </ErrorBoundary>
+      ),
+    },
+  };
+}
+
+/**
+ * The registration of a preference, with its input and its hint each inside an error boundary that renders nothing
+ * after an error. The host has no boundary around the preferences page, and its nearest one would replace the whole
+ * root window.
+ */
+export function withPreferenceErrorBoundary(
+  extension: Renderer.LensExtension,
+  registration: PreferenceRegistration,
+): PreferenceRegistration {
+  const { Input, Hint } = registration.components;
+
+  return {
+    ...registration,
+    components: {
+      ...registration.components,
+      Input: () => (
+        <ErrorBoundary extension={extension} fallback="nothing">
+          <Input />
+        </ErrorBoundary>
+      ),
+      Hint: () => (
+        <ErrorBoundary extension={extension} fallback="nothing">
+          <Hint />
+        </ErrorBoundary>
+      ),
+    },
+  };
+}
+
+/**
+ * The registration of a Workloads Overview item, with its panel inside an error boundary. The host's nearest boundary
+ * would replace the whole Workloads Overview, its own panels included.
+ */
+export function withWorkloadsOverviewErrorBoundary(
+  extension: Renderer.LensExtension,
+  registration: WorkloadsOverviewRegistration,
+): WorkloadsOverviewRegistration {
+  const { Details } = registration.components;
+
+  return {
+    ...registration,
+    components: {
+      ...registration.components,
+      Details: () => (
+        <ErrorBoundary extension={extension}>
+          <Details />
         </ErrorBoundary>
       ),
     },
