@@ -9,6 +9,11 @@ import type { ExamplePreferencesModel } from "./preferences-store";
 // already rejected when this file imports it. The production build, which the
 // host may run, accepts the class and leaves the field unobservable, so the
 // preference would never be saved.
+//
+// The host also sends the model that toJSON() returns to every frame through
+// IPC, whose structured clone rejects a mobx proxy, while the JSON it saves to
+// disk accepts one. structuredClone() of Node rejects it the same way, so the
+// model is checked with it.
 
 beforeEach(() => {
   vi.spyOn(console, "log").mockImplementation(() => {});
@@ -26,6 +31,20 @@ describe("ExamplePreferencesStore", () => {
       }
       return LegacyStore;
     }).toThrow("Please use `@observable accessor enabled`");
+  });
+
+  it("runs a structuredClone() that rejects a mobx proxy, as IPC of Electron does", () => {
+    expect(() => structuredClone(observable({ items: ["a"] }))).toThrow("could not be cloned");
+  });
+
+  it("returns plain data from toJSON(), which IPC can send", () => {
+    const store = new ExamplePreferencesStore();
+
+    runInAction(() => {
+      store.enabled = true;
+    });
+
+    expect(structuredClone(store.toJSON())).toEqual({ enabled: true });
   });
 
   it("starts disabled", () => {
