@@ -12,6 +12,7 @@ import {
   withDetailsErrorBoundary,
   withMenuItemErrorBoundary,
   withPageErrorBoundary,
+  withPreferenceErrorBoundary,
 } from "./components/error-boundary";
 import { ExampleDetails as ExampleDetailsV1alpha1 } from "./details/example-details-v1alpha1";
 import { ExampleDetails as ExampleDetailsV1alpha2 } from "./details/example-details-v1alpha2";
@@ -27,16 +28,16 @@ const ExamplesPage = createAvailableVersionPage("Examples", [
   { kubeObjectClass: ExampleV1alpha1, PageComponent: ExamplesPageV1alpha1, version: "v1alpha1" },
 ]);
 
-// Every page, details panel and menu item renders inside an error boundary, so that an error it throws stays in its
-// place: the host has none around the details drawer or a menu item, and its boundary around the cluster frame would
-// replace the whole cluster view. Each registration field is mapped through its wrapper, so an entry added to it is
-// wrapped too.
+// Every page, panel, menu item and preference renders inside an error boundary, so that an error it throws stays in its
+// place: the host's nearest boundary would replace the whole root window or the whole cluster view (the table in
+// "Renderer Components" of AGENTS.md). Each registration field is mapped through its wrapper, so an entry added to it
+// is wrapped too.
 export default class ExampleRenderer extends Renderer.LensExtension {
   async onActivate() {
     ExamplePreferencesStore.getInstanceOrCreate().loadExtension(this);
   }
 
-  appPreferences = [
+  appPreferences: Renderer.LensExtension["appPreferences"] = [
     {
       title: "Example Preferences",
       components: {
@@ -44,7 +45,7 @@ export default class ExampleRenderer extends Renderer.LensExtension {
         Hint: () => <ExamplePreferenceHint />,
       },
     },
-  ];
+  ].map((registration) => withPreferenceErrorBoundary(this, registration));
 
   kubeObjectDetailItems: Renderer.LensExtension["kubeObjectDetailItems"] = [
     Renderer.K8sApi.detailsFor(ExampleV1alpha1, {

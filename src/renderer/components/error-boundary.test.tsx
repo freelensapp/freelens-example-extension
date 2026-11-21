@@ -10,6 +10,8 @@ import {
   withDetailsErrorBoundary,
   withMenuItemErrorBoundary,
   withPageErrorBoundary,
+  withPreferenceErrorBoundary,
+  withWorkloadsOverviewErrorBoundary,
 } from "./error-boundary";
 
 // A minimal stub extension - only `name` is read by the boundary.
@@ -200,5 +202,65 @@ describe("the registration wrappers", () => {
     expect(screen.getAllByRole("listitem").map((item) => item.textContent)).toEqual(["Edit", "Delete"]);
     expect(screen.queryByText(/menu item/)).toBeNull();
     expect(Common.logger.error).toHaveBeenCalledWith("[example-extension]: Error: menu item", expect.any(String));
+  });
+
+  it("render nothing for a preference input or hint that throws, and leave the other one and the page rendered", () => {
+    const { Input, Hint } = withPreferenceErrorBoundary(extension, {
+      title: "Broken",
+      components: { Input: () => <Throws message="preference input" />, Hint: () => <span>hint</span> },
+    }).components;
+
+    render(
+      <section>
+        <h2>Broken</h2>
+        <Input />
+        <Hint />
+        <p>other preference</p>
+      </section>,
+    );
+
+    expect(screen.queryByText(/preference input/)).toBeNull();
+    expect(screen.getByText("hint")).toBeDefined();
+    expect(screen.getByText("Broken")).toBeDefined();
+    expect(screen.getByText("other preference")).toBeDefined();
+    expect(Common.logger.error).toHaveBeenCalledWith(
+      "[example-extension]: Error: preference input",
+      expect.any(String),
+    );
+  });
+
+  it("render nothing for a preference hint that throws, and leave the input rendered", () => {
+    const { Input, Hint } = withPreferenceErrorBoundary(extension, {
+      title: "Broken",
+      components: { Input: () => <span>input</span>, Hint: () => <Throws message="preference hint" /> },
+    }).components;
+
+    render(
+      <section>
+        <Input />
+        <Hint />
+      </section>,
+    );
+
+    expect(screen.getByText("input")).toBeDefined();
+    expect(screen.queryByText(/preference hint/)).toBeNull();
+    expect(Common.logger.error).toHaveBeenCalledWith("[example-extension]: Error: preference hint", expect.any(String));
+  });
+
+  it("keep an error of a Workloads Overview item inside the item, and leave the host's panels rendered", () => {
+    const { Details } = withWorkloadsOverviewErrorBoundary(extension, {
+      components: { Details: () => <Throws message="overview item" /> },
+    }).components;
+
+    render(
+      <>
+        <p>host panel</p>
+        <Details />
+      </>,
+    );
+
+    expect(screen.getByText("Error: overview item")).toBeDefined();
+    expect(screen.getByText("host panel")).toBeDefined();
+    expect(Common.logger.error).toHaveBeenCalledWith("[example-extension]: Error: overview item", expect.any(String));
   });
 });
