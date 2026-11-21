@@ -20,11 +20,12 @@
     "build/*.mjs",
     "environment-tests/*.ts",
     "integration/**/*.ts",
-    "src/**/*.{scss,ts,tsx}!",
-    // the CSS module declarations. TypeScript reaches them through
+    "src/**/*.{css,scss,ts,tsx}!",
+    // the CSS module declarations, `x.module.d.css.ts` of a plain CSS module
+    // and `x.module.d.scss.ts` of an SCSS one. TypeScript reaches them through
     // allowArbitraryExtensions, while knip resolves `import styles from
     // "./x.module.scss"` to the stylesheet, so it would report them as unused
-    "!src/**/*.d.scss.ts",
+    "!src/**/*.d.{css,scss}.ts",
     "test/**/*.ts"
   ],
 
